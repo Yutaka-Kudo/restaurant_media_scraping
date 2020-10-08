@@ -116,7 +116,7 @@ def grg_gn_sp(request):
         sleep(2)
     except Exception:
         pass
-    
+
     # GONアクセス集計　クリック
     if error_flg is False:
         try:
