@@ -1,0 +1,64 @@
+{% extends 'scr/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="section about_section layout_padding dash_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="full">
+                    <div class="heading_main text_align_center">
+                        <h2>媒体選択</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
+                <a href="{% url 'grg_gn_sp:grg_gn_sp' %}">
+                    <div class="full feature_box">
+                        <div class="full icon">
+                            <!-- <img class="default-block" src="{% static "images/icon_1.png" %}" alt="#" /> -->
+                            <!-- <img class="default-none" src="{% static "images/icon_1w.png" %}" alt="#" /> -->
+                        </div>
+                        <div class="full">
+                            <h4>ぐるなび</h4>
+                        </div>
+                        <div class="full">
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
+                <div class="full feature_box">
+                    <div class="full icon">
+                        <!-- <img class="default-block" src="{% static "images/icon_2.png" %}" alt="#" /> -->
+                        <!-- <img class="default-none" src="{% static "images/icon_2w.png" %}" alt="#" /> -->
+                    </div>
+                    <div class="full">
+                        <h4>HotPepper</h4>
+                    </div>
+                    <div class="full">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
+                <div class="full feature_box">
+                    <div class="full icon">
+                        <!-- <img class="default-block" src="{% static "images/icon_3.png" %}" alt="#" /> -->
+                        <!-- <img class="default-none" src="{% static "images/icon_3w.png" %}" alt="#" /> -->
+                    </div>
+                    <div class="full">
+                        <h4>食べログ</h4>
+                    </div>
+                    <div class="full">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
