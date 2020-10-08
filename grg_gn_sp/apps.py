@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class GrgHpSpConfig(AppConfig):
-    name = 'grg_hp_sp'
+class GrgGnSpConfig(AppConfig):
+    name = 'grg_gn_sp'
