@@ -89,7 +89,7 @@ DATABASES = {
         'USER': 'yutakakudo',
         'PASSWORD': '',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '',
     }
 }
 
