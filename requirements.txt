@@ -1,3 +1,5 @@
+--install-option="--no-deps" django-heroku
+psycopg2-binary
 asgiref==3.2.10
 chromedriver-binary==86.0.4240.22.0
 dj-database-url==0.5.0
