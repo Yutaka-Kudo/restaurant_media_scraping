@@ -4,3 +4,5 @@ db.sqlite3
 local_settings.py
 Pipfile.lock
 Pipfile
+.venv
+.vscode
