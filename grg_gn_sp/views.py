@@ -38,6 +38,7 @@ def grg_gn_sp(request):
     options = webdriver.ChromeOptions()
     now_ua = user_agent[random.randrange(0, len(user_agent), 1)]
     options.add_argument('--user-agent=' + now_ua)
+    # options.add_argument('--headless')
     print(now_ua)
 
     error_flg = False
@@ -146,26 +147,26 @@ def grg_gn_sp(request):
     # In[17]:
 
     # 本番用
-    if error_flg is False:
-        try:
-            df_lists = []
-            i = 1
-            while i >= 0:
-                # 月選択
-                month_select_elem = driver.find_element_by_id('ym')
-                month_select_object = Select(month_select_elem)
-                month_select_object.select_by_index(i)
-                sleep(2)
+    # if error_flg is False:
+    try:
+        df_lists = []
+        i = 1
+        while i >= 0:
+            # 月選択
+            month_select_elem = driver.find_element_by_id('ym')
+            month_select_object = Select(month_select_elem)
+            month_select_object.select_by_index(i)
+            sleep(2)
 
-                # ここにデータ取得コードを。
-                df_list = pd.read_html(driver.page_source)
-                df_lists.append(df_list[0])
+            # ここにデータ取得コードを。
+            df_list = pd.read_html(driver.page_source)
+            df_lists.append(df_list[0])
 
-                i -= 1
+            i -= 1
 
-        except Exception:
-            error_flg = True
-            print('エラー')
+    except Exception:
+        error_flg = True
+        print('エラー')
 
     # In[18]:
     driver.close()
