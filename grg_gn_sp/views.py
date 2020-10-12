@@ -14,16 +14,21 @@ from django.http import HttpResponse
 
 # from django.shortcuts import render
 # from .models import Scraping
-# from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
 
-class Index(TemplateView):
-    template_name = "scr/index.html"
+def index(request):
+    return render(request, "scr/index.html")
+
+# class Index(TemplateView):
+#     template_name = "scr/index.html"
 
 
-class Garage(TemplateView):
-    template_name = "scr/garage.html"
+def garage(request):
+    return HttpResponse("hello")
+# class Garage(TemplateView):
+#     template_name = "scr/garage.html"
 
 
 def grg_gn_sp(request):
