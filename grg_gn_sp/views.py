@@ -26,7 +26,7 @@ def index(request):
 
 
 def garage(request):
-    return HttpResponse("hello")
+    return render(request, "scr/garage.html")
 # class Garage(TemplateView):
 #     template_name = "scr/garage.html"
 
@@ -216,6 +216,8 @@ def grg_gn_sp(request):
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
     df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
     return response
+    return render(request, "scr/index.html")
+
 
     # df_fix.to_csv(oldpath, mode="x", encoding="utf_8_sig")
 
