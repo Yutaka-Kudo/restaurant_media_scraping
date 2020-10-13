@@ -1,12 +1,12 @@
 from selenium import webdriver
-from time import sleep
-import pandas as pd
 from selenium.webdriver.support.select import Select
-import datetime as dt
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import chromedriver_binary
+from time import sleep
+import pandas as pd
+import datetime as dt
 # import itertools
 # import os
 import random
@@ -45,20 +45,17 @@ def grg_gn_sp(request):
     now_ua = user_agent[random.randrange(0, len(user_agent), 1)]
     options.add_argument('--user-agent=' + now_ua)
     options.add_argument('--headless')
-    options.add_argument('--disable-gpu')  #不要？?
+    options.add_argument('--disable-gpu')  # 不要？?
     options.add_argument('--disable-desktop-notifications')
     options.add_argument("--disable-extensions")
     options.add_argument('--lang=ja')
-    options.add_argument('--blink-settings=imagesEnabled=false')  #画像なし
+    options.add_argument('--blink-settings=imagesEnabled=false')  # 画像なし
     options.add_argument('--no-sandbox')
     # options.binary_location = '/usr/bin/google-chrome'
     options.add_argument('--proxy-bypass-list=*')      # すべてのホスト名
-    options.add_argument('--proxy-server="direct://"') # Proxy経由ではなく直接接続する
-
-
-
-
-    print(now_ua)
+    options.add_argument('--proxy-server="direct://"')  # Proxy経由ではなく直接接続する
+    # if chrome_binary_path:
+    #     options.binary_location = chrome_binary_path
 
     error_flg = False
 
@@ -231,7 +228,6 @@ def grg_gn_sp(request):
     df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
     return response
     # return render(request, "scr/index.html")
-
 
     # df_fix.to_csv(oldpath, mode="x", encoding="utf_8_sig")
 
