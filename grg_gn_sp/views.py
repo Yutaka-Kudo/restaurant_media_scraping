@@ -188,7 +188,7 @@ def grg_gn_sp(request):
         print('エラー')
 
     # In[18]:
-    driver.quit()
+    driver.close()
 
     now = dt.datetime.now().strftime('%Y%m%d')
 
