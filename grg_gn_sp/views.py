@@ -10,12 +10,13 @@ import chromedriver_binary
 # import itertools
 # import os
 import random
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 # from django.shortcuts import render
 # from .models import Scraping
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
+from django.urls import reverse
 
 
 def index(request):
@@ -187,7 +188,7 @@ def grg_gn_sp(request):
         print('エラー')
 
     # In[18]:
-    driver.close()
+    driver.quit()
 
     now = dt.datetime.now().strftime('%Y%m%d')
 
@@ -229,7 +230,7 @@ def grg_gn_sp(request):
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
     df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
     return response
-    return render(request, "scr/index.html")
+    # return render(request, "scr/index.html")
 
 
     # df_fix.to_csv(oldpath, mode="x", encoding="utf_8_sig")
