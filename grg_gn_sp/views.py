@@ -3,7 +3,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import chromedriver_binary
+# import chromedriver_binary
 from time import sleep
 import pandas as pd
 import datetime as dt
@@ -56,6 +56,11 @@ def grg_gn_sp(request):
     options.add_argument('--proxy-server="direct://"')  # Proxy経由ではなく直接接続する
     # if chrome_binary_path:
     #     options.binary_location = chrome_binary_path
+    options.add_argument('--single-process')
+    options.add_argument('--disable-application-cache')
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--start-maximized')
+
 
     error_flg = False
 
@@ -94,8 +99,8 @@ def grg_gn_sp(request):
 
     try:
         # 入力
-        driver.find_element_by_xpath(
-            "/html/body/main/div[2]/div/div/div[2]/dl/dd/form/div[3]/div[1]/label").click()
+        # driver.find_element_by_xpath(
+        #     "/html/body/main/div[2]/div/div/div[2]/dl/dd/form/div[3]/div[1]/label").click()
         id_input.send_keys(user_name)
         pw_input.send_keys(pw)
     except Exception:
@@ -116,10 +121,10 @@ def grg_gn_sp(request):
 
     if error_flg is False:
         try:
-            elem = WebDriverWait(driver, 20).until(EC.element_to_be_clickable(
-                (By.XPATH, '/html/body/center/div/div[3]/div[1]/div[1]/input')))
-            elem.click()
-    #         driver.find_element_by_xpath('/html/body/center/div/div[3]/div[1]/div[1]/input').click()
+            # elem = WebDriverWait(driver, 20).until(EC.element_to_be_clickable(
+            #     (By.XPATH, '/html/body/center/div/div[3]/div[1]/div[1]/input')))
+            # elem.click()
+            driver.find_element_by_xpath('/html/body/center/div/div[3]/div[1]/div[1]/input').click()
             sleep(2)
         except Exception:
             error_flg = True
