@@ -52,6 +52,8 @@ def grg_hp_sp(request):
 
     driver = webdriver.Chrome(chrome_options=options)
     driver.implicitly_wait(5)
+    driver.set_window_size(1250, 1036)
+
 
     # In[5]:
 
@@ -113,7 +115,7 @@ def grg_hp_sp(request):
             sleep(2)
         except Exception:
             error_flg = True
-            print('エラー')
+            print('店舗選択エラー')
     # In[15]:
 
     #レポートボタンクリック
@@ -124,14 +126,14 @@ def grg_hp_sp(request):
             sleep(2)
         except Exception:
             error_flg = True
-            print('エラー')
+            print('レポートボタンクリックエラー')
 
     # 操作ウィンドウを変更する
     handle_array = driver.window_handles
     driver.switch_to.window(handle_array[1])
     
     # In[16]:
-
+    driver.save_screenshot('result.png')
     
     # In[17]:
 
@@ -155,7 +157,7 @@ def grg_hp_sp(request):
 
     except Exception:
         error_flg = True
-        print('エラー')
+        print('データ収集エラー')
 
     # In[18]:
     driver.quit()
