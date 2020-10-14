@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'grg_gn_sp',
+    'grg',
     # 'django_pandas',
     # 'django_creanup',
     # 'django_extensions'

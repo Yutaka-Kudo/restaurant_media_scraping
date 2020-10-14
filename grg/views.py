@@ -18,6 +18,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.urls import reverse
 
+from .grg_hp import grg_hp_sp
+
 
 def index(request):
     return render(request, "scr/index.html")
@@ -44,8 +46,8 @@ def grg_gn_sp(request):
     options = webdriver.ChromeOptions()
     now_ua = user_agent[random.randrange(0, len(user_agent), 1)]
     options.add_argument('--user-agent=' + now_ua)
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')  # 不要？?
+    # options.add_argument('--headless')
+    # options.add_argument('--disable-gpu')  # 不要？?
     options.add_argument('--disable-desktop-notifications')
     options.add_argument("--disable-extensions")
     options.add_argument('--lang=ja')
@@ -57,7 +59,7 @@ def grg_gn_sp(request):
     # if chrome_binary_path:
     #     options.binary_location = chrome_binary_path
     options.add_argument('--single-process')
-    options.add_argument('--disable-application-cache')
+    # options.add_argument('--disable-application-cache')
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--start-maximized')
 
@@ -171,19 +173,19 @@ def grg_gn_sp(request):
     # if error_flg is False:
     try:
         df_lists = []
-        # i = 1
-        # while i >= 0:
-        #     # 月選択
-        #     month_select_elem = driver.find_element_by_id('ym')
-        #     month_select_object = Select(month_select_elem)
-        #     month_select_object.select_by_index(i)
-        #     sleep(2)
+        i = 1
+        while i >= 0:
+            # 月選択
+            month_select_elem = driver.find_element_by_id('ym')
+            month_select_object = Select(month_select_elem)
+            month_select_object.select_by_index(i)
+            sleep(2)
 
             # ここにデータ取得コードを。
-        df_list = pd.read_html(driver.page_source)
-        df_lists.append(df_list[0])
+            df_list = pd.read_html(driver.page_source)
+            df_lists.append(df_list[0])
 
-            # i -= 1
+            i -= 1
 
     except Exception:
         error_flg = True
