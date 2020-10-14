@@ -46,8 +46,8 @@ def grg_gn_sp(request):
     options = webdriver.ChromeOptions()
     now_ua = user_agent[random.randrange(0, len(user_agent), 1)]
     options.add_argument('--user-agent=' + now_ua)
-    # options.add_argument('--headless')
-    # options.add_argument('--disable-gpu')  # 不要？?
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')  # 不要？?
     options.add_argument('--disable-desktop-notifications')
     options.add_argument("--disable-extensions")
     options.add_argument('--lang=ja')
