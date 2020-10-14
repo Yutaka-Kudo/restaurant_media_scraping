@@ -13,6 +13,8 @@ gunicorn = "*"
 django_heroku = "*"
 dj-database-url = "*"
 pandas = "~=0.24.2"
+lxml = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.7"
