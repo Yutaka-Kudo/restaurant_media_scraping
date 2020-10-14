@@ -197,7 +197,7 @@ def grg_hp_sp(request):
 
     # In[56]:
 
-    oldpath = './data_grg_gn_{}.csv'.format(now)
+    oldpath = './data_garage_hp_sp_{}.csv'.format(now)
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
