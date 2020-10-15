@@ -38,28 +38,30 @@ def grg_hp_sp(request):
     options.add_argument("--disable-extensions")
     options.add_argument('--lang=ja')
     options.add_argument('--blink-settings=imagesEnabled=false')  # 画像なし
-    options.add_argument('--no-sandbox')
+    # options.add_argument('--no-sandbox')
     # options.binary_location = '/usr/bin/google-chrome'
     options.add_argument('--proxy-bypass-list=*')      # すべてのホスト名
     options.add_argument('--proxy-server="direct://"')  # Proxy経由ではなく直接接続する
     # if chrome_binary_path:
     #     options.binary_location = chrome_binary_path
-    options.add_argument('--single-process')
+    # options.add_argument('--single-process')
     # options.add_argument('--disable-application-cache')
     options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--start-maximized')
+    # options.add_argument('--start-maximized')
 
     error_flg = False
 
     driver = webdriver.Chrome(chrome_options=options)
     driver.set_window_size(1250, 1036)
     driver.implicitly_wait(5)
+
     print('Browser is ready!')
 
     # In[5]:
 
     url = "https://www.cms.hotpepper.jp/CLN/login/"
     driver.get(url)
+
     print('get url!')
     # In[8]:
     user_name = "C329569"
@@ -124,11 +126,13 @@ def grg_hp_sp(request):
             error_flg = True
             print('レポートボタンクリックエラー')
 
+    handle_array = driver.window_handles
+    print(handle_array[0])
+    print(handle_array[1])
     # 操作ウィンドウを変更する
-    # handle_array = driver.window_handles
-    # driver.switch_to.window(handle_array[1])
-    # sleep(1)
-    # print('handle OK!')
+    driver.switch_to.window(handle_array[-1])
+    sleep(1)
+    print('handle OK!')
 
     # In[16]:
 
@@ -138,7 +142,7 @@ def grg_hp_sp(request):
     print('create df_list')
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=testtt.csv'
-    df_list[1].to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
+    df_list[0].to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
 
     sleep(2)
     driver.quit()
