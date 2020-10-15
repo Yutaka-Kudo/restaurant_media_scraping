@@ -134,11 +134,11 @@ def grg_hp_sp(request):
     import os
     # In[16]:
     if __debug__:
-        download_dir = "./temp/"
+        download_dir = "static/temp/"
         os.mkdir(download_dir)
         driver.save_screenshot(download_dir + 'result.png')
     else:
-        download_dir = "/app/temp/"
+        download_dir = "static/temp/"
         os.mkdir(download_dir)
         driver.save_screenshot(download_dir + 'result.png')
 
@@ -205,13 +205,14 @@ def grg_hp_sp(request):
 
     # In[56]:
 
-    oldpath = './data_garage_hp_sp_{}.csv'.format(now)
+    # oldpath = './data_garage_hp_sp_{}.csv'.format(now)
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
-    return response
+    # response = HttpResponse(content_type='text/csv')
+    # response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
+    # df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
+    # return response
     # return render(request, "scr/index.html")
+    return redirect("/")
 
     # df_fix.to_csv(oldpath, mode="x", encoding="utf_8_sig")
 
