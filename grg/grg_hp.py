@@ -65,7 +65,7 @@ def grg_hp_sp(request):
 
     sleep(1)
     download_dir = "static/temp/"
-    os.mkdir(download_dir)
+    # os.mkdir(download_dir)
     driver.save_screenshot(download_dir + 'result.png')
  
     # In[9]:
