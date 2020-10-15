@@ -58,19 +58,50 @@ def grg_hp_sp(request):
 
     # In[5]:
 
-    url = "https://info.finance.yahoo.co.jp/analystreport/detail/?code=2334.T"
+    url = "https://www.cms.hotpepper.jp/CLN/login/"
     driver.get(url)
     print('get url!')
     # In[8]:
+    user_name = "C329569"
+    pw = "fes130!!"
+
+    # In[10]:
+
+    # フォーム取得
+    id_input = driver.find_element_by_xpath("/html/body/div[2]/div/form/div/div[2]/table/tbody/tr[1]/td/input")
+    pw_input = driver.find_element_by_name('password')
+
+    # In[11]:
+
+    # 中身をクリア
+    id_input.clear()
+    pw_input.clear()
 
     sleep(1)
-    download_dir = "static/images/"
-    # os.mkdir(download_dir)
-    driver.save_screenshot(download_dir + 'result.png')
- 
-    # In[9]:
-    print('save screenshot')
 
+    # In[12]:
+
+    try:
+        # 入力
+        # driver.find_element_by_xpath(
+        #     "/html/body/main/div[2]/div/div/div[2]/dl/dd/form/div[3]/div[1]/label").click()
+        id_input.send_keys(user_name)
+        pw_input.send_keys(pw)
+    except Exception:
+        error_flg = True
+        print('インプットエラー')
+
+    if error_flg is False:
+        try:
+            pw_input.submit()
+            sleep(2)
+        except Exception:
+            error_flg = True
+            print('ログインエラー')
+
+
+
+    # In[13]:
     df_list = pd.read_html(driver.page_source)
     print('create df_list')
     response = HttpResponse(content_type='text/csv')
@@ -78,9 +109,3 @@ def grg_hp_sp(request):
     df_list[1].to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
     return response
 
-    # driver.quit()
-    # return redirect("/")
-
-    # df_fix.to_csv(oldpath, mode="x", encoding="utf_8_sig")
-
-    # file = Scraping()
