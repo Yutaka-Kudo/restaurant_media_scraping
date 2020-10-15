@@ -131,9 +131,17 @@ def grg_hp_sp(request):
     # 操作ウィンドウを変更する
     handle_array = driver.window_handles
     driver.switch_to.window(handle_array[1])
-    
+    import os
     # In[16]:
-    driver.save_screenshot('result.png')
+    if __debug__:
+        download_dir = "./temp/"
+        os.mkdir(download_dir)
+        driver.save_screenshot(download_dir + 'result.png')
+    else:
+        download_dir = "/app/temp/"
+        os.mkdir(download_dir)
+        driver.save_screenshot(download_dir + 'result.png')
+
     
     # In[17]:
 
