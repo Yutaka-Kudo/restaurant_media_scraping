@@ -32,8 +32,8 @@ def grg_hp_sp(request):
     options = webdriver.ChromeOptions()
     now_ua = user_agent[random.randrange(0, len(user_agent), 1)]
     options.add_argument('--user-agent=' + now_ua)
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')  # 不要？?
+    # options.add_argument('--headless')
+    # options.add_argument('--disable-gpu')  # 不要？?
     options.add_argument('--disable-desktop-notifications')
     options.add_argument("--disable-extensions")
     options.add_argument('--lang=ja')
@@ -125,13 +125,12 @@ def grg_hp_sp(request):
             print('レポートボタンクリックエラー')
 
     # 操作ウィンドウを変更する
-    handle_array = driver.window_handles
-    driver.switch_to.window(handle_array[1])
-    sleep(1)
-    print('handle OK!')
+    # handle_array = driver.window_handles
+    # driver.switch_to.window(handle_array[1])
+    # sleep(1)
+    # print('handle OK!')
 
     # In[16]:
-    
 
 
     # In[13]:
@@ -140,6 +139,10 @@ def grg_hp_sp(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=testtt.csv'
     df_list[1].to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
+
+    sleep(2)
+    driver.quit()
+
     return response
 
 
