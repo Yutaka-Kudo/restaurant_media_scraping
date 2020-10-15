@@ -95,13 +95,13 @@ def grg_hp_sp(request):
         try:
             pw_input.submit()
             sleep(2)
-        print('login OK!')
+            print('login OK!')
         except Exception:
             error_flg = True
             print('ログインエラー')
 
     #店舗選択
-    if error_flg == False:
+    if error_flg is False:
         try:
             elem = driver.find_element_by_link_text('Garage Kitchenあそび　西船橋店')
             elem.click()
@@ -114,7 +114,7 @@ def grg_hp_sp(request):
 
 
         #レポートボタンクリック
-    if error_flg == False:
+    if error_flg is False:
         try:
             report_btn = driver.find_element_by_link_text('アクセス・レポート')
             report_btn.click()
