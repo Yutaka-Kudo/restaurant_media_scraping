@@ -136,10 +136,29 @@ def grg_hp_sp(request):
 
     # In[16]:
 
+    try:
+        df_lists = []
+        i = 24  # 20
+        while i <= 25:
+            # 月選択
+            month_select_elem = driver.find_element_by_name('numberCd')
+            month_select_object = Select(month_select_elem)
+            month_select_object.select_by_index(i)
+            sleep(2)
+
+            # ここにデータ取得コードを。
+            df_list = pd.read_html(driver.page_source)
+            df_lists.append(df_list[4])
+
+            i += 1
+
+    except Exception:
+        error_flg = True
+        print('データ収集エラー')
+
 
     # In[13]:
-    df_list = pd.read_html(driver.page_source)
-    df_fix = pd.concat([df_list[i] for i in range(0, len(df_list))])
+    df_fix = pd.concat([df_lists[i] for i in range(0, len(df_lists))])
 
     print('create df_list')
     response = HttpResponse(content_type='text/csv')
@@ -154,7 +173,56 @@ def grg_hp_sp(request):
 
 
     # In[14]:
+  
 
+    
+    # In[17]:
+
+
+    # In[18]:
+
+    # now = dt.datetime.now().strftime('%Y%m%d')
+
+    # In[19]:
+
+    # df_list_fix = []
+    # for df in df_lists:
+    #     df.columns = ['日にち', "天気", "合計", '店舗トップ', 'メニュー',
+    #                   '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約', 'その他']
+    #     df.drop('天気', axis=1, inplace=True)
+        # df.drop(df.index[list(range(len(df)-3,len(df)))],inplace=True)
+        # どちらでも可
+        # df.drop(df.tail(3).index, inplace=True)
+        # df.set_index('日にち', inplace=True)
+        # df.index = df.index.str.rstrip('(月火水木金土日)')
+        # df.index = pd.to_datetime(df.index, format='%Y/%m/%d')
+        # df.insert(0, "曜日", df.index.strftime('%a'))
+        # df['曜日'].replace({
+        #     "Mon": "月",
+        #     "Tue": "火",
+        #     "Wed": "水",
+        #     "Thu": "木",
+        #     "Fri": "金",
+        #     "Sat": "土",
+        #     "Sun": "日"
+        # }, inplace=True)
+
+        # df_list_fix.append(df)
+
+    # In[20]:
+
+    # df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
+    # df_fix = pd.concat([df_list[i] for i in range(0, len(df_list))])
+
+    # In[56]:
+
+    # oldpath = './data_garage_hp_sp_{}.csv'.format(now)
+
+    # response = HttpResponse(content_type='text/csv')
+    # response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
+    # df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
+    # return response
+    # return render(request, "scr/index.html")
 
 
  
