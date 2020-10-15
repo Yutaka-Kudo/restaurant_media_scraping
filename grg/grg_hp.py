@@ -87,18 +87,18 @@ def grg_hp_sp(request):
         #     "/html/body/main/div[2]/div/div/div[2]/dl/dd/form/div[3]/div[1]/label").click()
         id_input.send_keys(user_name)
         pw_input.send_keys(pw)
+        print('input OK!')
     except Exception:
         error_flg = True
         print('インプットエラー')
-
     if error_flg is False:
         try:
             pw_input.submit()
             sleep(2)
+        print('login OK!')
         except Exception:
             error_flg = True
             print('ログインエラー')
-
 
     #店舗選択
     if error_flg == False:
@@ -106,6 +106,7 @@ def grg_hp_sp(request):
             elem = driver.find_element_by_link_text('Garage Kitchenあそび　西船橋店')
             elem.click()
             sleep(2)
+            print('store select OK!')
         except Exception:
             error_flg = True
             print('店舗選択エラー')
@@ -118,6 +119,7 @@ def grg_hp_sp(request):
             report_btn = driver.find_element_by_link_text('アクセス・レポート')
             report_btn.click()
             sleep(2)
+            print('report btn click OK!')
         except Exception:
             error_flg = True
             print('レポートボタンクリックエラー')
@@ -125,7 +127,8 @@ def grg_hp_sp(request):
     # 操作ウィンドウを変更する
     handle_array = driver.window_handles
     driver.switch_to.window(handle_array[1])
-    sleep (1)
+    sleep(1)
+    print('handle OK!')
 
     # In[16]:
     
