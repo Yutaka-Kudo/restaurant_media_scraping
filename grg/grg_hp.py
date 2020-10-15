@@ -58,7 +58,7 @@ def grg_hp_sp(request):
 
     # In[5]:
 
-    url = "https://www.cms.hotpepper.jp/CLN/login/"
+    url = "https://info.finance.yahoo.co.jp/analystreport/detail/?code=2334.T"
     driver.get(url)
     print('get url!')
     # In[8]:
@@ -70,9 +70,16 @@ def grg_hp_sp(request):
  
     # In[9]:
     print('save screenshot')
-    
-    driver.quit()
-    return redirect("/")
+
+    df_list = pd.read_html(driver.page_source)
+    print('create df_list')
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=testtt.csv'
+    df_list[1].to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
+    return response
+
+    # driver.quit()
+    # return redirect("/")
 
     # df_fix.to_csv(oldpath, mode="x", encoding="utf_8_sig")
 
