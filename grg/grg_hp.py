@@ -32,8 +32,8 @@ def grg_hp_sp(request):
     options = webdriver.ChromeOptions()
     now_ua = user_agent[random.randrange(0, len(user_agent), 1)]
     options.add_argument('--user-agent=' + now_ua)
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')  # 不要？?
+    # options.add_argument('--headless')
+    # options.add_argument('--disable-gpu')  # 不要？?
     options.add_argument('--disable-desktop-notifications')
     options.add_argument("--disable-extensions")
     options.add_argument('--lang=ja')
@@ -100,6 +100,35 @@ def grg_hp_sp(request):
             print('ログインエラー')
 
 
+    #店舗選択
+    if error_flg == False:
+        try:
+            elem = driver.find_element_by_link_text('Garage Kitchenあそび　西船橋店')
+            elem.click()
+            sleep(2)
+        except Exception:
+            error_flg = True
+            print('店舗選択エラー')
+    # In[15]:
+
+
+        #レポートボタンクリック
+    if error_flg == False:
+        try:
+            report_btn = driver.find_element_by_link_text('レポート')
+            report_btn.click()
+            sleep(2)
+        except Exception:
+            error_flg = True
+            print('レポートボタンクリックエラー')
+
+    # 操作ウィンドウを変更する
+    handle_array = driver.window_handles
+    driver.switch_to.window(handle_array[1])
+    import os
+    # In[16]:
+    
+
 
     # In[13]:
     df_list = pd.read_html(driver.page_source)
@@ -109,3 +138,10 @@ def grg_hp_sp(request):
     df_list[1].to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
     return response
 
+
+
+    # In[14]:
+
+
+
+ 
