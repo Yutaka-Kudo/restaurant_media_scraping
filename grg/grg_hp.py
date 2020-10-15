@@ -51,28 +51,25 @@ def grg_hp_sp(request):
 
     error_flg = False
 
+    driver.set_window_size(1250, 1036)
     driver = webdriver.Chrome(chrome_options=options)
     driver.implicitly_wait(5)
-    driver.set_window_size(1250, 1036)
-
+    print('Browser is ready!')
 
     # In[5]:
 
     url = "https://www.cms.hotpepper.jp/CLN/login/"
     driver.get(url)
-
+    print('get url!')
     # In[8]:
 
     sleep(1)
-    if __debug__:
-        download_dir = "static/tem/"
-        os.mkdir(download_dir)
-        driver.save_screenshot(download_dir + 'result.png')
-    else:
-        download_dir = "static/temp/"
-        os.mkdir(download_dir)
-        driver.save_screenshot(download_dir + 'result.png')
+    download_dir = "static/temp/"
+    os.mkdir(download_dir)
+    driver.save_screenshot(download_dir + 'result.png')
+ 
     # In[9]:
+    print('save screenshot')
     
     driver.quit()
     return redirect("/")
