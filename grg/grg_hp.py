@@ -63,6 +63,8 @@ def grg_hp_sp(request):
     driver.get(url)
 
     print('get url!')
+    sleep(1)
+
     # In[8]:
     user_name = "C329569"
     pw = "fes130!!"

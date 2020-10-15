@@ -52,27 +52,31 @@ def grg_gn_sp(request):
     options.add_argument("--disable-extensions")
     options.add_argument('--lang=ja')
     options.add_argument('--blink-settings=imagesEnabled=false')  # 画像なし
-    options.add_argument('--no-sandbox')
+    # options.add_argument('--no-sandbox')
     # options.binary_location = '/usr/bin/google-chrome'
     options.add_argument('--proxy-bypass-list=*')      # すべてのホスト名
     options.add_argument('--proxy-server="direct://"')  # Proxy経由ではなく直接接続する
     # if chrome_binary_path:
     #     options.binary_location = chrome_binary_path
-    options.add_argument('--single-process')
+    # options.add_argument('--single-process')
     # options.add_argument('--disable-application-cache')
     options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--start-maximized')
-
+    # options.add_argument('--start-maximized')
 
     error_flg = False
 
     driver = webdriver.Chrome(chrome_options=options)
+    driver.set_window_size(1250, 1036)
     driver.implicitly_wait(5)
+
+    print('Browser is ready!')
 
     # In[5]:
 
     url = "https://pro.gnavi.co.jp/"
     driver.get(url)
+
+    print('get url!')
 
     # In[8]:
 
@@ -105,16 +109,15 @@ def grg_gn_sp(request):
         #     "/html/body/main/div[2]/div/div/div[2]/dl/dd/form/div[3]/div[1]/label").click()
         id_input.send_keys(user_name)
         pw_input.send_keys(pw)
+        print('input OK!')
     except Exception:
         error_flg = True
         print('インプットエラー')
-
-    # In[13]:
-
     if error_flg is False:
         try:
             pw_input.submit()
             sleep(2)
+            print('login OK!')
         except Exception:
             error_flg = True
             print('ログインエラー')
@@ -128,9 +131,10 @@ def grg_gn_sp(request):
             # elem.click()
             driver.find_element_by_xpath('/html/body/center/div/div[3]/div[1]/div[1]/input').click()
             sleep(2)
+            print('in btn OK!')
         except Exception:
             error_flg = True
-            print('エラー')
+            print('in btnエラー')
 
     # In[15]:
 
@@ -139,6 +143,7 @@ def grg_gn_sp(request):
         elem = driver.find_element_by_id('js-unconfirmedRsvModalClose')
         elem.click()
         sleep(2)
+        print('未確認情報OK!')
     except Exception:
         pass
 
@@ -149,6 +154,7 @@ def grg_gn_sp(request):
                 (By.XPATH, '//input[@value="アクセス状況の詳細を確認"]')))
             elem.click()
             sleep(2)
+            print('アクセス状況btn OK!')
         except Exception:
             error_flg = True
             print('エラー GONアクセス集計　クリック時')
@@ -163,6 +169,7 @@ def grg_gn_sp(request):
         try:
             driver.find_element_by_xpath("//a[text()='PC']").click()
             sleep(2)
+            print('PC click OK!')
         except Exception:
             error_flg = True
             print('エラー　PCクリック時')
@@ -192,7 +199,6 @@ def grg_gn_sp(request):
         print('エラー')
 
     # In[18]:
-    driver.close()
 
     now = dt.datetime.now().strftime('%Y%m%d')
 
@@ -233,6 +239,8 @@ def grg_gn_sp(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
     df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
+
+    driver.quit()
     return response
     # return render(request, "scr/index.html")
 
