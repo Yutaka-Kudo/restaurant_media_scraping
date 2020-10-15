@@ -115,7 +115,7 @@ def grg_hp_sp(request):
         #レポートボタンクリック
     if error_flg == False:
         try:
-            report_btn = driver.find_element_by_link_text('レポート')
+            report_btn = driver.find_element_by_link_text('アクセス・レポート')
             report_btn.click()
             sleep(2)
         except Exception:
@@ -125,7 +125,8 @@ def grg_hp_sp(request):
     # 操作ウィンドウを変更する
     handle_array = driver.window_handles
     driver.switch_to.window(handle_array[1])
-    import os
+    sleep (1)
+
     # In[16]:
     
 
@@ -144,4 +145,5 @@ def grg_hp_sp(request):
 
 
 
+ 
  
