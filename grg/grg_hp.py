@@ -134,11 +134,11 @@ def grg_hp_sp(request):
     import os
     # In[16]:
     if __debug__:
-        download_dir = "static/temp/"
+        download_dir = "/static/temp/"
         os.mkdir(download_dir)
         driver.save_screenshot(download_dir + 'result.png')
     else:
-        download_dir = "static/temp/"
+        download_dir = "/static/tem/"
         os.mkdir(download_dir)
         driver.save_screenshot(download_dir + 'result.png')
 
