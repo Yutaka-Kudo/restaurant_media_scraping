@@ -159,10 +159,13 @@ def grg_hp_sp(request):
 
     # In[13]:
     df_fix = pd.concat([df_lists[i] for i in range(0, len(df_lists))])
-
     print('create df_list')
+
+    now = dt.datetime.now().strftime('%Y%m%d')
+    oldpath = './data_garage_hp_sp_{}.csv'.format(now)
+
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=testtt.csv'
+    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
     df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
 
     sleep(2)
@@ -216,7 +219,6 @@ def grg_hp_sp(request):
 
     # In[56]:
 
-    # oldpath = './data_garage_hp_sp_{}.csv'.format(now)
 
     # response = HttpResponse(content_type='text/csv')
     # response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
