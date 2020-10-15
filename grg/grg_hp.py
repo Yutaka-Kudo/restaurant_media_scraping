@@ -51,8 +51,8 @@ def grg_hp_sp(request):
 
     error_flg = False
 
-    driver.set_window_size(1250, 1036)
     driver = webdriver.Chrome(chrome_options=options)
+    driver.set_window_size(1250, 1036)
     driver.implicitly_wait(5)
     print('Browser is ready!')
 
