@@ -20,6 +20,9 @@ from django.urls import reverse
 
 from .grg_hp import grg_hp_sp
 
+from rq import Queue
+from worker import conn
+
 
 def index(request):
     return render(request, "scr/index.html")
@@ -33,6 +36,10 @@ def garage(request):
 # class Garage(TemplateView):
 #     template_name = "scr/garage.html"
 
+q = Queue(connection=conn)
+def grgGnSp(request):
+    result = q.enqueue(grg_gn_sp)
+    return result
 
 def grg_gn_sp(request):
     user_agent = [
@@ -46,8 +53,8 @@ def grg_gn_sp(request):
     options = webdriver.ChromeOptions()
     now_ua = user_agent[random.randrange(0, len(user_agent), 1)]
     options.add_argument('--user-agent=' + now_ua)
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')  # 不要？?
+    # options.add_argument('--headless')
+    # options.add_argument('--disable-gpu')  # 不要？?
     options.add_argument('--disable-desktop-notifications')
     options.add_argument("--disable-extensions")
     options.add_argument('--lang=ja')
@@ -196,11 +203,10 @@ def grg_gn_sp(request):
 
     except Exception:
         error_flg = True
-        print('エラー')
+        print('データ収集エラー')
 
     # In[18]:
 
-    now = dt.datetime.now().strftime('%Y%m%d')
 
     # In[19]:
 
@@ -231,16 +237,18 @@ def grg_gn_sp(request):
     # In[20]:
 
     df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
+    print('create df_list')
 
-    # In[56]:
-
-    oldpath = './data_garage_gn_sp_{}.csv'.format(now)
+    now = dt.datetime.now().strftime('%Y%m%d')
+    oldpath = 'data_garage_gn_sp_{}.csv'.format(now)
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
     df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
 
+    sleep(2)
     driver.quit()
+
     return response
     # return render(request, "scr/index.html")
 

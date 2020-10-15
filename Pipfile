@@ -15,6 +15,7 @@ dj-database-url = "*"
 pandas = "~=0.24.2"
 lxml = "*"
 psycopg2-binary = "*"
+rq = "*"
 
 [requires]
 python_version = "3.7"

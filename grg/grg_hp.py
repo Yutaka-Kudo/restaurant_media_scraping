@@ -164,7 +164,7 @@ def grg_hp_sp(request):
     print('create df_list')
 
     now = dt.datetime.now().strftime('%Y%m%d')
-    oldpath = './data_garage_hp_sp_{}.csv'.format(now)
+    oldpath = 'data_garage_hp_sp_{}.csv'.format(now)
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
