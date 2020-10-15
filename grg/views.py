@@ -38,7 +38,7 @@ def garage(request):
 
 def grgGnSp(request):
     q = Queue(connection=conn)
-    result = q.enqueue(grg_gn_sp)
+    result = q.enqueue(grg_gn_sp, 'request')
     return result
 
 def grg_gn_sp(request):
