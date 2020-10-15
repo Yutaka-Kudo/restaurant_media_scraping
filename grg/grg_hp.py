@@ -139,10 +139,12 @@ def grg_hp_sp(request):
 
     # In[13]:
     df_list = pd.read_html(driver.page_source)
+    df_fix = pd.concat([df_list[i] for i in range(0, len(df_list))])
+
     print('create df_list')
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=testtt.csv'
-    df_list[0].to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
+    df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
 
     sleep(2)
     driver.quit()
