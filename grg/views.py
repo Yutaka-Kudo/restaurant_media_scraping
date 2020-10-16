@@ -36,6 +36,10 @@ def garage(request):
 # class Garage(TemplateView):
 #     template_name = "scr/garage.html"
 
+def garage_test(request):
+    q = Queue(connection=conn)
+    result = q.enqueue(garage, "request")
+    return result
 
 def grgGnSp(request):
     q = Queue(connection=conn)

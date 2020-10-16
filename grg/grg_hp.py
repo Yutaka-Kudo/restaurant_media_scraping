@@ -177,7 +177,8 @@ def grg_hp_sp(request):
     sleep(2)
     driver.quit()
 
-    return response
+    # return response
+    return render(request, 'scr/garage_hp.html')
 
 def grgHpSp(request):
     q = Queue(connection=conn)
