@@ -170,15 +170,17 @@ def grg_hp_sp(request):
     now = dt.datetime.now().strftime('%Y%m%d')
     oldpath = 'data_garage_hp_sp_{}.csv'.format(now)
 
-    response = HttpResponse(content_type='text/csv')
+    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
+    df_fix.to_csv(path_or_buf=response, float_format='%.2f', index=False, decimal=",")
+
+    
 
     sleep(2)
     driver.quit()
 
-    # return response
-    return render(request, 'scr/garage_hp.html')
+    return response
+    # return render(request, 'scr/garage_hp.html')
 
 def grgHpSp(request):
     q = Queue(connection=conn)
