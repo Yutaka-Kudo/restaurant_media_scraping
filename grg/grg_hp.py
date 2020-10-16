@@ -19,6 +19,10 @@ from django.views.generic import TemplateView
 from django.urls import reverse
 import os
 
+from rq import Queue
+from worker import conn
+
+
 
 def grg_hp_sp(request):
     user_agent = [
@@ -174,3 +178,8 @@ def grg_hp_sp(request):
     driver.quit()
 
     return response
+
+def grgHpSp(request):
+    q = Queue(connection=conn)
+    result = q.enqueue(grg_hp_sp, "request")
+    return result
