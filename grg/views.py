@@ -36,10 +36,12 @@ def garage(request):
 # class Garage(TemplateView):
 #     template_name = "scr/garage.html"
 
+
 def grgGnSp(request):
     q = Queue(connection=conn)
-    result = q.enqueue(grg_gn_sp, 'request')
+    result = q.enqueue(grg_gn_sp, "request")
     return result
+
 
 def grg_gn_sp(request):
     user_agent = [
