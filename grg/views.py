@@ -18,7 +18,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.urls import reverse
 
-from .grg_hp import grg_hp_sp
+from .grg_hp import grg_hp_sp, grgHpSp
 
 from rq import Queue
 from worker import conn

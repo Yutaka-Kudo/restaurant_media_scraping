@@ -10,5 +10,5 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('garage/', views.garage, name='garage_page'),
     path('garage/gn/', views.grgGnSp, name='grg_gn_sp'),
-    path('garage/hp/', grg_hp.grgHpSp, name='grg_hp_sp'),
+    path('garage/hp/', views.grgHpSp, name='grg_hp_sp'),
 ]
