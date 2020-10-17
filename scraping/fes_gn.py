@@ -45,18 +45,22 @@ def fes_gn_sp(request):
     except Exception:
         driver.execute_script("window.stop();")
 
-    print('get url!')
 
     user_name = "ga42905"
     pw = "82527275"
 
     # フォーム取得
-    id_input = driver.find_element_by_id("loginID")
-    pw_input = driver.find_element_by_id('input_password')
+    try:
+        id_input = driver.find_element_by_id("loginID")
+        pw_input = driver.find_element_by_id('input_password')
+        print('open url!')
+    except Exception:
+        print('non open')
+        driver.quit()
 
     # 中身をクリア
-    id_input.clear()
-    pw_input.clear()
+    # id_input.clear()
+    # pw_input.clear()
 
     try:
         # 入力
@@ -65,45 +69,39 @@ def fes_gn_sp(request):
         id_input.send_keys(user_name)
         pw_input.send_keys(pw)
         print('input OK!')
+        # sleep(1)
+        pw_input.submit()
     except Exception:
+        driver.execute_script("window.stop();")
         # error_flg = True
-        print('インプットエラー')
 
-
-    if error_flg is False:
-        try:
-            pw_input.submit()
-            sleep(1)
-            print('login OK!')
-        except Exception:
-            driver.execute_script("window.stop();")
-
-            print('login ?')
-            # error_flg = True
+        # error_flg = True
    
     # driver.set_page_load_timeout(10)
+    try:
+        elem = driver.find_element_by_xpath('/html/body/center/div/div[3]/div[1]/div[1]/input')
+        print('in btn chatch!')
+    except Exception:
+        print('in btn catch NG')
+        driver.quit()
 
-    if error_flg is False:
-        try:
-            # elem = WebDriverWait(driver, timeout=4).until(EC.presence_of_element_located((By.XPATH, '/html/body/center/div/div[3]/div[1]/div[1]/input')))
-            # elem.click()
-            driver.find_element_by_xpath('/html/body/center/div/div[3]/div[1]/div[1]/input').click()
+    # if error_flg is False:
+    try:
+        # elem = WebDriverWait(driver, timeout=4).until(EC.presence_of_element_located((By.XPATH, '/html/body/center/div/div[3]/div[1]/div[1]/input')))
+        # elem.click()
+        elem.click()
+    except Exception:
+        print('in btn click!')
+        driver.execute_script("window.stop();")
 
-            print('in btn OK!')
-        except Exception:
-            driver.execute_script("window.stop();")
-
-            # error_flg = True
-            print('in btn OK!2')
-
-    # In[15]:
+        # error_flg = True
 
     # 未確認情報存在時
     try:
         elem = driver.find_element_by_id('js-unconfirmedRsvModalClose')
         elem.click()
-        sleep(1)
         print('未確認情報OK!')
+        sleep(1)
     except Exception:
         pass
 
@@ -113,12 +111,18 @@ def fes_gn_sp(request):
         # elem = wait.until(EC.presence_of_element_located(
         #     (By.XPATH, '//input[@value="アクセス状況の詳細を確認"]')))
         elem = driver.find_element_by_xpath('//input[@value="アクセス状況の詳細を確認"]')
-        elem.click()
-        print('アクセス状況btn OK!')
+        print('GON catch!')
     except Exception:
+        print('GON catch NG')
+        driver.quit()
+
+    try:
+        elem.click()
+        print('GON click!')
+    except Exception:
+        print('GON click!')
         driver.execute_script("window.stop();")
         # error_flg = True
-        print('アクセス状況btn OK!2')
 
     # # ↑別のやり方
     # elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'//input[@value="アクセス状況の詳細を確認"]')))
@@ -128,13 +132,20 @@ def fes_gn_sp(request):
     # PC　クリック
     # if error_flg is False:
     try:
-        sleep(1)
-        driver.find_element_by_xpath("//a[text()='PC']").click()
-        print('PC click OK!')
+        # sleep(1)
+        elem = driver.find_element_by_xpath("//a[text()='PC']")
+        print('PC btn catch!')
     except Exception:
+        print('PC btn catch NG')
+        driver.quit()
+
+    try:
+        elem.click()
+        print('PC btn click!')
+    except Exception:
+        print('PC btn click!')
         driver.execute_script("window.stop();")
         # error_flg = True
-        print('PC click OK!2')
 
     # In[17]:
 
@@ -159,36 +170,41 @@ def fes_gn_sp(request):
             i -= 1
 
     except Exception:
-        error_flg = True
+        # error_flg = True
         print('データ収集エラー')
+        driver.quit()
 
     # In[18]:
 
     # In[19]:
 
     df_list_fix = []
-    for df in df_lists:
-        df.columns = ['日にち', "天気", "合計", '店舗トップ', 'メニュー',
-                      '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約', 'その他']
-        df.drop('天気', axis=1, inplace=True)
-        # df.drop(df.index[list(range(len(df)-3,len(df)))],inplace=True)
-        # どちらでも可
-        df.drop(df.tail(3).index, inplace=True)
-        df.set_index('日にち', inplace=True)
-        df.index = df.index.str.rstrip('(月火水木金土日)')
-        df.index = pd.to_datetime(df.index, format='%Y/%m/%d')
-        df.insert(0, "曜日", df.index.strftime('%a'))
-        df['曜日'].replace({
-            "Mon": "月",
-            "Tue": "火",
-            "Wed": "水",
-            "Thu": "木",
-            "Fri": "金",
-            "Sat": "土",
-            "Sun": "日"
-        }, inplace=True)
+    try:
+        for df in df_lists:
+            df.columns = ['日にち', "天気", "合計", '店舗トップ', 'メニュー',
+                        '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約', 'その他']
+            df.drop('天気', axis=1, inplace=True)
+            # df.drop(df.index[list(range(len(df)-3,len(df)))],inplace=True)
+            # どちらでも可
+            df.drop(df.tail(3).index, inplace=True)
+            df.set_index('日にち', inplace=True)
+            df.index = df.index.str.rstrip('(月火水木金土日)')
+            df.index = pd.to_datetime(df.index, format='%Y/%m/%d')
+            df.insert(0, "曜日", df.index.strftime('%a'))
+            df['曜日'].replace({
+                "Mon": "月",
+                "Tue": "火",
+                "Wed": "水",
+                "Thu": "木",
+                "Fri": "金",
+                "Sat": "土",
+                "Sun": "日"
+            }, inplace=True)
 
-        df_list_fix.append(df)
+            df_list_fix.append(df)
+    except Exception:
+        print('fix NG')
+        driver.quit()
 
     # In[20]:
 
