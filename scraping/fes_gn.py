@@ -37,7 +37,7 @@ def fes_gn_sp(request):
     # wait = WebDriverWait(driver, 10)
 
     print('Browser is ready!')
-    driver.set_page_load_timeout(3.5)
+    driver.set_page_load_timeout(3.7)
 
     try:
         url = "https://pro.gnavi.co.jp/"
@@ -144,11 +144,11 @@ def fes_gn_sp(request):
         print('PC btn click!')
     except Exception:
         print('PC btn click!')
-        driver.execute_script("window.stop();")
+        # driver.execute_script("window.stop();")
         # error_flg = True
 
     # In[17]:
-
+    sleep(1)
     # 本番用
     # if error_flg is False:
     try:
