@@ -39,9 +39,7 @@ def grg_gn_sp(request):
     print('Browser is ready!')
     driver.set_page_load_timeout(3)
 
-    # In[5]:
     try:
-        # driver.set_page_load_timeout(2)
         url = "https://pro.gnavi.co.jp/"
         driver.get(url)
     except Exception:
@@ -49,29 +47,16 @@ def grg_gn_sp(request):
 
     print('get url!')
 
-    # In[8]:
-
-
-    # In[9]:
-
     user_name = "ga42902"
     pw = "45675678"
-
-    # In[10]:
 
     # フォーム取得
     id_input = driver.find_element_by_id("loginID")
     pw_input = driver.find_element_by_id('input_password')
 
-    # In[11]:
-
     # 中身をクリア
     id_input.clear()
     pw_input.clear()
-
-    sleep(1)
-
-    # In[12]:
 
     try:
         # 入力
@@ -81,7 +66,7 @@ def grg_gn_sp(request):
         pw_input.send_keys(pw)
         print('input OK!')
     except Exception:
-        error_flg = True
+        # error_flg = True
         print('インプットエラー')
 
 
@@ -95,18 +80,15 @@ def grg_gn_sp(request):
 
             print('login ?')
             # error_flg = True
-            
-    # In[14]:
+   
     # driver.set_page_load_timeout(10)
 
     if error_flg is False:
         try:
             # elem = WebDriverWait(driver, timeout=4).until(EC.presence_of_element_located((By.XPATH, '/html/body/center/div/div[3]/div[1]/div[1]/input')))
             # elem.click()
-            sleep(1)
             driver.find_element_by_xpath('/html/body/center/div/div[3]/div[1]/div[1]/input').click()
 
-            sleep(1)
             print('in btn OK!')
         except Exception:
             driver.execute_script("window.stop();")
@@ -126,18 +108,17 @@ def grg_gn_sp(request):
         pass
 
     # GONアクセス集計　クリック
-    if error_flg is False:
-        try:
-            # elem = wait.until(EC.presence_of_element_located(
-            #     (By.XPATH, '//input[@value="アクセス状況の詳細を確認"]')))
-            elem = driver.find_element_by_xpath('//input[@value="アクセス状況の詳細を確認"]')
-            elem.click()
-            sleep(1)
-            print('アクセス状況btn OK!')
-        except Exception:
-            driver.execute_script("window.stop();")
-            # error_flg = True
-            print('アクセス状況btn OK!2')
+    # if error_flg is False:
+    try:
+        # elem = wait.until(EC.presence_of_element_located(
+        #     (By.XPATH, '//input[@value="アクセス状況の詳細を確認"]')))
+        elem = driver.find_element_by_xpath('//input[@value="アクセス状況の詳細を確認"]')
+        elem.click()
+        print('アクセス状況btn OK!')
+    except Exception:
+        driver.execute_script("window.stop();")
+        # error_flg = True
+        print('アクセス状況btn OK!2')
 
     # # ↑別のやり方
     # elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'//input[@value="アクセス状況の詳細を確認"]')))
@@ -147,10 +128,11 @@ def grg_gn_sp(request):
     # PC　クリック
     # if error_flg is False:
     try:
-        driver.find_element_by_xpath("//a[text()='PC']").click()
         sleep(1)
+        driver.find_element_by_xpath("//a[text()='PC']").click()
         print('PC click OK!')
     except Exception:
+        driver.execute_script("window.stop();")
         # error_flg = True
         print('PC click OK!2')
 
@@ -171,6 +153,8 @@ def grg_gn_sp(request):
             # ここにデータ取得コードを。
             df_list = pd.read_html(driver.page_source)
             df_lists.append(df_list[0])
+            
+            print(i)
 
             i -= 1
 

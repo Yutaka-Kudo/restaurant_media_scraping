@@ -128,8 +128,8 @@ def fes_gn_sp(request):
     # PC　クリック
     # if error_flg is False:
     try:
-        driver.find_element_by_xpath("//a[text()='PC']").click()
         sleep(1)
+        driver.find_element_by_xpath("//a[text()='PC']").click()
         print('PC click OK!')
     except Exception:
         driver.execute_script("window.stop();")
