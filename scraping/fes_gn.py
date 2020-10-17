@@ -103,6 +103,7 @@ def fes_gn_sp(request):
         try:
             # elem = WebDriverWait(driver, timeout=4).until(EC.presence_of_element_located((By.XPATH, '/html/body/center/div/div[3]/div[1]/div[1]/input')))
             # elem.click()
+            sleep(1)
             driver.find_element_by_xpath('/html/body/center/div/div[3]/div[1]/div[1]/input').click()
 
             sleep(1)
