@@ -32,5 +32,4 @@ options.add_argument('--ignore-certificate-errors')
 
 # options.add_argument('--headless')  # ヘッドレス
 # options.add_argument('--disable-gpu')  # 不要？?
-
-
+options.page_load_strategy = 'none'

@@ -8,7 +8,6 @@ from time import sleep
 import pandas as pd
 import datetime as dt
 # import itertools
-# import os
 import random
 from django.http import HttpResponse, HttpResponseRedirect
 
@@ -146,8 +145,9 @@ def grg_hp_sp(request):
     df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
     print('create df_list')
 
+    basepath, ext = os.path.splitext(os.path.basename(__file__))
     now = dt.datetime.now().strftime('%Y%m%d')
-    oldpath = 'data_garage_hp_sp_{}.csv'.format(now)
+    oldpath = 'data_{}_sp_{}.csv'.format(basepath, now)
 
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)

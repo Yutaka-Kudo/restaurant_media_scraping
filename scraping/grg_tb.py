@@ -8,7 +8,7 @@ from time import sleep
 import pandas as pd
 import datetime as dt
 # import itertools
-# import os
+import os
 
 from django.http import HttpResponse, HttpResponseRedirect
 # from django.shortcuts import render, redirect
@@ -16,7 +16,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 # from django.urls import reverse
 
 # from .models import Scraping
-# import os
 
 # from rq import Queue
 # from worker import conn
@@ -148,8 +147,10 @@ def grg_tb_sp(request):
     df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
     print('create df_list')
 
+    basepath, ext = os.path.splitext(os.path.basename(__file__))
     now = dt.datetime.now().strftime('%Y%m%d')
-    oldpath = 'data_garage_tb_sp_{}.csv'.format(now)
+    oldpath = 'data_{}_sp_{}.csv'.format(basepath, now)
+    
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
     df_fix.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
