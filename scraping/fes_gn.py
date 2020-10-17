@@ -37,7 +37,7 @@ def fes_gn_sp(request):
     # wait = WebDriverWait(driver, 10)
 
     print('Browser is ready!')
-    driver.set_page_load_timeout(3)
+    driver.set_page_load_timeout(3.5)
 
     try:
         url = "https://pro.gnavi.co.jp/"
