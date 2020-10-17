@@ -40,7 +40,7 @@ def grg_hp_sp(request):
     driver.get(url)
 
     print('get url!')
-    sleep(1)
+    # sleep(1)
 
     # In[8]:
     user_name = "C329569"
@@ -76,7 +76,7 @@ def grg_hp_sp(request):
     if error_flg is False:
         try:
             pw_input.submit()
-            sleep(2)
+            sleep(1)
             print('login OK!')
         except Exception:
             error_flg = True
@@ -87,7 +87,7 @@ def grg_hp_sp(request):
         try:
             elem = driver.find_element_by_link_text('Garage Kitchenあそび　西船橋店')
             elem.click()
-            sleep(2)
+            sleep(1)
             print('store select OK!')
         except Exception:
             error_flg = True
@@ -99,7 +99,7 @@ def grg_hp_sp(request):
         try:
             report_btn = driver.find_element_by_link_text('アクセス・レポート')
             report_btn.click()
-            sleep(2)
+            sleep(1)
             print('report btn click OK!')
         except Exception:
             error_flg = True
@@ -123,7 +123,7 @@ def grg_hp_sp(request):
             month_select_elem = driver.find_element_by_name('numberCd')
             month_select_object = Select(month_select_elem)
             month_select_object.select_by_index(i)
-            sleep(2)
+            sleep(1)
 
             # ここにデータ取得コードを。
             df_list = pd.read_html(driver.page_source)
@@ -153,7 +153,7 @@ def grg_hp_sp(request):
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
     df_fix.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
 
-    sleep(2)
+    sleep(1)
     driver.quit()
 
     return response
