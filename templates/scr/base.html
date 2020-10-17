@@ -27,7 +27,7 @@
    <!-- Custom CSS -->
    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}" />
 </head>
-
+      
 <body id="about" class="inner_page" data-spy="scroll" data-target="#navbar-wd" data-offset="98">
    <!-- LOADER -->
    <!-- <div id="preloader">
@@ -49,6 +49,7 @@
       </nav>
       <div id="content">
          <!-- Start header -->
+         {% block head %}
          <header class="top-header">
             <div class="container">
                <div class="row">
@@ -66,6 +67,8 @@
                </div>
             </div>
          </header>
+         {% endblock head %}
+
          <!-- End header -->
          <!-- Start Banner -->
 
@@ -112,7 +115,7 @@
                      </div>
                   </div>
                   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
-                     <a href="{% url 'grg:garage_page' %}">
+                     <a href="{% url 'scraping:garage_page' %}">
                         <div class="full feature_box">
                            <div class="full icon">
                               <!-- <img class="default-block" src="{% static "images/icon_3.png" %}" alt="#" /> -->

@@ -22,41 +22,14 @@ import os
 from rq import Queue
 from worker import conn
 
-
+from .driver_settings import options
 
 def grg_hp_sp(request):
-    user_agent = [
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.2 Safari/605.1.15',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Safari/605.1.15',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36'
-    ]
-    options = webdriver.ChromeOptions()
-    now_ua = user_agent[random.randrange(0, len(user_agent), 1)]
-    options.add_argument('--user-agent=' + now_ua)
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')  # 不要？?
-    options.add_argument('--disable-desktop-notifications')
-    options.add_argument("--disable-extensions")
-    options.add_argument('--lang=ja')
-    options.add_argument('--blink-settings=imagesEnabled=false')  # 画像なし
-    # options.add_argument('--no-sandbox')
-    # options.binary_location = '/usr/bin/google-chrome'
-    options.add_argument('--proxy-bypass-list=*')      # すべてのホスト名
-    options.add_argument('--proxy-server="direct://"')  # Proxy経由ではなく直接接続する
-    # if chrome_binary_path:
-    #     options.binary_location = chrome_binary_path
-    # options.add_argument('--single-process')
-    # options.add_argument('--disable-application-cache')
-    options.add_argument('--ignore-certificate-errors')
-    # options.add_argument('--start-maximized')
-
+    
     error_flg = False
 
     driver = webdriver.Chrome(chrome_options=options)
-    driver.set_window_size(1250, 1036)
+    # driver.set_window_size(1250, 1036)
     driver.implicitly_wait(5)
 
     print('Browser is ready!')
@@ -76,7 +49,8 @@ def grg_hp_sp(request):
     # In[10]:
 
     # フォーム取得
-    id_input = driver.find_element_by_xpath("/html/body/div[2]/div/form/div/div[2]/table/tbody/tr[1]/td/input")
+    id_input = driver.find_element_by_xpath(
+        "/html/body/div[2]/div/form/div/div[2]/table/tbody/tr[1]/td/input")
     pw_input = driver.find_element_by_name('password')
 
     # In[11]:
@@ -108,7 +82,7 @@ def grg_hp_sp(request):
             error_flg = True
             print('ログインエラー')
 
-    #店舗選択
+    # 店舗選択
     if error_flg is False:
         try:
             elem = driver.find_element_by_link_text('Garage Kitchenあそび　西船橋店')
@@ -120,8 +94,7 @@ def grg_hp_sp(request):
             print('店舗選択エラー')
     # In[15]:
 
-
-        #レポートボタンクリック
+        # レポートボタンクリック
     if error_flg is False:
         try:
             report_btn = driver.find_element_by_link_text('アクセス・レポート')
@@ -144,7 +117,7 @@ def grg_hp_sp(request):
 
     try:
         df_lists = []
-        i = 24  # 20
+        i = 23  # 20
         while i <= 25:
             # 月選択
             month_select_elem = driver.find_element_by_name('numberCd')
@@ -162,9 +135,15 @@ def grg_hp_sp(request):
         error_flg = True
         print('データ収集エラー')
 
+    df_list_fix = []
+    for df in df_lists:
+        df.set_index('日付', inplace=True)
+        df.index = pd.to_datetime(df.index, format='%Y%m%d')
+        df_list_fix.append(df)
+
 
     # In[13]:
-    df_fix = pd.concat([df_lists[i] for i in range(0, len(df_lists))])
+    df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
     print('create df_list')
 
     now = dt.datetime.now().strftime('%Y%m%d')
@@ -172,15 +151,14 @@ def grg_hp_sp(request):
 
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df_fix.to_csv(path_or_buf=response, float_format='%.2f', index=False, decimal=",")
-
-    
+    df_fix.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
 
     sleep(2)
     driver.quit()
 
     return response
     # return render(request, 'scr/garage_hp.html')
+
 
 def grgHpSp(request):
     q = Queue(connection=conn)

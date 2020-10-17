@@ -23,23 +23,8 @@ from .grg_hp import grg_hp_sp, grgHpSp
 from rq import Queue
 from worker import conn
 
+from .driver_settings import options
 
-def index(request):
-    return render(request, "scr/index.html")
-
-# class Index(TemplateView):
-#     template_name = "scr/index.html"
-
-
-def garage(request):
-    return render(request, "scr/garage.html")
-# class Garage(TemplateView):
-#     template_name = "scr/garage.html"
-
-def garage_test(request):
-    q = Queue(connection=conn)
-    result = q.enqueue(garage, "request")
-    return result
 
 def grgGnSp(request):
     q = Queue(connection=conn)
@@ -48,38 +33,10 @@ def grgGnSp(request):
 
 
 def grg_gn_sp(request):
-    user_agent = [
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.2 Safari/605.1.15',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Safari/605.1.15',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36'
-    ]
-    options = webdriver.ChromeOptions()
-    now_ua = user_agent[random.randrange(0, len(user_agent), 1)]
-    options.add_argument('--user-agent=' + now_ua)
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')  # 不要？?
-    options.add_argument('--disable-desktop-notifications')
-    options.add_argument("--disable-extensions")
-    options.add_argument('--lang=ja')
-    options.add_argument('--blink-settings=imagesEnabled=false')  # 画像なし
-    # options.add_argument('--no-sandbox')
-    # options.binary_location = '/usr/bin/google-chrome'
-    options.add_argument('--proxy-bypass-list=*')      # すべてのホスト名
-    options.add_argument('--proxy-server="direct://"')  # Proxy経由ではなく直接接続する
-    # if chrome_binary_path:
-    #     options.binary_location = chrome_binary_path
-    # options.add_argument('--single-process')
-    # options.add_argument('--disable-application-cache')
-    options.add_argument('--ignore-certificate-errors')
-    # options.add_argument('--start-maximized')
-
     error_flg = False
 
     driver = webdriver.Chrome(chrome_options=options)
-    driver.set_window_size(1250, 1036)
+    # driver.set_window_size(1250, 1036)
     driver.implicitly_wait(5)
 
     print('Browser is ready!')
@@ -93,7 +50,6 @@ def grg_gn_sp(request):
 
     # In[8]:
 
-    sleep(1)
 
     # In[9]:
 
@@ -193,7 +149,7 @@ def grg_gn_sp(request):
     # if error_flg is False:
     try:
         df_lists = []
-        i = 1
+        i = 2
         while i >= 0:
             # 月選択
             month_select_elem = driver.find_element_by_id('ym')
@@ -212,7 +168,6 @@ def grg_gn_sp(request):
         print('データ収集エラー')
 
     # In[18]:
-
 
     # In[19]:
 
@@ -248,16 +203,12 @@ def grg_gn_sp(request):
     now = dt.datetime.now().strftime('%Y%m%d')
     oldpath = 'data_garage_gn_sp_{}.csv'.format(now)
 
-    response = HttpResponse(content_type='text/csv')
+    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df_fix.to_csv(path_or_buf=response, sep=';', float_format='%.2f', index=False, decimal=",")
+    df_fix.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
 
     sleep(2)
     driver.quit()
 
     return response
     # return render(request, "scr/index.html")
-
-    # df_fix.to_csv(oldpath, mode="x", encoding="utf_8_sig")
-
-    # file = Scraping()
