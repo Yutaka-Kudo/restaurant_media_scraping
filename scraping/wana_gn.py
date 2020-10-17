@@ -49,8 +49,8 @@ def grg_gn_sp(request):
 
     # In[9]:
 
-    user_name = "ga42902"
-    pw = "45675678"
+    user_name = "ga42908"
+    pw = "12297646"
 
     # In[10]:
 

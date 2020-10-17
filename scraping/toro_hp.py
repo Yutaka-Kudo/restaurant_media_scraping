@@ -85,7 +85,7 @@ def grg_hp_sp(request):
     # 店舗選択
     if error_flg is False:
         try:
-            elem = driver.find_element_by_link_text('Garage Kitchenあそび　西船橋店')
+            elem = driver.find_element_by_link_text('路地ノ裏 灯篭 西船橋店')
             elem.click()
             sleep(1)
             print('store select OK!')

@@ -9,51 +9,43 @@ import pandas as pd
 import datetime as dt
 # import itertools
 # import os
-import random
+
 from django.http import HttpResponse, HttpResponseRedirect
+# from django.shortcuts import render, redirect
+# from django.views.generic import TemplateView
+# from django.urls import reverse
 
-# from django.shortcuts import render
 # from .models import Scraping
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from django.urls import reverse
-import os
+# import os
 
-from rq import Queue
-from worker import conn
+# from rq import Queue
+# from worker import conn
 
 from .driver_settings import options
 
-def grg_hp_sp(request):
-    
-    error_flg = False
+# import random
 
+
+def grg_tb_sp(request):
+    error_flg = False
     driver = webdriver.Chrome(chrome_options=options)
     # driver.set_window_size(1250, 1036)
     driver.implicitly_wait(5)
 
     print('Browser is ready!')
 
-    # In[5]:
-
-    url = "https://www.cms.hotpepper.jp/CLN/login/"
+    url = "https://ssl.tabelog.com/owner_account/login/"
     driver.get(url)
 
     print('get url!')
     # sleep(1)
 
-    # In[8]:
-    user_name = "C329569"
-    pw = "fes130!!"
-
-    # In[10]:
+    user_name = "brguav"
+    pw = "Questa130"
 
     # フォーム取得
-    id_input = driver.find_element_by_xpath(
-        "/html/body/div[2]/div/form/div/div[2]/table/tbody/tr[1]/td/input")
-    pw_input = driver.find_element_by_name('password')
-
-    # In[11]:
+    id_input = driver.find_element_by_id('login_id')
+    pw_input = driver.find_element_by_id('password')
 
     # 中身をクリア
     id_input.clear()
@@ -61,18 +53,15 @@ def grg_hp_sp(request):
 
     sleep(1)
 
-    # In[12]:
-
     try:
         # 入力
-        # driver.find_element_by_xpath(
-        #     "/html/body/main/div[2]/div/div/div[2]/dl/dd/form/div[3]/div[1]/label").click()
         id_input.send_keys(user_name)
         pw_input.send_keys(pw)
         print('input OK!')
     except Exception:
         error_flg = True
         print('インプットエラー')
+
     if error_flg is False:
         try:
             pw_input.submit()
@@ -85,51 +74,53 @@ def grg_hp_sp(request):
     # 店舗選択
     if error_flg is False:
         try:
-            elem = driver.find_element_by_link_text('Garage Kitchenあそび　西船橋店')
+            elem = driver.find_element(
+                By.XPATH, ("/html/body/div[4]/div[2]/ul/li[10]/div[2]/form/input[4]"))
             elem.click()
             sleep(1)
             print('store select OK!')
         except Exception:
             error_flg = True
             print('店舗選択エラー')
-    # In[15]:
 
-        # レポートボタンクリック
+    # アクセス解析クリック
     if error_flg is False:
         try:
-            report_btn = driver.find_element_by_link_text('アクセス・レポート')
+            report_btn = driver.find_element_by_link_text('アクセス解析')
             report_btn.click()
             sleep(1)
-            print('report btn click OK!')
+            print('アクセス解析 btn click OK!')
         except Exception:
             error_flg = True
-            print('レポートボタンクリックエラー')
+            print('アクセス解析クリックエラー')
 
-    handle_array = driver.window_handles
-    print(handle_array[0])
-    print(handle_array[1])
-    # 操作ウィンドウを変更する
-    driver.switch_to.window(handle_array[-1])
-    sleep(1)
-    print('handle OK!')
-
-    # In[16]:
+    # モバイル日別アクセス数レポートクリック
+    if error_flg is False:
+        try:
+            report_btn = driver.find_element_by_xpath(
+                '/html/body/div[4]/div[9]/div[2]/div[2]/div[1]/div[2]/table/tbody/tr[3]/td[4]/a')
+            report_btn.click()
+            sleep(1)
+            print('日別アクセス数レポート btn click OK!')
+        except Exception:
+            error_flg = True
+            print('日別アクセス数レポートクリックエラー')
 
     try:
         df_lists = []
-        i = 23  # 20
-        while i <= 25:
+        i = 2
+        while i >= 0:
             # 月選択
-            month_select_elem = driver.find_element_by_name('numberCd')
+            month_select_elem = driver.find_element_by_id('report-month-first')
             month_select_object = Select(month_select_elem)
             month_select_object.select_by_index(i)
             sleep(1)
 
             # ここにデータ取得コードを。
             df_list = pd.read_html(driver.page_source)
-            df_lists.append(df_list[4])
+            df_lists.append(df_list[0])
 
-            i += 1
+            i -= 1
 
     except Exception:
         error_flg = True
@@ -137,18 +128,28 @@ def grg_hp_sp(request):
 
     df_list_fix = []
     for df in df_lists:
-        df.set_index('日付', inplace=True)
-        df.index = pd.to_datetime(df.index, format='%Y%m%d')
+        df.drop(df.tail(1).index, inplace=True)
+        df.set_index("日付", inplace=True)
+        df.index = df.index.str.rstrip('(月火水木金土日)')
+        df.index = pd.to_datetime(df.index)
+        df.insert(0, "曜日", df.index.strftime('%a'))
+        df['曜日'].replace({
+            "Mon": "月",
+            "Tue": "火",
+            "Wed": "水",
+            "Thu": "木",
+            "Fri": "金",
+            "Sat": "土",
+            "Sun": "日"
+        }, inplace=True)
+
         df_list_fix.append(df)
 
-
-    # In[13]:
     df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
     print('create df_list')
 
     now = dt.datetime.now().strftime('%Y%m%d')
-    oldpath = 'data_garage_hp_sp_{}.csv'.format(now)
-
+    oldpath = 'data_garage_tb_sp_{}.csv'.format(now)
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
     df_fix.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
@@ -158,9 +159,3 @@ def grg_hp_sp(request):
 
     return response
     # return render(request, 'scr/garage_hp.html')
-
-
-def grgHpSp(request):
-    q = Queue(connection=conn)
-    result = q.enqueue(grg_hp_sp, "request")
-    return result
