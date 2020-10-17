@@ -111,7 +111,7 @@ def fes_gn_sp(request):
             driver.execute_script("window.stop();")
 
             # error_flg = True
-            print('in btn?')
+            print('in btn OK!2')
 
     # In[15]:
 
@@ -136,7 +136,7 @@ def fes_gn_sp(request):
         except Exception:
             driver.execute_script("window.stop();")
             # error_flg = True
-            print('エラー GONアクセス集計　クリック時')
+            print('アクセス状況btn OK!2')
 
     # # ↑別のやり方
     # elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'//input[@value="アクセス状況の詳細を確認"]')))
@@ -144,14 +144,14 @@ def fes_gn_sp(request):
     # In[16]:
 
     # PC　クリック
-    if error_flg is False:
-        try:
-            driver.find_element_by_xpath("//a[text()='PC']").click()
-            sleep(1)
-            print('PC click OK!')
-        except Exception:
-            error_flg = True
-            print('エラー　PCクリック時')
+    # if error_flg is False:
+    try:
+        driver.find_element_by_xpath("//a[text()='PC']").click()
+        sleep(1)
+        print('PC click OK!')
+    except Exception:
+        # error_flg = True
+        print('PC click OK!2')
 
     # In[17]:
 
