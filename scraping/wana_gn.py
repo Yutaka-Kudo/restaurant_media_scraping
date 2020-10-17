@@ -163,6 +163,7 @@ def wana_gn_sp(request):
         print('データ収集エラー')
 
     # In[18]:
+    driver.quit()
 
     # In[19]:
 
@@ -203,7 +204,6 @@ def wana_gn_sp(request):
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
     df_fix.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
 
-    driver.quit()
 
     return response
     # return render(request, "scr/index.html")
