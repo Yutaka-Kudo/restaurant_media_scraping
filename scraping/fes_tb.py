@@ -26,7 +26,7 @@ from .driver_settings import options
 # import random
 
 
-def grg_tb_sp(request):
+def fes_tb_sp(request):
     error_flg = False
     driver = webdriver.Chrome(chrome_options=options)
     # driver.set_window_size(1250, 1036)

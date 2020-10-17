@@ -24,7 +24,7 @@ from worker import conn
 
 from .driver_settings import options
 
-def grg_hp_sp(request):
+def wana_hp_sp(request):
     
     error_flg = False
 
@@ -160,7 +160,7 @@ def grg_hp_sp(request):
     # return render(request, 'scr/garage_hp.html')
 
 
-def grgHpSp(request):
+def wanaHpSp(request):
     q = Queue(connection=conn)
-    result = q.enqueue(grg_hp_sp, "request")
+    result = q.enqueue(wana_hp_sp, "request")
     return result

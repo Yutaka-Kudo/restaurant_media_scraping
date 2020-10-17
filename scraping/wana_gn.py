@@ -9,7 +9,7 @@ import pandas as pd
 import datetime as dt
 # import itertools
 # import os
-# from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 
 # from django.shortcuts import render
 # from django.shortcuts import render, redirect
@@ -22,13 +22,13 @@ from worker import conn
 from .driver_settings import options
 
 
-def grgGnSp(request):
+def wanaGnSp(request):
     q = Queue(connection=conn)
-    result = q.enqueue(grg_gn_sp, "request")
+    result = q.enqueue(wana_gn_sp, "request")
     return result
 
 
-def grg_gn_sp(request):
+def wana_gn_sp(request):
     error_flg = False
 
     driver = webdriver.Chrome(chrome_options=options)

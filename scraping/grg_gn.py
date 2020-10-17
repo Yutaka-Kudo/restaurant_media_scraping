@@ -9,7 +9,7 @@ import pandas as pd
 import datetime as dt
 # import itertools
 # import os
-# from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 
 # from django.shortcuts import render
 # from django.shortcuts import render, redirect

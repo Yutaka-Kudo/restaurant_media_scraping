@@ -26,7 +26,7 @@ from .driver_settings import options
 # import random
 
 
-def grg_tb_sp(request):
+def wana_tb_sp(request):
     error_flg = False
     driver = webdriver.Chrome(chrome_options=options)
     # driver.set_window_size(1250, 1036)
@@ -75,7 +75,7 @@ def grg_tb_sp(request):
     if error_flg is False:
         try:
             elem = driver.find_element(
-                By.XPATH, (/html/body/div[4]/div[2]/ul/li[11]/div[2]/form/input[4]))
+                By.XPATH, ('/html/body/div[4]/div[2]/ul/li[11]/div[2]/form/input[4]'))
             elem.click()
             sleep(1)
             print('store select OK!')

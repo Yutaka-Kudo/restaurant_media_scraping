@@ -24,7 +24,7 @@ from worker import conn
 
 from .driver_settings import options
 
-def grg_hp_sp(request):
+def fes_hp_sp(request):
     
     error_flg = False
 
@@ -87,7 +87,7 @@ def grg_hp_sp(request):
         try:
             elem = driver.find_element_by_link_text('FES by asobi')
             elem.click()
-            sleep(1)
+            sleep(2)
             print('store select OK!')
         except Exception:
             error_flg = True
@@ -160,7 +160,7 @@ def grg_hp_sp(request):
     # return render(request, 'scr/garage_hp.html')
 
 
-def grgHpSp(request):
+def fesHpSp(request):
     q = Queue(connection=conn)
-    result = q.enqueue(grg_hp_sp, "request")
+    result = q.enqueue(fes_hp_sp, "request")
     return result

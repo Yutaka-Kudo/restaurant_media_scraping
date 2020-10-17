@@ -30,5 +30,7 @@ options.add_argument('--proxy-server="direct://"')  # Proxy経由ではなく直
 options.add_argument('--ignore-certificate-errors')
 # options.add_argument('--start-maximized')
 
-options.add_argument('--headless')  # ヘッドレス
-options.add_argument('--disable-gpu')  # 不要？?
+# options.add_argument('--headless')  # ヘッドレス
+# options.add_argument('--disable-gpu')  # 不要？?
+
+
