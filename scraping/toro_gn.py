@@ -33,14 +33,19 @@ def toro_gn_sp(request):
 
     driver = webdriver.Chrome(chrome_options=options)
     # driver.set_window_size(1250, 1036)
-    driver.implicitly_wait(5)
+    # driver.implicitly_wait(5)
+    # wait = WebDriverWait(driver, 10)
 
     print('Browser is ready!')
+    driver.set_page_load_timeout(3)
 
     # In[5]:
-
-    url = "https://pro.gnavi.co.jp/"
-    driver.get(url)
+    try:
+        # driver.set_page_load_timeout(2)
+        url = "https://pro.gnavi.co.jp/"
+        driver.get(url)
+    except Exception:
+        driver.execute_script("window.stop();")
 
     print('get url!')
 
@@ -78,28 +83,36 @@ def toro_gn_sp(request):
     except Exception:
         error_flg = True
         print('インプットエラー')
+
+
     if error_flg is False:
         try:
             pw_input.submit()
-            sleep(2)
+            sleep(1)
             print('login OK!')
         except Exception:
-            error_flg = True
-            print('ログインエラー')
+            driver.execute_script("window.stop();")
 
+            print('login ?')
+            # error_flg = True
+            
     # In[14]:
+    # driver.set_page_load_timeout(10)
 
     if error_flg is False:
         try:
-            # elem = WebDriverWait(driver, 20).until(EC.element_to_be_clickable(
-            #     (By.XPATH, '/html/body/center/div/div[3]/div[1]/div[1]/input')))
+            # elem = WebDriverWait(driver, timeout=4).until(EC.presence_of_element_located((By.XPATH, '/html/body/center/div/div[3]/div[1]/div[1]/input')))
             # elem.click()
+            sleep(1)
             driver.find_element_by_xpath('/html/body/center/div/div[3]/div[1]/div[1]/input').click()
-            sleep(2)
+
+            sleep(1)
             print('in btn OK!')
         except Exception:
-            error_flg = True
-            print('in btnエラー')
+            driver.execute_script("window.stop();")
+
+            # error_flg = True
+            print('in btn OK!2')
 
     # In[15]:
 
@@ -107,7 +120,7 @@ def toro_gn_sp(request):
     try:
         elem = driver.find_element_by_id('js-unconfirmedRsvModalClose')
         elem.click()
-        sleep(2)
+        sleep(1)
         print('未確認情報OK!')
     except Exception:
         pass
@@ -115,14 +128,16 @@ def toro_gn_sp(request):
     # GONアクセス集計　クリック
     if error_flg is False:
         try:
-            elem = WebDriverWait(driver, 20).until(EC.element_to_be_clickable(
-                (By.XPATH, '//input[@value="アクセス状況の詳細を確認"]')))
+            # elem = wait.until(EC.presence_of_element_located(
+            #     (By.XPATH, '//input[@value="アクセス状況の詳細を確認"]')))
+            elem = driver.find_element_by_xpath('//input[@value="アクセス状況の詳細を確認"]')
             elem.click()
-            sleep(2)
+            sleep(1)
             print('アクセス状況btn OK!')
         except Exception:
-            error_flg = True
-            print('エラー GONアクセス集計　クリック時')
+            driver.execute_script("window.stop();")
+            # error_flg = True
+            print('アクセス状況btn OK!2')
 
     # # ↑別のやり方
     # elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'//input[@value="アクセス状況の詳細を確認"]')))
@@ -130,14 +145,14 @@ def toro_gn_sp(request):
     # In[16]:
 
     # PC　クリック
-    if error_flg is False:
-        try:
-            driver.find_element_by_xpath("//a[text()='PC']").click()
-            sleep(2)
-            print('PC click OK!')
-        except Exception:
-            error_flg = True
-            print('エラー　PCクリック時')
+    # if error_flg is False:
+    try:
+        driver.find_element_by_xpath("//a[text()='PC']").click()
+        sleep(1)
+        print('PC click OK!')
+    except Exception:
+        # error_flg = True
+        print('PC click OK!2')
 
     # In[17]:
 
@@ -151,7 +166,7 @@ def toro_gn_sp(request):
             month_select_elem = driver.find_element_by_id('ym')
             month_select_object = Select(month_select_elem)
             month_select_object.select_by_index(i)
-            sleep(2)
+            sleep(1)
 
             # ここにデータ取得コードを。
             df_list = pd.read_html(driver.page_source)
@@ -204,7 +219,6 @@ def toro_gn_sp(request):
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
     df_fix.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
 
-    sleep(2)
     driver.quit()
 
     return response
