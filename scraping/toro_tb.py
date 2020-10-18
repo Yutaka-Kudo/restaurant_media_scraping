@@ -60,6 +60,7 @@ def toro_tb_sp(request):
     except Exception:
         error_flg = True
         print('インプットエラー')
+        driver.quit()
 
     if error_flg is False:
         try:
@@ -69,6 +70,7 @@ def toro_tb_sp(request):
         except Exception:
             error_flg = True
             print('ログインエラー')
+            driver.quit()
 
     # 店舗選択
     if error_flg is False:
@@ -81,6 +83,7 @@ def toro_tb_sp(request):
         except Exception:
             error_flg = True
             print('店舗選択エラー')
+            driver.quit()
 
     # アクセス解析クリック
     if error_flg is False:
@@ -92,6 +95,7 @@ def toro_tb_sp(request):
         except Exception:
             error_flg = True
             print('アクセス解析クリックエラー')
+            driver.quit()
 
     # モバイル日別アクセス数レポートクリック
     if error_flg is False:
@@ -104,6 +108,7 @@ def toro_tb_sp(request):
         except Exception:
             error_flg = True
             print('日別アクセス数レポートクリックエラー')
+            driver.quit()
 
     try:
         df_lists = []
@@ -124,6 +129,7 @@ def toro_tb_sp(request):
     except Exception:
         error_flg = True
         print('データ収集エラー')
+        driver.quit()
 
     df_list_fix = []
     for df in df_lists:

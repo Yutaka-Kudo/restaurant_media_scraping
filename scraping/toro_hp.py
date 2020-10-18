@@ -72,6 +72,7 @@ def toro_hp_sp(request):
     except Exception:
         error_flg = True
         print('インプットエラー')
+        driver.quit()
     if error_flg is False:
         try:
             pw_input.submit()
@@ -80,17 +81,19 @@ def toro_hp_sp(request):
         except Exception:
             error_flg = True
             print('ログインエラー')
+            driver.quit()
 
     # 店舗選択
     if error_flg is False:
         try:
             elem = driver.find_element_by_link_text('路地ノ裏 灯篭 西船橋店')
             elem.click()
-            sleep(1)
+            sleep(2)
             print('store select OK!')
         except Exception:
             error_flg = True
             print('店舗選択エラー')
+            driver.quit()
     # In[15]:
 
         # レポートボタンクリック
@@ -103,6 +106,7 @@ def toro_hp_sp(request):
         except Exception:
             error_flg = True
             print('レポートボタンクリックエラー')
+            driver.quit()
 
     handle_array = driver.window_handles
     print(handle_array[0])
@@ -116,8 +120,8 @@ def toro_hp_sp(request):
 
     try:
         df_lists = []
-        i = 23  # 20
-        while i <= 25:
+        i = 9  # 20
+        while i <= 11:
             # 月選択
             month_select_elem = driver.find_element_by_name('numberCd')
             month_select_object = Select(month_select_elem)
@@ -133,6 +137,7 @@ def toro_hp_sp(request):
     except Exception:
         error_flg = True
         print('データ収集エラー')
+        driver.quit()
 
     df_list_fix = []
     for df in df_lists:

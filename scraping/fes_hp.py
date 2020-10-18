@@ -72,6 +72,7 @@ def fes_hp_sp(request):
     except Exception:
         error_flg = True
         print('インプットエラー')
+        driver.quit()
     if error_flg is False:
         try:
             pw_input.submit()
@@ -80,6 +81,7 @@ def fes_hp_sp(request):
         except Exception:
             error_flg = True
             print('ログインエラー')
+            driver.quit()
 
     # 店舗選択
     if error_flg is False:
@@ -91,6 +93,7 @@ def fes_hp_sp(request):
         except Exception:
             error_flg = True
             print('店舗選択エラー')
+            driver.quit()
     # In[15]:
 
         # レポートボタンクリック
@@ -103,6 +106,7 @@ def fes_hp_sp(request):
         except Exception:
             error_flg = True
             print('レポートボタンクリックエラー')
+            driver.quit()
 
     handle_array = driver.window_handles
     print(handle_array[0])
@@ -127,12 +131,14 @@ def fes_hp_sp(request):
             # ここにデータ取得コードを。
             df_list = pd.read_html(driver.page_source)
             df_lists.append(df_list[4])
+            print(i)
 
             i += 1
 
     except Exception:
         error_flg = True
         print('データ収集エラー')
+        driver.quit()
 
     df_list_fix = []
     for df in df_lists:
