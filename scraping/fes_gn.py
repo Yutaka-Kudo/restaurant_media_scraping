@@ -148,7 +148,7 @@ def fes_gn_sp(request):
         # error_flg = True
 
     # In[17]:
-    sleep(1)
+    sleep(4)
     # 本番用
     # if error_flg is False:
     try:
@@ -159,7 +159,7 @@ def fes_gn_sp(request):
             month_select_elem = driver.find_element_by_id('ym')
             month_select_object = Select(month_select_elem)
             month_select_object.select_by_index(i)
-            sleep(1)
+            sleep(2)
 
             # ここにデータ取得コードを。
             df_list = pd.read_html(driver.page_source)
