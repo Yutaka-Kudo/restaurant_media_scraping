@@ -144,6 +144,7 @@ def fes_gn_sp(request):
         print('PC btn click!')
     except Exception:
         print('PC btn click!')
+        driver.execute_script("window.stop();")        
         # driver.execute_script("window.stop();")
         # error_flg = True
 
