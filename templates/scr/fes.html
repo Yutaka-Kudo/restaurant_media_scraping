@@ -22,6 +22,14 @@
 
                 <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
                     <img src="{% static "images/menu_icon.png" %}"></button>
+                <form action="{% url 'scraping:fes_hp_sp_get' %}" method="GET" name="w">
+                    <input type="submit">
+                    <select name="example">
+                        <option value="サンプル1">サンプル1</option>
+                        <option value="サンプル2">サンプル2</option>
+                        <option value="サンプル3">サンプル3</option>
+                    </select>
+                </form>
             </div>
         </div>
     </div>

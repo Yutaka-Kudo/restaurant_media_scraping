@@ -26,7 +26,7 @@ from .models import Fes_hp_sp_scrape
 from .driver_settings import options
 
 
-def fes_hp_sp():
+def fes_hp_sp(request):
 
     error_flg = False
 
@@ -187,9 +187,9 @@ def fes_hp_sp():
 
     # sleep(1)
     driver.quit()
+    return redirect("/fes/")
 
     
     # return render(request, 'scr/garage_hp.html')
-
-fes_hp_sp()
+    
 
