@@ -13,20 +13,20 @@ import pandas as pd
 
 # from django.shortcuts import render
 # from .models import Scraping
-# from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 # from django.views.generic import TemplateView
 # from django.urls import reverse
 # import os
 
 from .models import Fes_hp_sp_scrape
 
-from rq import Queue
-from worker import conn
+# from rq import Queue
+# from worker import conn
 
 from .driver_settings import options
 
 
-def fes_hp_sp(request):
+def fes_hp_sp():
 
     error_flg = False
 
@@ -133,7 +133,7 @@ def fes_hp_sp(request):
         # 月選択
         month_select_elem = driver.find_element_by_name('numberCd')
         month_select_object = Select(month_select_elem)
-        month_select_object.select_by_index(25)  # 23は8月
+        month_select_object.select_by_index(22)  # 23は8月
         sleep(1)
         # SPクリック
         driver.find_element_by_xpath(
@@ -148,7 +148,7 @@ def fes_hp_sp(request):
         print('データ収集エラー')
         driver.quit()
 
-    month = df_list[4].iloc[10, 0].astype(str)[:6]
+    month = df_list[4].iloc[8, 0].astype(str)[:6]
     month_fix = month[:4]+"-"+month[4:6]
     # データ整形
     df_list[4].set_index('日付', inplace=True)
@@ -188,11 +188,6 @@ def fes_hp_sp(request):
     # sleep(1)
     driver.quit()
 
-    return redirect("/fes/")
+    
     # return render(request, 'scr/garage_hp.html')
 
-
-def fesHpSp(request):
-    q = Queue(connection=conn)
-    result = q.enqueue(fes_hp_sp, "request")
-    return result
