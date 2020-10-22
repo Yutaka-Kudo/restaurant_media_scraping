@@ -14,22 +14,11 @@
                 </div>
             </div>
             <div class="col-sm-6">
-
                 {% if fes_query %}
                 <p>{{fes_query}}</p>
                 {% endif %}
-
-
                 <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
                     <img src="{% static "images/menu_icon.png" %}"></button>
-                <form action="{% url 'scraping:fes_hp_sp_get' %}" method="GET" name="w">
-                    <input type="submit">
-                    <select name="example">
-                        <option value="サンプル1">サンプル1</option>
-                        <option value="サンプル2">サンプル2</option>
-                        <option value="サンプル3">サンプル3</option>
-                    </select>
-                </form>
             </div>
         </div>
     </div>
@@ -57,10 +46,7 @@
 
                     </div>
                     <div class="full">
-                        <a href="{% url 'scraping:fes_gn_sp' %}">
-
-                            <h4>ぐるなび</h4>
-                        </a>
+                        <h4>ぐるなび</h4>
                         <form action="{% url 'scraping:fes_gn_sp_get' %}" method="GET">
                             <input id="datepicker" type="text" name="q" value="年月選択">
                             <input type="submit">
@@ -79,10 +65,7 @@
                         <!-- <img class="default-none" src="{% static "images/icon_2w.png" %}" alt="#" /> -->
                     </div>
                     <div class="full">
-                        <a href="{% url 'scraping:fes_hp_sp' %}">
-
-                            <h4>HotPepper</h4>
-                        </a>
+                        <h4>HotPepper</h4>
                         <form action="{% url 'scraping:fes_hp_sp_get' %}" method="GET">
                             <input id="datepicker2" type="text" name="q" value="年月選択">
                             <input type="submit">
@@ -102,9 +85,7 @@
                         <!-- <img class="default-none" src="{% static "images/icon_3w.png" %}" alt="#" /> -->
                     </div>
                     <div class="full">
-                        <a href="{% url 'scraping:fes_tb_sp' %}">
-                            <h4>食べログ</h4>
-                        </a>
+                        <h4>食べログ</h4>
                         <form action="{% url 'scraping:fes_tb_sp_get' %}" method="GET">
                             <input id="datepicker3" type="text" name="q" value="年月選択">
                             <input type="submit">

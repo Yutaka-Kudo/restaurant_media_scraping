@@ -112,10 +112,11 @@ def fes_tb_sp(request):
             driver.quit()
 
     try:
+        i = request.GET.get('w')
         # 月選択
         month_select_elem = driver.find_element_by_id('report-month-first')
         month_select_object = Select(month_select_elem)
-        month_select_object.select_by_index(0)
+        month_select_object.select_by_index(i)
         sleep(1)
 
         # ここにデータ取得コードを。
@@ -175,5 +176,5 @@ def fes_tb_sp(request):
     sleep(1)
     driver.quit()
 
-    return redirect('/fes/')
+    return redirect('/dev/')
     # return render(request, 'scr/garage_hp.html')

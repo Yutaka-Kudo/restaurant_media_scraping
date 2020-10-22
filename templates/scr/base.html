@@ -65,8 +65,10 @@
                      </div>
                   </div>
                   <div class="col-sm-6">
-                     <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                        <img src="{% static "images/menu_icon.png" %}"></button>
+                     <a href="{% url 'scraping:dev' %}">
+                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                           <img src="{% static "images/menu_icon.png" %}"></button>
+                     </a>
                   </div>
                </div>
             </div>
@@ -193,4 +195,5 @@
          <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8eaHt9Dh5H57Zh0xVTqxVdBFCvFMqFjQ&callback=initMap"></script> -->
          <!-- end google map js -->
 </body>
+
 </html>

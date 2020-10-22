@@ -51,9 +51,12 @@ def index(request):
 #     template_name = "scr/index.html"
 
 
+def dev(request):
+    return render(request, 'scr/dev.html')
+
+
 def garage(request):
     return render(request, "scr/garage.html")
-
 
 
 def fes(request):
@@ -127,7 +130,6 @@ def fes_tb_sp_get(request):
     df.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
 
     return response
-
 
 
 def wana(request):

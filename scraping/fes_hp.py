@@ -130,10 +130,11 @@ def fes_hp_sp(request):
     # In[16]:
 
     try:
+        i = request.GET.get('w')
         # 月選択
         month_select_elem = driver.find_element_by_name('numberCd')
         month_select_object = Select(month_select_elem)
-        month_select_object.select_by_index(25)  # 23は8月
+        month_select_object.select_by_index(i)  # 23は8月
         sleep(1)
         # SPクリック
         driver.find_element_by_xpath(
@@ -188,7 +189,7 @@ def fes_hp_sp(request):
     # sleep(1)
     driver.quit()
 
-    return redirect("/fes/")
+    return redirect("/dev/")
     # return render(request, 'scr/garage_hp.html')
 
 

@@ -154,10 +154,11 @@ def fes_gn_sp(request):
     # 本番用
     # if error_flg is False:
     try:
+        i = request.GET.get('w')
         # 月選択
         month_select_elem = driver.find_element_by_id('ym')
         month_select_object = Select(month_select_elem)
-        month_select_object.select_by_index(1)
+        month_select_object.select_by_index(3)
         sleep(2)
 
         # ここにデータ取得コードを。
@@ -243,5 +244,5 @@ def fes_gn_sp(request):
 
     driver.quit()
 
-    return redirect("/fes/")
+    return redirect("/dev/")
     # return render(request, "scr/index.html")
