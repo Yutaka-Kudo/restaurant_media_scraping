@@ -191,3 +191,5 @@ def fes_hp_sp():
     
     # return render(request, 'scr/garage_hp.html')
 
+fes_hp_sp()
+

@@ -41,7 +41,7 @@ import os
 from django.http import HttpResponse
 from .models import Fes_hp_sp_scrape
 from .models import Fes_gn_sp_scrape
-# from .models import Fes_tb_sp_scrape
+from .models import Fes_tb_sp_scrape
 
 
 def index(request):
@@ -81,8 +81,8 @@ def fes_hp_sp_get(request):
     # df_fix = pd.concat([df2, df])
 
     # now = dt.datetime.now().strftime('%Y%m%d')
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_{}_sp_{}.csv'.format(basepath, fes_query)
+    # basepath, ext = os.path.splitext(os.path.basename(__file__))
+    oldpath = 'data_fes_hp_sp_{}.csv'.format(fes_query)
 
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
