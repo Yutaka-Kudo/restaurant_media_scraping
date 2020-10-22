@@ -17,8 +17,6 @@ from django.shortcuts import render, redirect
 
 # from .models import Scraping
 
-# from rq import Queue
-# from worker import conn
 
 from .driver_settings import options
 

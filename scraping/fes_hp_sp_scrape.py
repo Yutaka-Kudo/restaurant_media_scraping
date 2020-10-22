@@ -20,8 +20,7 @@ from django.shortcuts import render, redirect
 
 from .models import Fes_hp_sp_scrape
 
-# from rq import Queue
-# from worker import conn
+
 
 from .driver_settings import options
 

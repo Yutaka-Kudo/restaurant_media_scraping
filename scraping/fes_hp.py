@@ -20,9 +20,6 @@ from django.shortcuts import render, redirect
 
 from .models import Fes_hp_sp_scrape
 
-from rq import Queue
-from worker import conn
-
 from .driver_settings import options
 
 
@@ -193,7 +190,3 @@ def fes_hp_sp(request):
     # return render(request, 'scr/garage_hp.html')
 
 
-def fesHpSp(request):
-    q = Queue(connection=conn)
-    result = q.enqueue(fes_hp_sp, "request")
-    return result

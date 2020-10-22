@@ -17,8 +17,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 # from .models import Scraping
 import os
 
-# from rq import Queue
-# from worker import conn
 
 from .driver_settings import options
 

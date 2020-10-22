@@ -18,8 +18,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.urls import reverse
 
-from .grg_hp import grg_hp_sp, grgHpSp
-from .grg_gn import grg_gn_sp, grgGnSp
+from .grg_hp import grg_hp_sp
+from .grg_gn import grg_gn_sp
 from .grg_tb import grg_tb_sp
 from .fes_hp import fes_hp_sp
 # from .fes_hp_sp_get import fes_hp_sp_get
@@ -31,8 +31,6 @@ from .wana_tb import wana_tb_sp
 from .toro_hp import toro_hp_sp
 from .toro_gn import toro_gn_sp
 from .toro_tb import toro_tb_sp
-from rq import Queue
-from worker import conn
 
 from django_pandas.io import read_frame
 import datetime as dt

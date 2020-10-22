@@ -18,8 +18,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.urls import reverse
 
-from rq import Queue
-from worker import conn
+
 
 from .driver_settings import options
 
@@ -166,7 +165,3 @@ def wana_hp_sp(request):
     # return render(request, 'scr/garage_hp.html')
 
 
-def wanaHpSp(request):
-    q = Queue(connection=conn)
-    result = q.enqueue(wana_hp_sp, "request")
-    return result

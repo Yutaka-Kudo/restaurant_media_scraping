@@ -16,16 +16,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 # from django.views.generic import TemplateView
 # from django.urls import reverse
 
-from rq import Queue
-from worker import conn
 
 from .driver_settings import options
 
 
-def wanaGnSp(request):
-    q = Queue(connection=conn)
-    result = q.enqueue(wana_gn_sp, "request")
-    return result
 
 
 def wana_gn_sp(request):

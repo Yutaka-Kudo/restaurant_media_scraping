@@ -18,8 +18,7 @@ from django.views.generic import TemplateView
 from django.urls import reverse
 import os
 
-from rq import Queue
-from worker import conn
+
 
 from .driver_settings import options
 
@@ -178,7 +177,3 @@ def grg_hp_sp(request):
     # return render(request, 'scr/garage_hp.html')
 
 
-def grgHpSp(request):
-    q = Queue(connection=conn)
-    result = q.enqueue(grg_hp_sp, "request")
-    return result

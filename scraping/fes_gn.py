@@ -16,18 +16,11 @@ from django.shortcuts import render, redirect
 # from django.views.generic import TemplateView
 # from django.urls import reverse
 
-from rq import Queue
-from worker import conn
 
 from .driver_settings import options
 
 from .models import Fes_gn_sp_scrape
 
-
-def fesGnSp(request):
-    q = Queue(connection=conn)
-    result = q.enqueue(fes_gn_sp, "request")
-    return result
 
 
 def fes_gn_sp(request):
