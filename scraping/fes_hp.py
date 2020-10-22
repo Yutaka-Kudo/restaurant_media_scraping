@@ -13,7 +13,7 @@ import pandas as pd
 
 # from django.shortcuts import render
 # from .models import Scraping
-# from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 # from django.views.generic import TemplateView
 # from django.urls import reverse
 # import os

@@ -101,7 +101,7 @@ def fes_gn_sp_get(request):
     df = read_frame(qs)
 
     basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_{}_sp_{}.csv'.format(basepath, fes_query)
+    oldpath = 'data_fes_gn_sp_{}.csv'.format(fes_query)
 
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
@@ -120,7 +120,7 @@ def fes_tb_sp_get(request):
     df = read_frame(qs)
 
     basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_{}_sp_{}.csv'.format(basepath, fes_query)
+    oldpath = 'data_fes_tb_sp_{}.csv'.format(fes_query)
 
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
