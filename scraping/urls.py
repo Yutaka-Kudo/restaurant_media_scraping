@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from . import grg_hp
+# from . import grg_hp
 
 
 app_name = 'scraping'
@@ -14,9 +14,11 @@ urlpatterns = [
     path('garage/tb/', views.grg_tb_sp, name='grg_tb_sp'),
     path('fes/', views.fes, name='fes_page'),
     path('fes/gn/', views.fes_gn_sp, name='fes_gn_sp'),
+    path('fes/gn/get/', views.fes_gn_sp_get, name='fes_gn_sp_get'),
     path('fes/hp/', views.fes_hp_sp, name='fes_hp_sp'),
     path('fes/hp/get/', views.fes_hp_sp_get, name='fes_hp_sp_get'),
     path('fes/tb/', views.fes_tb_sp, name='fes_tb_sp'),
+    # path('fes/hp/get/', views.fes_tb_sp_get, name='fes_tb_sp_get'),
     path('wana/', views.wana, name='wana_page'),
     path('wana/gn/', views.wana_gn_sp, name='wana_gn_sp'),
     path('wana/hp/', views.wana_hp_sp, name='wana_hp_sp'),

@@ -3,3 +3,8 @@ $('#datepicker').datepicker({
     monthNames: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
     minViewMode: 'months'
 });
+$('#datepicker2').datepicker({
+    dateFormat: 'yy-mm',
+    monthNames: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+    minViewMode: 'months'
+});

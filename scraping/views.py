@@ -40,7 +40,8 @@ import pandas as pd
 import os
 from django.http import HttpResponse
 from .models import Fes_hp_sp_scrape
-
+from .models import Fes_gn_sp_scrape
+# from .models import Fes_tb_sp_scrape
 
 
 def index(request):
@@ -53,7 +54,6 @@ def index(request):
 def garage(request):
     return render(request, "scr/garage.html")
 
-# fes_query = ""
 
 
 def fes(request):
@@ -68,7 +68,7 @@ def fes_hp_sp_get(request):
     # month_keyでクエリセット
     # qs = Fes_hp_sp_scrape.objects.all()
     qs = Fes_hp_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query) 
+    print(fes_query)
 
     # qs = Fes_hp_sp_scrape.objects.filter(date__gte=dt.date(
     #     2020, 9, 24), date__lte=dt.date(2020, 10, 19))
@@ -89,6 +89,45 @@ def fes_hp_sp_get(request):
     df.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
 
     return response
+
+
+def fes_gn_sp_get(request):
+    fes_query = request.GET.get('q')
+
+    # month_keyでクエリセット
+    qs = Fes_gn_sp_scrape.objects.filter(month_key=fes_query)
+    print(fes_query)
+
+    df = read_frame(qs)
+
+    basepath, ext = os.path.splitext(os.path.basename(__file__))
+    oldpath = 'data_{}_sp_{}.csv'.format(basepath, fes_query)
+
+    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
+    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
+    df.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
+
+    return response
+
+
+def fes_tb_sp_get(request):
+    fes_query = request.GET.get('q')
+
+    # month_keyでクエリセット
+    qs = Fes_tb_sp_scrape.objects.filter(month_key=fes_query)
+    print(fes_query)
+
+    df = read_frame(qs)
+
+    basepath, ext = os.path.splitext(os.path.basename(__file__))
+    oldpath = 'data_{}_sp_{}.csv'.format(basepath, fes_query)
+
+    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
+    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
+    df.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
+
+    return response
+
 
 
 def wana(request):

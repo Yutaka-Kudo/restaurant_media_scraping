@@ -14,10 +14,10 @@
                 </div>
             </div>
             <div class="col-sm-6">
-
-                {% if fes_query %}
-                <p>{{fes_query}}</p>
-                {% endif %}
+                
+                  {% if fes_query %}
+                  <p>{{fes_query}}</p>
+                  {% endif %}
 
 
                 <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
@@ -37,56 +37,44 @@
             <div class="col-md-12">
                 <div class="full">
                     <div class="heading_main text_align_center">
-                        <h2>媒体選択 FES</h2>
+                        <h2>媒体選択  FES</h2>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
-                <div class="full feature_box">
-                    <div class="full icon">
-
+                <a href="{% url 'scraping:fes_gn_sp' %}">
+                    <div class="full feature_box">
+                        <div class="full icon">
+                            <!-- <img class="default-block" src="{% static "images/icon_1.png" %}" alt="#" /> -->
+                            <!-- <img class="default-none" src="{% static "images/icon_1w.png" %}" alt="#" /> -->
+                        </div>
+                        <div class="full">
+                            <h4>ぐるなび</h4>
+                        </div>
+                        <div class="full">
+                        </div>
                     </div>
-                    <div class="full">
-                        <a href="{% url 'scraping:fes_gn_sp' %}">
-
-                        <h4>ぐるなび</h4>
-                        </a>
-                        <form action="{% url 'scraping:fes_gn_sp_get' %}" method="GET">
-                            <input id="datepicker" type="text" name="q" value="年月選択">
-                            <input type="submit">
-                            <script src="{% static 'js/datepicker.js' %}"></script>
-
-                        </form>
-                    </div>
-                    <div class="full">
-                    </div>
-                </div>
+                </a>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
-                <div class="full feature_box">
-                    <div class="full icon">
-                        <!-- <img class="default-block" src="{% static "images/icon_2.png" %}" alt="#" /> -->
-                        <!-- <img class="default-none" src="{% static "images/icon_2w.png" %}" alt="#" /> -->
+                <a href="{% url 'scraping:fes_hp_sp' %}">
+                    <div class="full feature_box">
+                        <div class="full icon">
+                            <!-- <img class="default-block" src="{% static "images/icon_2.png" %}" alt="#" /> -->
+                            <!-- <img class="default-none" src="{% static "images/icon_2w.png" %}" alt="#" /> -->
+                        </div>
+                        <div class="full">
+                            <h4>HotPepper</h4>
+                           
+                        </div>
+                        <div class="full">
+                        </div>
                     </div>
-                    <div class="full">
-                        <a href="{% url 'scraping:fes_hp_sp' %}">
-
-                        <h4>HotPepper</h4>
-                        </a>
-                        <form action="{% url 'scraping:fes_hp_sp_get' %}" method="GET">
-                            <input id="datepicker2" type="text" name="q" value="年月選択">
-                            <input type="submit">
-                            <script src="{% static 'js/datepicker.js' %}"></script>
-
-                        </form>
-                    </div>
-                    <div class="full">
-                    </div>
-                </div>
+                </a>
             </div>
-            <!-- <a href="{% url 'scraping:fes_hp_sp_get' %}">HPげっと</a> -->
+            <a href="{% url 'scraping:fes_hp_sp_get' %}">HPげっと</a>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
                 <a href="{% url 'scraping:fes_tb_sp' %}">
                     <div class="full feature_box">
@@ -102,8 +90,10 @@
                     </div>
                 </a>
             </div>
+            <a href="/static/images/blog4.jpg" download="">いめーじ</a>
         </div>
     </div>
 </div>
 
+<script src="{% static 'js/datepicker.js' %}"></script>
 {% endblock content %}
