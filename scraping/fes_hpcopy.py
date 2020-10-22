@@ -23,7 +23,7 @@ from worker import conn
 
 from .driver_settings import options
 
-def grg_hp_sp(request):
+def fes_hp_sp(request):
     
     error_flg = False
 
@@ -86,9 +86,9 @@ def grg_hp_sp(request):
     # 店舗選択
     if error_flg is False:
         try:
-            elem = driver.find_element_by_link_text('Garage Kitchenあそび　西船橋店')
+            elem = driver.find_element_by_link_text('FES by asobi')
             elem.click()
-            sleep(1)
+            sleep(2)
             print('store select OK!')
         except Exception:
             error_flg = True
@@ -116,24 +116,11 @@ def grg_hp_sp(request):
     sleep(1)
     print('handle OK!')
 
-    # PCラジオボタン
-    try:
-        elem = driver.find_element_by_xpath('/html/body/div[2]/div/div/form/div[3]/table/tbody/tr/td/label[2]/input')
-        elem.click()
-        sleep(1)
-        print('pc radio OK!')
-    except Exception:
-        error_flg = True
-        print('pc radio NG')
-        driver.quit()
-
-
-
     # In[16]:
 
     try:
         df_lists = []
-        i = 25  # 20
+        i = 23  # 20
         while i <= 25:
             # 月選択
             month_select_elem = driver.find_element_by_name('numberCd')
@@ -144,6 +131,7 @@ def grg_hp_sp(request):
             # ここにデータ取得コードを。
             df_list = pd.read_html(driver.page_source)
             df_lists.append(df_list[4])
+            pirnt(i)
 
             i += 1
 
@@ -178,7 +166,7 @@ def grg_hp_sp(request):
     # return render(request, 'scr/garage_hp.html')
 
 
-def grgHpSp(request):
+def fesHpSp(request):
     q = Queue(connection=conn)
-    result = q.enqueue(grg_hp_sp, "request")
+    result = q.enqueue(fes_hp_sp, "request")
     return result

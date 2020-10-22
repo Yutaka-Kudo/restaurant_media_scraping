@@ -15,6 +15,7 @@ urlpatterns = [
     path('fes/', views.fes, name='fes_page'),
     path('fes/gn/', views.fes_gn_sp, name='fes_gn_sp'),
     path('fes/hp/', views.fes_hp_sp, name='fes_hp_sp'),
+    path('fes/hp/get/', views.fes_hp_sp_get, name='fes_hp_sp_get'),
     path('fes/tb/', views.fes_tb_sp, name='fes_tb_sp'),
     path('wana/', views.wana, name='wana_page'),
     path('wana/gn/', views.wana_gn_sp, name='wana_gn_sp'),

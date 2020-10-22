@@ -14,6 +14,15 @@
                 </div>
             </div>
             <div class="col-sm-6">
+                <form action="{% url 'scraping:fes_hp_sp_get' %}" method="GET">
+                    <input id="datepicker" type="text" name="q" value="年月選択">
+                    <input type="submit" >
+                  </form>
+                  {% if fes_query %}
+                  <p>{{fes_query}}</p>
+                  {% endif %}
+
+
                 <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
                     <img src="{% static "images/menu_icon.png" %}"></button>
             </div>
@@ -67,6 +76,7 @@
                     </div>
                 </a>
             </div>
+            <a href="{% url 'scraping:fes_hp_sp_get' %}">HPげっと</a>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
                 <a href="{% url 'scraping:fes_tb_sp' %}">
                     <div class="full feature_box">
@@ -87,4 +97,5 @@
     </div>
 </div>
 
+<script src="{% static 'js/datepicker.js' %}"></script>
 {% endblock content %}

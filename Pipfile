@@ -17,6 +17,7 @@ lxml = "*"
 psycopg2-binary = "*"
 rq = "*"
 redis = "*"
+django-pandas = "*"
 
 [requires]
 python_version = "3.7"
