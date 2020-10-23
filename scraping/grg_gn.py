@@ -124,7 +124,7 @@ def grg_gn_sp(request):
     # SP　クリック
     # if error_flg is False:
     try:
-        # sleep(1)
+        sleep(2)
         elem = driver.find_element_by_xpath("//a[text()='スマートフォン']")
         print('SP btn catch!')
     except Exception:
@@ -135,18 +135,19 @@ def grg_gn_sp(request):
         elem.click()
         print('SP btn click!')
     except Exception:
-        print('SP btn click!')
-        driver.execute_script("window.stop();")
+        print('SP btn click!2')
+        # driver.execute_script("window.stop();")
         # driver.execute_script("window.stop();")
         # error_flg = True
 
     # In[17]:
-    sleep(4)
+    sleep(1)
     # 本番用
     # if error_flg is False:
 
     try:
         i = request.GET.get('w')
+        print(i)
         # 月選択
         month_select_elem = driver.find_element_by_id('ym')
         month_select_object = Select(month_select_elem)

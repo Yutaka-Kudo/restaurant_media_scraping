@@ -124,7 +124,7 @@ def wana_gn_sp(request):
     # SP　クリック
     # if error_flg is False:
     try:
-        # sleep(1)
+        sleep(2)
         elem = driver.find_element_by_xpath("//a[text()='スマートフォン']")
         print('SP btn catch!')
     except Exception:
@@ -141,74 +141,94 @@ def wana_gn_sp(request):
         # error_flg = True
 
     # In[17]:
-    sleep(4)
+    sleep(1)
     # 本番用
     # if error_flg is False:
     try:
-        i = 0
-        # i = request.GET.get('w')
+        i = request.GET.get('w')
+        print(i)
         # 月選択
-        while i <= 15:
-            month_select_elem = driver.find_element_by_id('ym')
-            month_select_object = Select(month_select_elem)
-            month_select_object.select_by_index(i)
-            sleep(2)
+        month_select_elem = driver.find_element_by_id('ym')
+        month_select_object = Select(month_select_elem)
+        month_select_object.select_by_index(i)
+        sleep(2)
 
-            # ここにデータ取得コードを。
-            df_list = pd.read_html(driver.page_source)
-            df = df_list[0]
+        # ここにデータ取得コードを。
+        df_list = pd.read_html(driver.page_source)
+        df = df_list[0]
 
-            df.columns = ['日にち', "天気", "合計", '店舗トップ', 'メニュー',
-                        '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
-            df.drop('天気', axis=1, inplace=True)
-            # df.drop(df.index[list(range(len(df)-3,len(df)))],inplace=True)
-            # どちらでも可
-            df.drop(df.tail(3).index, inplace=True)
-            df.set_index('日にち', inplace=True)
-            df.index = df.index.str.rstrip('(月火水木金土日)')
-            df.index = pd.to_datetime(df.index, format='%Y/%m/%d')
-            df.insert(0, "曜日", df.index.strftime('%a'))
-            df['曜日'].replace({
-                "Mon": "月",
-                "Tue": "火",
-                "Wed": "水",
-                "Thu": "木",
-                "Fri": "金",
-                "Sat": "土",
-                "Sun": "日"
-            }, inplace=True)
-
-
-
-            print('create df_list')
-
-            month = df.index.astype(str)
-            month_fix = month[0][:7]
-
-            for s in df.itertuples():
-                Wana_gn_sp_scrape.objects.update_or_create(
-                    date=s[0],
-                    defaults={
-                        "week": s[1],
-                        "total": s[2],
-                        "top": s[3],
-                        "menu": s[4],
-                        "seat": s[5],
-                        "photo": s[6],
-                        "commitment": s[7],
-                        "map": s[8],
-                        "coupon": s[9],
-                        "reserve": s[10],
-                        "month_key": month_fix,
-                    }
-                )
-
-            i += 1
     except Exception:
-        pass
+        # error_flg = True
+        print('データ収集エラー')
+        driver.quit()
+
     # In[18]:
 
     # In[19]:
+
+    try:
+
+        df.columns = ['日にち', "天気", "合計", '店舗トップ', 'メニュー',
+                      '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
+        df.drop('天気', axis=1, inplace=True)
+        # df.drop(df.index[list(range(len(df)-3,len(df)))],inplace=True)
+        # どちらでも可
+        df.drop(df.tail(3).index, inplace=True)
+        df.set_index('日にち', inplace=True)
+        df.index = df.index.str.rstrip('(月火水木金土日)')
+        df.index = pd.to_datetime(df.index, format='%Y/%m/%d')
+        df.insert(0, "曜日", df.index.strftime('%a'))
+        df['曜日'].replace({
+            "Mon": "月",
+            "Tue": "火",
+            "Wed": "水",
+            "Thu": "木",
+            "Fri": "金",
+            "Sat": "土",
+            "Sun": "日"
+        }, inplace=True)
+
+    except Exception:
+        print('fix NG')
+        driver.quit()
+
+    print('create df_list')
+
+    month = df.index.astype(str)
+    month_fix = month[0][:7]
+
+    # for s in df.itertuples():
+    #     Fes_gn_sp_scrape.objects.create(
+    #         date=s[0],
+    #         week=s[1],
+    #         total=s[2],
+    #         top=s[3],
+    #         menu=s[4],
+    #         seat=s[5],
+    #         photo=s[6],
+    #         commitment=s[7],
+    #         map=s[8],
+    #         coupon=s[9],
+    #         reserve=s[10],
+    #         month_key=month_fix,
+    #     )
+    for s in df.itertuples():
+        Wana_gn_sp_scrape.objects.update_or_create(
+            date=s[0],
+            defaults={
+                "week": s[1],
+                "total": s[2],
+                "top": s[3],
+                "menu": s[4],
+                "seat": s[5],
+                "photo": s[6],
+                "commitment": s[7],
+                "map": s[8],
+                "coupon": s[9],
+                "reserve": s[10],
+                "month_key": month_fix,
+            }
+        )
 
     # In[20]:
 
@@ -217,3 +237,4 @@ def wana_gn_sp(request):
     driver.quit()
 
     return redirect("/dev/")
+    # return render(request, "scr/index.html")
