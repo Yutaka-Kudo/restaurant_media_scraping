@@ -8,7 +8,71 @@
 
 
 {% block content %}
-<form action="{% url 'scraping:fes_gn_sp' %}" method="GET" name="w">FES GN
+<form action="{% url 'scraping:fes_gn_sp' %}" method="POST">FES GN
+    <select name="w" type="text">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+    </select>
+    <input type="submit">
+    {% csrf_token %}
+</form>
+<form action="{% url 'scraping:fes_hp_sp' %}" method="POST" >FES HP
+    <select name="w" type="text">
+        <option value="25">25</option>
+        <option value="24">24</option>
+        <option value="23">23</option>
+        <option value="22">22</option>
+        <option value="21">21</option>
+        <option value="20">20</option>
+        <option value="19">19</option>
+        <option value="18">18</option>
+        <option value="17">17</option>
+        <option value="16">16</option>
+        <option value="15">15</option>
+        <option value="14">14</option>
+        <option value="13">13</option>
+        <option value="12">12</option>
+        <option value="11">11</option>
+        <option value="10">10</option>
+        <option value="9">9</option>
+        <option value="8">8</option>
+        <option value="7">7</option>
+        <option value="6">6</option>
+        <option value="5">5</option>
+        <option value="4">4</option>
+        <option value="3">3</option>
+        <option value="2">2</option>
+        <option value="1">1</option>
+        <option value="0">0</option>
+    </select>
+    <input type="submit">
+    {% csrf_token %}
+</form>
+<form action="{% url 'scraping:fes_tb_sp' %}" method="GET">FES TB
     <select name="w" type="text">
         <option value="0">0</option>
         <option value="1">1</option>
@@ -39,38 +103,7 @@
     </select>
     <input type="submit">
 </form>
-<form action="{% url 'scraping:fes_hp_sp' %}" method="GET" name="w">FES HP
-    <select name="w" type="text">
-        <option value="25">25</option>
-        <option value="24">24</option>
-        <option value="23">23</option>
-        <option value="22">22</option>
-        <option value="21">21</option>
-        <option value="20">20</option>
-        <option value="19">19</option>
-        <option value="18">18</option>
-        <option value="17">17</option>
-        <option value="16">16</option>
-        <option value="15">15</option>
-        <option value="14">14</option>
-        <option value="13">13</option>
-        <option value="12">12</option>
-        <option value="11">11</option>
-        <option value="10">10</option>
-        <option value="9">9</option>
-        <option value="8">8</option>
-        <option value="7">7</option>
-        <option value="6">6</option>
-        <option value="5">5</option>
-        <option value="4">4</option>
-        <option value="3">3</option>
-        <option value="2">2</option>
-        <option value="1">1</option>
-        <option value="0">0</option>
-    </select>
-    <input type="submit">
-</form>
-<form action="{% url 'scraping:fes_tb_sp' %}" method="GET" name="w">FES TB
+<form action="{% url 'scraping:grg_gn_sp' %}" method="GET">grg GN
     <select name="w" type="text">
         <option value="0">0</option>
         <option value="1">1</option>
@@ -101,38 +134,7 @@
     </select>
     <input type="submit">
 </form>
-<form action="{% url 'scraping:grg_gn_sp' %}" method="GET" name="w">grg GN
-    <select name="w" type="text">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-        <option value="13">13</option>
-        <option value="14">14</option>
-        <option value="15">15</option>
-        <option value="16">16</option>
-        <option value="17">17</option>
-        <option value="18">18</option>
-        <option value="19">19</option>
-        <option value="20">20</option>
-        <option value="21">21</option>
-        <option value="22">22</option>
-        <option value="23">23</option>
-        <option value="24">24</option>
-        <option value="25">25</option>
-    </select>
-    <input type="submit">
-</form>
-<form action="{% url 'scraping:grg_hp_sp' %}" method="GET" name="w">grg HP
+<form action="{% url 'scraping:grg_hp_sp' %}" method="GET">grg HP
     <select name="w" type="text">
         <option value="25">25</option>
         <option value="24">24</option>
@@ -163,7 +165,7 @@
     </select>
     <input type="submit">
 </form>
-<form action="{% url 'scraping:grg_tb_sp' %}" method="GET" name="w">grg TB
+<form action="{% url 'scraping:grg_tb_sp' %}" method="GET">grg TB
     <select name="w" type="text">
         <option value="0">0</option>
         <option value="1">1</option>
@@ -194,7 +196,7 @@
     </select>
     <input type="submit">
 </form>
-<form action="{% url 'scraping:toro_gn_sp' %}" method="GET" name="w">toro GN
+<form action="{% url 'scraping:toro_gn_sp' %}" method="GET">toro GN
     <select name="w" type="text">
         <option value="0">0</option>
         <option value="1">1</option>
@@ -225,7 +227,7 @@
     </select>
     <input type="submit">
 </form>
-<form action="{% url 'scraping:toro_hp_sp' %}" method="GET" name="w">toro HP
+<form action="{% url 'scraping:toro_hp_sp' %}" method="GET">toro HP
     <select name="w" type="text">
         <option value="25">25</option>
         <option value="24">24</option>
@@ -256,7 +258,7 @@
     </select>
     <input type="submit">
 </form>
-<form action="{% url 'scraping:toro_tb_sp' %}" method="GET" name="w">toro TB
+<form action="{% url 'scraping:toro_tb_sp' %}" method="GET">toro TB
     <select name="w" type="text">
         <option value="0">0</option>
         <option value="1">1</option>
@@ -287,7 +289,7 @@
     </select>
     <input type="submit">
 </form>
-<form action="{% url 'scraping:wana_gn_sp' %}" method="GET" name="w">wana GN
+<form action="{% url 'scraping:wana_gn_sp' %}" method="GET">wana GN
     <select name="w" type="text">
         <option value="0">0</option>
         <option value="1">1</option>
@@ -318,7 +320,7 @@
     </select>
     <input type="submit">
 </form>
-<form action="{% url 'scraping:wana_hp_sp' %}" method="GET" name="w">wana HP
+<form action="{% url 'scraping:wana_hp_sp' %}" method="GET">wana HP
     <select name="w" type="text">
         <option value="25">25</option>
         <option value="24">24</option>
@@ -349,7 +351,7 @@
     </select>
     <input type="submit">
 </form>
-<form action="{% url 'scraping:wana_tb_sp' %}" method="GET" name="w">wana TB
+<form action="{% url 'scraping:wana_tb_sp' %}" method="GET">wana TB
     <select name="w" type="text">
         <option value="0">0</option>
         <option value="1">1</option>

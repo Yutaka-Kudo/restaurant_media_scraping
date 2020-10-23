@@ -147,7 +147,7 @@ def fes_gn_sp(request):
     # 本番用
     # if error_flg is False:
     try:
-        i = request.GET.get('w')
+        i = request.POST.get('w')
         print(i)
         # 月選択
         month_select_elem = driver.find_element_by_id('ym')

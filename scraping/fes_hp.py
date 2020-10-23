@@ -127,7 +127,7 @@ def fes_hp_sp(request):
     # In[16]:
 
     try:
-        i = request.GET.get('w')
+        i = request.POST.get('w')
         # 月選択
         month_select_elem = driver.find_element_by_name('numberCd')
         month_select_object = Select(month_select_elem)
