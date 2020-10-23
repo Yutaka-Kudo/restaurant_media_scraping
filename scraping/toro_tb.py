@@ -8,19 +8,20 @@ from time import sleep
 import pandas as pd
 import datetime as dt
 # import itertools
+import os
 
 from django.http import HttpResponse, HttpResponseRedirect
-# from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 # from django.views.generic import TemplateView
 # from django.urls import reverse
 
 # from .models import Scraping
-import os
 
 
 from .driver_settings import options
 
 # import random
+from .models import Toro_tb_sp_scrape
 
 
 def toro_tb_sp(request):
@@ -109,28 +110,22 @@ def toro_tb_sp(request):
             driver.quit()
 
     try:
-        df_lists = []
-        i = 2
-        while i >= 0:
-            # 月選択
-            month_select_elem = driver.find_element_by_id('report-month-first')
-            month_select_object = Select(month_select_elem)
-            month_select_object.select_by_index(i)
-            sleep(1)
+        i = request.GET.get('w')
+        # 月選択
+        month_select_elem = driver.find_element_by_id('report-month-first')
+        month_select_object = Select(month_select_elem)
+        month_select_object.select_by_index(i)
+        sleep(1)
 
-            # ここにデータ取得コードを。
-            df_list = pd.read_html(driver.page_source)
-            df_lists.append(df_list[0])
-
-            i -= 1
-
+        # ここにデータ取得コードを。
+        df_list = pd.read_html(driver.page_source)
+        df = df_list[0]
     except Exception:
         error_flg = True
         print('データ収集エラー')
         driver.quit()
 
-    df_list_fix = []
-    for df in df_lists:
+    try:
         df.drop(df.tail(1).index, inplace=True)
         df.set_index("日付", inplace=True)
         df.index = df.index.str.rstrip('(月火水木金土日)')
@@ -145,22 +140,39 @@ def toro_tb_sp(request):
             "Sat": "土",
             "Sun": "日"
         }, inplace=True)
+    except Exception:
+        print('fix NG')
+        driver.quit()
 
-        df_list_fix.append(df)
-
-    df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
     print('create df_list')
 
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    now = dt.datetime.now().strftime('%Y%m%d')
-    oldpath = 'data_{}_sp_{}.csv'.format(basepath, now)
-    
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df_fix.to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
+    # df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
+    # print('create df_list')
+    month = df.index.astype(str)
+    month_fix = month[0][:7]
+
+    for s in df.itertuples():
+        Toro_tb_sp_scrape.objects.update_or_create(
+            date=s[0],
+            defaults={
+                "week": s[1],
+                "top": s[2],
+                "photo": s[3],
+                "photo_info": s[4],
+                "rating": s[5],
+                "menu": s[6],
+                "map": s[7],
+                "coupon": s[8],
+                "p_coupon": s[9],
+                "seat": s[10],
+                "other": s[11],
+                "total": s[12],
+                "month_key": month_fix,
+            }
+        )
 
     sleep(1)
     driver.quit()
 
-    return response
+    return redirect('/dev/')
     # return render(request, 'scr/garage_hp.html')

@@ -14,6 +14,9 @@
                 </div>
             </div>
             <div class="col-sm-6">
+                {% if fes_query %}
+                <p>{{fes_query}}</p>
+                {% endif %}
                 <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
                     <img src="{% static "images/menu_icon.png" %}"></button>
             </div>
@@ -31,58 +34,67 @@
             <div class="col-md-12">
                 <div class="full">
                     <div class="heading_main text_align_center">
-                        <h2>媒体選択  罠一目</h2>
+                        <h2>媒体選択 罠 一目</h2>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
-                <!-- <a href="{% url 'scraping:wana_gn_sp' %}"> -->
-                    <div class="full feature_box">
-                        <div class="full icon">
-                            <!-- <img class="default-block" src="{% static "images/icon_1.png" %}" alt="#" /> -->
-                            <!-- <img class="default-none" src="{% static "images/icon_1w.png" %}" alt="#" /> -->
-                        </div>
-                        <div class="full">
-                            <h4>ぐるなび</h4>
-                        </div>
-                        <div class="full">
-                        </div>
+                <div class="full feature_box">
+                    <div class="full icon">
+
                     </div>
-                <!-- </a> -->
+                    <div class="full">
+                        <h4>ぐるなび</h4>
+                        <form action="{% url 'scraping:wana_gn_sp_get' %}" method="GET">
+                            <input id="datepicker" type="text" name="q" value="年月選択">
+                            <input type="submit">
+                            <script src="{% static 'js/datepicker.js' %}"></script>
+
+                        </form>
+                    </div>
+                    <div class="full">
+                    </div>
+                </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
-                <a href="{% url 'scraping:wana_hp_sp' %}">
-                    <div class="full feature_box">
-                        <div class="full icon">
-                            <!-- <img class="default-block" src="{% static "images/icon_2.png" %}" alt="#" /> -->
-                            <!-- <img class="default-none" src="{% static "images/icon_2w.png" %}" alt="#" /> -->
-                        </div>
-                        <div class="full">
-                            <h4>HotPepper</h4>
-                        </div>
-                        <div class="full">
-                        </div>
+                <div class="full feature_box">
+                    <div class="full icon">
+                        <!-- <img class="default-block" src="{% static "images/icon_2.png" %}" alt="#" /> -->
+                        <!-- <img class="default-none" src="{% static "images/icon_2w.png" %}" alt="#" /> -->
                     </div>
-                </a>
+                    <div class="full">
+                        <h4>HotPepper</h4>
+                        <form action="{% url 'scraping:wana_hp_sp_get' %}" method="GET">
+                            <input id="datepicker2" type="text" name="q" value="年月選択">
+                            <input type="submit">
+                            <script src="{% static 'js/datepicker.js' %}"></script>
+
+                        </form>
+                    </div>
+                    <div class="full">
+                    </div>
+                </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
-                <a href="{% url 'scraping:wana_tb_sp' %}">
-                    <div class="full feature_box">
-                        <div class="full icon">
-                            <!-- <img class="default-block" src="{% static "images/icon_3.png" %}" alt="#" /> -->
-                            <!-- <img class="default-none" src="{% static "images/icon_3w.png" %}" alt="#" /> -->
-                        </div>
-                        <div class="full">
-                            <h4>食べログ</h4>
-                        </div>
-                        <div class="full">
-                        </div>
+                <div class="full feature_box">
+                    <div class="full icon">
+                        <!-- <img class="default-block" src="{% static "images/icon_3.png" %}" alt="#" /> -->
+                        <!-- <img class="default-none" src="{% static "images/icon_3w.png" %}" alt="#" /> -->
                     </div>
-                </a>
+                    <div class="full">
+                        <h4>食べログ</h4>
+                        <form action="{% url 'scraping:wana_tb_sp_get' %}" method="GET">
+                            <input id="datepicker3" type="text" name="q" value="年月選択">
+                            <input type="submit">
+                            <script src="{% static 'js/datepicker.js' %}"></script>
+                        </form>
+                    </div>
+                    <div class="full">
+                    </div>
+                </div>
             </div>
-            <a href="/static/images/blog4.jpg" download="">いめーじ</a>
         </div>
     </div>
 </div>

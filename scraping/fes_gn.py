@@ -74,7 +74,7 @@ def fes_gn_sp(request):
     # driver.set_page_load_timeout(10)
     try:
         elem = driver.find_element_by_xpath('/html/body/center/div/div[3]/div[1]/div[1]/input')
-        print('in btn chatch!')
+        print('in btn catch!')
     except Exception:
         print('in btn catch NG')
         driver.quit()
@@ -151,7 +151,7 @@ def fes_gn_sp(request):
         # 月選択
         month_select_elem = driver.find_element_by_id('ym')
         month_select_object = Select(month_select_elem)
-        month_select_object.select_by_index(3)
+        month_select_object.select_by_index(i)
         sleep(2)
 
         # ここにデータ取得コードを。
