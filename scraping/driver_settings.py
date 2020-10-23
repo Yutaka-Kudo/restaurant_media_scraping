@@ -19,7 +19,7 @@ options.add_argument('--disable-desktop-notifications')
 options.add_argument("--disable-extensions")
 options.add_argument('--lang=ja')
 options.add_argument('--blink-settings=imagesEnabled=false')  # 画像なし
-# options.add_argument('--no-sandbox')
+options.add_argument('--no-sandbox')
 # options.binary_location = '/usr/bin/google-chrome'
 options.add_argument('--proxy-bypass-list=*')      # すべてのホスト名
 options.add_argument('--proxy-server="direct://"')  # Proxy経由ではなく直接接続する
