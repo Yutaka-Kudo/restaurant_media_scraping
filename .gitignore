@@ -4,3 +4,5 @@ db.sqlite3
 local_settings.py
 .venv
 .vscode
+スクレイプ図.key
+pwd.py

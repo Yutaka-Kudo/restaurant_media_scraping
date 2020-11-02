@@ -21,6 +21,7 @@ from django.shortcuts import render, redirect
 from .models import Fes_hp_sp_scrape
 
 
+from . import pwd
 
 from .driver_settings import options
 
@@ -44,8 +45,8 @@ def fes_hp_sp(request):
     # sleep(1)
 
     # In[8]:
-    user_name = "C329569"
-    pw = "fes130!!"
+    user_name = pwd.hpi
+    pw = pwd.hpp
 
     # In[10]:
 

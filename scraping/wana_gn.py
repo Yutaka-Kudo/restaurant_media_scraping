@@ -16,6 +16,7 @@ from django.shortcuts import render, redirect
 # from django.views.generic import TemplateView
 # from django.urls import reverse
 
+from . import pwd
 
 from .driver_settings import options
 
@@ -38,8 +39,8 @@ def wana_gn_sp(request):
     except Exception:
         driver.execute_script("window.stop();")
 
-    user_name = "ga42908"
-    pw = "12297646"
+    user_name = pwd.wgi
+    pw = pwd.wgp
 
     # フォーム取得
     try:

@@ -16,6 +16,7 @@ from django.shortcuts import render, redirect
 # from django.views.generic import TemplateView
 # from django.urls import reverse
 
+from . import pwd
 
 from .driver_settings import options
 
@@ -38,8 +39,8 @@ def grg_gn_sp(request):
     except Exception:
         driver.execute_script("window.stop();")
 
-    user_name = "ga42902"
-    pw = "45675678"
+    user_name = pwd.ggi
+    pw = pwd.ggp
 
     # フォーム取得
     try:

@@ -20,6 +20,7 @@ from django.shortcuts import render, redirect
 from .driver_settings import options
 
 from .models import Fes_gn_sp_scrape
+from . import pwd
 
 
 
@@ -40,8 +41,8 @@ def fes_gn_sp(request):
     except Exception:
         driver.execute_script("window.stop();")
 
-    user_name = "ga42905"
-    pw = "82527275"
+    user_name = pwd.fgi
+    pw = pwd.fgp
 
     # フォーム取得
     try:

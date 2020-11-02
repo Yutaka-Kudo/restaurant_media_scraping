@@ -19,6 +19,7 @@ from django.shortcuts import render, redirect
 
 
 from .driver_settings import options
+from . import pwd
 
 # import random
 from .models import Wana_tb_sp_scrape
@@ -38,8 +39,8 @@ def wana_tb_sp(request):
     print('get url!')
     # sleep(1)
 
-    user_name = "brguav"
-    pw = "Questa130"
+    user_name = pwd.tbi
+    pw = pwd.tbp
 
     # フォーム取得
     id_input = driver.find_element_by_id('login_id')
@@ -109,8 +110,9 @@ def wana_tb_sp(request):
             print('日別アクセス数レポートクリックエラー')
             driver.quit()
 
-    try:
-        i = request.GET.get('w')
+    i = 0
+    while i <= 15:
+        # i = request.GET.get('w')
         # 月選択
         month_select_elem = driver.find_element_by_id('report-month-first')
         month_select_object = Select(month_select_elem)
@@ -120,12 +122,7 @@ def wana_tb_sp(request):
         # ここにデータ取得コードを。
         df_list = pd.read_html(driver.page_source)
         df = df_list[0]
-    except Exception:
-        error_flg = True
-        print('データ収集エラー')
-        driver.quit()
 
-    try:
         df.drop(df.tail(1).index, inplace=True)
         df.set_index("日付", inplace=True)
         df.index = df.index.str.rstrip('(月火水木金土日)')
@@ -140,37 +137,32 @@ def wana_tb_sp(request):
             "Sat": "土",
             "Sun": "日"
         }, inplace=True)
-    except Exception:
-        print('fix NG')
-        driver.quit()
 
-    print('create df_list')
+        # df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
+        # print('create df_list')
+        month = df.index.astype(str)
+        month_fix = month[0][:7]
 
-    # df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
-    # print('create df_list')
-    month = df.index.astype(str)
-    month_fix = month[0][:7]
-
-    for s in df.itertuples():
-        Wana_tb_sp_scrape.objects.update_or_create(
-            date=s[0],
-            defaults={
-                "week": s[1],
-                "top": s[2],
-                "photo": s[3],
-                "photo_info": s[4],
-                "rating": s[5],
-                "menu": s[6],
-                "map": s[7],
-                "coupon": s[8],
-                "p_coupon": s[9],
-                "seat": s[10],
-                "other": s[11],
-                "total": s[12],
-                "month_key": month_fix,
-            }
-        )
-
+        for s in df.itertuples():
+            Wana_tb_sp_scrape.objects.update_or_create(
+                date=s[0],
+                defaults={
+                    "week": s[1],
+                    "top": s[2],
+                    "photo": s[3],
+                    "photo_info": s[4],
+                    "rating": s[5],
+                    "menu": s[6],
+                    "map": s[7],
+                    "coupon": s[8],
+                    "p_coupon": s[9],
+                    "seat": s[10],
+                    "other": s[11],
+                    "total": s[12],
+                    "month_key": month_fix,
+                }
+            )
+        i += 1
     sleep(1)
     driver.quit()
 

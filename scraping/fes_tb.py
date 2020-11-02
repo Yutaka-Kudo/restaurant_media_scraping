@@ -17,6 +17,7 @@ from django.shortcuts import render, redirect
 
 # from .models import Scraping
 
+from . import pwd
 
 from .driver_settings import options
 
@@ -38,8 +39,8 @@ def fes_tb_sp(request):
     print('get url!')
     # sleep(1)
 
-    user_name = "brguav"
-    pw = "Questa130"
+    user_name = pwd.tbi
+    pw = pwd.tbp
 
     # フォーム取得
     id_input = driver.find_element_by_id('login_id')

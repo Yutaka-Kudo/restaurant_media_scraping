@@ -17,6 +17,7 @@ from django.shortcuts import render, redirect
 # from django.views.generic import TemplateView
 # from django.urls import reverse
 # import os
+from . import pwd
 
 from .models import Toro_hp_sp_scrape
 
@@ -42,8 +43,8 @@ def toro_hp_sp(request):
     # sleep(1)
 
     # In[8]:
-    user_name = "C329569"
-    pw = "fes130!!"
+    user_name = pwd.hpi
+    pw = pwd.hpp
 
     # In[10]:
 

@@ -19,6 +19,7 @@ from django.shortcuts import render, redirect
 
 
 from .driver_settings import options
+from . import pwd
 
 # import random
 from .models import Grg_tb_sp_scrape
@@ -38,8 +39,8 @@ def grg_tb_sp(request):
     print('get url!')
     # sleep(1)
 
-    user_name = "brguav"
-    pw = "Questa130"
+    user_name = pwd.tbi
+    pw = pwd.tbp
 
     # フォーム取得
     id_input = driver.find_element_by_id('login_id')
