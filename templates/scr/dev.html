@@ -8,6 +8,8 @@
 
 
 {% block content %}
+<center>
+<a href="{% url 'scraping:allrun' %}">all run</a>
 <form action="{% url 'scraping:fes_gn_sp' %}" method="POST">FES GN
     <select name="w" type="text">
         <option value="0">0</option>
@@ -382,4 +384,5 @@
     </select>
     <input type="submit">
 </form>
+</center>
 {% endblock content %}

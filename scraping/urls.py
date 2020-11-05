@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, allrun
 # from . import grg_hp
 
 
@@ -9,6 +9,7 @@ app_name = 'scraping'
 urlpatterns = [
     path('', views.index, name="index"),
     path('dev/', views.dev, name="dev"),
+    path('dev/allrun', allrun.allrun, name="allrun"),
     path('garage/', views.garage, name='garage_page'),
     path('garage/gn/', views.grg_gn_sp, name='grg_gn_sp'),
     path('garage/gn/get/', views.grg_gn_sp_get, name='grg_gn_sp_get'),

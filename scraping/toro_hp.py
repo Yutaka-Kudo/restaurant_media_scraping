@@ -132,7 +132,7 @@ def toro_hp_sp(request):
         # 月選択
         month_select_elem = driver.find_element_by_name('numberCd')
         month_select_object = Select(month_select_elem)
-        month_select_object.select_by_index(i)  # 23は8月
+        month_select_object.select_by_index(i)  #11は10月
         sleep(1)
         # SPクリック
         driver.find_element_by_xpath(
