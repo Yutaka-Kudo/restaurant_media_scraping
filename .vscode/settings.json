@@ -8,5 +8,6 @@
         "paddding",
         "responsiveslides",
         "smoothscroll"
-    ]
+    ],
+    "python.pythonPath": "/Users/yutakakudo/.pyenv/shims/python"
 }

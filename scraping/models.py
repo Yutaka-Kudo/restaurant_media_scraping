@@ -21,7 +21,7 @@ class Fes_hp_sp_scrape(models.Model):
     day_over_day_changes = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 class Grg_hp_sp_scrape(models.Model):
     # title = models.CharField(max_length=100)
@@ -39,7 +39,7 @@ class Grg_hp_sp_scrape(models.Model):
     day_over_day_changes = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 class Toro_hp_sp_scrape(models.Model):
     # title = models.CharField(max_length=100)
@@ -57,7 +57,7 @@ class Toro_hp_sp_scrape(models.Model):
     day_over_day_changes = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 class Wana_hp_sp_scrape(models.Model):
     # title = models.CharField(max_length=100)
@@ -75,7 +75,7 @@ class Wana_hp_sp_scrape(models.Model):
     day_over_day_changes = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 class Fes_gn_sp_scrape(models.Model):
     # title = models.CharField(max_length=100)
@@ -93,7 +93,7 @@ class Fes_gn_sp_scrape(models.Model):
     reserve = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 class Grg_gn_sp_scrape(models.Model):
     # title = models.CharField(max_length=100)
@@ -111,7 +111,7 @@ class Grg_gn_sp_scrape(models.Model):
     reserve = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 class Toro_gn_sp_scrape(models.Model):
     # title = models.CharField(max_length=100)
@@ -129,7 +129,7 @@ class Toro_gn_sp_scrape(models.Model):
     reserve = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 class Wana_gn_sp_scrape(models.Model):
     # title = models.CharField(max_length=100)
@@ -147,7 +147,7 @@ class Wana_gn_sp_scrape(models.Model):
     reserve = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 
 class Fes_tb_sp_scrape(models.Model):
@@ -168,7 +168,7 @@ class Fes_tb_sp_scrape(models.Model):
     total = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 class Grg_tb_sp_scrape(models.Model):
     # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
@@ -187,7 +187,7 @@ class Grg_tb_sp_scrape(models.Model):
     total = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 class Toro_tb_sp_scrape(models.Model):
     # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
@@ -206,7 +206,7 @@ class Toro_tb_sp_scrape(models.Model):
     total = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 class Wana_tb_sp_scrape(models.Model):
     # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
@@ -225,4 +225,4 @@ class Wana_tb_sp_scrape(models.Model):
     total = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
