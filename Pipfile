@@ -18,6 +18,7 @@ psycopg2-binary = "*"
 rq = "*"
 redis = "*"
 django-pandas = "*"
+devtools = "*"
 
 [requires]
 python_version = "3.7"

@@ -8,6 +8,8 @@ app_name = 'scraping'
 
 urlpatterns = [
     path('', views.index, name="index"),
+    path('admin/', views.admin_scr, name='admin'),
+
     path('dev/', views.dev, name="dev"),
     path('dev/allrun', allrun.allrun, name="allrun"),
     path('garage/', views.garage, name='garage_page'),
@@ -20,7 +22,7 @@ urlpatterns = [
     path('fes/', views.fes, name='fes_page'),
     path('fes/gn/', views.fes_gn_sp, name='fes_gn_sp'),
     path('fes/gn/get/', views.fes_gn_sp_get, name='fes_gn_sp_get'),
-    path('fes/hp/', views.fes_hp_sp, name='fes_hp_sp'),
+    path('fes/hp', views.fes_hp_sp, name='fes_hp_sp'),
     path('fes/hp/get/', views.fes_hp_sp_get, name='fes_hp_sp_get'),
     path('fes/tb/', views.fes_tb_sp, name='fes_tb_sp'),
     path('fes/tb/get/', views.fes_tb_sp_get, name='fes_tb_sp_get'),

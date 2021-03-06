@@ -1,16 +1,6 @@
 from django.contrib import admin
-from .models import Fes_hp_sp_scrape
-from .models import Fes_gn_sp_scrape
-from .models import Fes_tb_sp_scrape
-from .models import Grg_gn_sp_scrape
-from .models import Grg_hp_sp_scrape
-from .models import Grg_tb_sp_scrape
-from .models import Toro_gn_sp_scrape
-from .models import Toro_hp_sp_scrape
-from .models import Toro_tb_sp_scrape
-from .models import Wana_gn_sp_scrape
-from .models import Wana_hp_sp_scrape
-from .models import Wana_tb_sp_scrape
+from scraping.models import *
+
 # Register your models here.
 
 
@@ -96,3 +86,24 @@ class Wana_tb_sp_scrapeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Wana_tb_sp_scrape, Wana_tb_sp_scrapeAdmin)
+
+
+class Wananakame_hp_sp_scrapeAdmin(admin.ModelAdmin):
+    list_display = ("date", "week")
+
+
+admin.site.register(Wananakame_hp_sp_scrape, Wananakame_hp_sp_scrapeAdmin)
+
+
+class Wananakame_gn_sp_scrapeAdmin(admin.ModelAdmin):
+    list_display = ("date", "week")
+
+
+admin.site.register(Wananakame_gn_sp_scrape, Wananakame_gn_sp_scrapeAdmin)
+
+
+class Wananakame_tb_sp_scrapeAdmin(admin.ModelAdmin):
+    list_display = ("date", "week")
+
+
+admin.site.register(Wananakame_tb_sp_scrape, Wananakame_tb_sp_scrapeAdmin)

@@ -17,10 +17,10 @@ from django.shortcuts import render, redirect
 # from django.urls import reverse
 
 
-from .driver_settings import options
+from scraping.driver_settings import options
 
-from .models import Fes_gn_sp_scrape
-from . import pwd
+from scraping.models import Fes_gn_sp_scrape
+from scraping import pwd
 
 
 

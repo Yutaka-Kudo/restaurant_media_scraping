@@ -37,19 +37,7 @@ import datetime as dt
 import pandas as pd
 import os
 from django.http import HttpResponse
-from .models import (Fes_hp_sp_scrape,
-                     Fes_gn_sp_scrape,
-                     Fes_tb_sp_scrape,
-                     Grg_hp_sp_scrape,
-                     Grg_gn_sp_scrape,
-                     Grg_tb_sp_scrape,
-                     Toro_hp_sp_scrape,
-                     Toro_gn_sp_scrape,
-                     Toro_tb_sp_scrape,
-                     Wana_hp_sp_scrape,
-                     Wana_gn_sp_scrape,
-                     Wana_tb_sp_scrape,
-                     )
+from scraping.models import *
 
 
 def index(request):
@@ -57,6 +45,10 @@ def index(request):
 
 # class Index(TemplateView):
 #     template_name = "scr/index.html"
+
+
+def admin_scr(request):
+    return redirect('/admin/')
 
 
 def dev(request):
