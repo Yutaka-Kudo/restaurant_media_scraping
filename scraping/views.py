@@ -1,50 +1,13 @@
-# from selenium import webdriver
-# from selenium.webdriver.support.select import Select
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
-# import chromedriver_binary
-# from time import sleep
-# import pandas as pd
-# import datetime as dt
-# import itertools
-# import os
-# import random
-# from django.http import HttpResponse, HttpResponseRedirect
-
-# from django.shortcuts import render
-# from .models import Scraping
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from django.urls import reverse
-
-from .grg_hp import grg_hp_sp
-from .grg_gn import grg_gn_sp
-from .grg_tb import grg_tb_sp
-from .fes_hp import fes_hp_sp
-# from .fes_hp_sp_get import fes_hp_sp_get
-from .fes_gn import fes_gn_sp
-from .fes_tb import fes_tb_sp
-from .wana_hp import wana_hp_sp
-from .wana_gn import wana_gn_sp
-from .wana_tb import wana_tb_sp
-from .toro_hp import toro_hp_sp
-from .toro_gn import toro_gn_sp
-from .toro_tb import toro_tb_sp
 
 from django_pandas.io import read_frame
-import datetime as dt
-import pandas as pd
 import os
 from django.http import HttpResponse
-from scraping.models import *
+from scraping import models
 
 
 def index(request):
     return render(request, "scr/index.html")
-
-# class Index(TemplateView):
-#     template_name = "scr/index.html"
 
 
 def admin_scr(request):
@@ -63,7 +26,7 @@ def grg_gn_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Grg_gn_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Grg_gn_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "total", "top",
@@ -85,7 +48,7 @@ def grg_hp_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Grg_hp_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Grg_hp_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "pv_all_sp", "pv_top_sp", "pv_coupon_sp", "cvr_sp",
@@ -94,7 +57,7 @@ def grg_hp_sp_get(request):
                   "CVR（SP）", "電話件数（SP）", "予約件数（SP）", "予約件数（ホットペッパー）", "予約件数（ホームページ）", "前日比"]
 
     basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_grg_hp_sp_{}.csv'.format(fes_query)
+    oldpath = 'data__{}.csv'.format(fes_query)
 
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
@@ -107,7 +70,7 @@ def grg_tb_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Grg_tb_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Grg_tb_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "top", "photo", "photo_info",
@@ -135,8 +98,8 @@ def fes_hp_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    # qs = Fes_hp_sp_scrape.objects.all()
-    qs = Fes_hp_sp_scrape.objects.filter(month_key=fes_query)
+    # qs = models.Fes_hp_sp_scrape.objects.all()
+    qs = models.Fes_hp_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     # qs = Fes_hp_sp_scrape.objects.filter(date__gte=dt.date(
@@ -168,7 +131,7 @@ def fes_gn_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Fes_gn_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Fes_gn_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "total", "top",
@@ -190,7 +153,7 @@ def fes_tb_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Fes_tb_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Fes_tb_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "top", "photo", "photo_info",
@@ -216,7 +179,7 @@ def wana_gn_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Wana_gn_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Wana_gn_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "total", "top",
@@ -238,7 +201,7 @@ def wana_hp_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Wana_hp_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Wana_hp_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "pv_all_sp", "pv_top_sp", "pv_coupon_sp", "cvr_sp",
@@ -260,7 +223,7 @@ def wana_tb_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Wana_tb_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Wana_tb_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "top", "photo", "photo_info",
@@ -288,7 +251,7 @@ def toro_gn_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Toro_gn_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Toro_gn_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "total", "top",
@@ -310,7 +273,7 @@ def toro_hp_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Toro_hp_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Toro_hp_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "pv_all_sp", "pv_top_sp", "pv_coupon_sp", "cvr_sp",
@@ -332,7 +295,7 @@ def toro_tb_sp_get(request):
     fes_query = request.GET.get('q')
 
     # month_keyでクエリセット
-    qs = Toro_tb_sp_scrape.objects.filter(month_key=fes_query)
+    qs = models.Toro_tb_sp_scrape.objects.filter(month_key=fes_query)
     print(fes_query)
 
     df = read_frame(qs, fieldnames=["date", "week", "top", "photo", "photo_info",

@@ -1,2 +1,158 @@
-{% extends 'scr/base.html' %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<!-- Basic -->
+
+<head>
+   <meta charset="utf-8">
+   <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+   <!-- Mobile Metas -->
+   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+   <!-- Site Metas -->
+   <title>Restaurant-Media-Scraping</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <!-- Site Icons -->
+   <link rel="icon" href="{% static 'favicon.ico' %}">
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+   integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+   integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+ </script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+   
+</head>
+
+
+<body id="about" class="inner_page" data-spy="scroll" data-target="#navbar-wd" data-offset="98">
+ 
+   <div class="wrapper">
+      <nav id="sidebar">
+         <div class="menu_section">
+            <ul>
+               <!-- <li><a href="index.html">Home</a></li>
+               <li><a href="about.html">About</a></li>
+               <li><a href="services.html">Services</a></li>
+               <li><a href="contact.html">Contact us</a></li> -->
+            </ul>
+         </div>
+      </nav>
+      <div id="content">
+         <!-- Start header -->
+         {% block head %}
+         <header class="top-header">
+            <div class="container">
+               <div class="row">
+                  <div class="col-sm-6">
+                     <div class="logo_main">
+                        <!-- <a href="index.html"> -->
+                        <h2>Web媒体データ取得</h2>
+                        <!-- </a> -->
+                     </div>
+                  </div>
+                  <div class="col-sm-6">
+                     <a href="{% url 'scraping:dev' %}">
+                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                           <img src="{% static "images/menu_icon.png" %}"></button>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </header>
+         {% endblock head %}
+
+         <!-- End header -->
+         <!-- Start Banner -->
+
+         {% block content %}
+
+
+         <!-- section -->
+         <div class="section about_section layout_padding dash_bg">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="full">
+                        <div class="heading_main text_align_center">
+                           <h2>店舗選択</h2>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
+                     <a href="{% url 'scraping:fes_page' %}">
+                        <div class="full feature_box">
+                           <div class="full icon">
+                           </div>
+                           <div class="full">
+                              <h4>Fes</h4>
+                           </div>
+                           <div class="full">
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
+                     <a href="{% url 'scraping:wana_page' %}">
+                        <div class="full feature_box">
+                           <div class="full icon">
+                           </div>
+                           <div class="full">
+                              <h4>罠　一目</h4>
+                           </div>
+                           <div class="full">
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
+                     <a href="{% url 'scraping:garage_page' %}">
+                        <div class="full feature_box">
+                           <div class="full icon">
+                             
+                           </div>
+                           <div class="full">
+                              <h4>Garage</h4>
+                           </div>
+                           <div class="full">
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
+                     <a href="{% url 'scraping:toro_page' %}">
+                        <div class="full feature_box">
+                           <div class="full icon">
+                             
+                           </div>
+                           <div class="full">
+                              <h4>灯籠</h4>
+                           </div>
+                           <div class="full">
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         {% endblock content %}
+
+         <!-- end section -->
+         <!-- section -->
+
+         <!-- end section -->
+
+
+<a href="{% url 'scraping:admin' %}" class="function-btn3"><button>管理画面</button></a>
+
+</body>
+
+</html>

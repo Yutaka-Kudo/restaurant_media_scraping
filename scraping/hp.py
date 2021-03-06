@@ -5,7 +5,7 @@ from selenium.webdriver.support.select import Select
 # from selenium.webdriver.support import expected_conditions as EC
 # import chromedriver_binary
 from time import sleep
-from datetime import datetime, date
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import pandas as pd
 from devtools import debug
@@ -26,7 +26,7 @@ from scraping import pwd
 from scraping.driver_settings import options
 
 
-def fes_hp_sp(request):
+def hp_sp(request):
     # 選択店取得
     store_list = [request.GET.get("fes"), request.GET.get("garage"), request.GET.get("tourou"), request.GET.get("wanaichi"), request.GET.get("wananakame")]
     store_list = list(filter(None, store_list))  # Noneを除外
@@ -86,19 +86,16 @@ def fes_hp_sp(request):
         pw_input.send_keys(pwd.hpp)
         print('input OK!')
     except Exception:
-        print('インプットエラー')
         driver.quit()
-        raise Exception
+        raise Exception('インプットエラー')
 
     try:
         pw_input.submit()
         sleep(1)
         print('login OK!')
     except Exception:
-        print('ログインエラー')
         driver.quit()
-        raise Exception
-    
+        raise Exception('ログインエラー')
 
     def get_data(store_name):
         # 店舗選択
@@ -119,6 +116,7 @@ def fes_hp_sp(request):
             dbmodel = models.Wananakame_hp_sp_scrape
         else:
             elem = None
+            driver.quit()
             raise Exception('店舗選択エラー1')
 
         elem.click()
@@ -146,8 +144,8 @@ def fes_hp_sp(request):
             sleep(1)
             print('report btn click OK!')
         except Exception:
-            print('レポートボタンクリックエラー')
             driver.quit()
+            raise Exception('レポートボタンクリックエラー')
 
         handle_array = driver.window_handles
         print(handle_array[0])
@@ -199,28 +197,26 @@ def fes_hp_sp(request):
 
                 print(f'{date} insert db!')
         except Exception:
-            print('データ収集エラー')
             driver.quit()
-            raise Exception
+            raise Exception('データ収集エラー')
 
     # 本体ーーーーーーー
     for store_name in store_list:
         get_data(store_name)
         driver.get("https://www.cms.hotpepper.jp/CLN/storeSelect/")
 
+        # In[13]:
+        # print('create df_list')
 
-            # In[13]:
-            # print('create df_list')
+        # basepath, ext = os.path.splitext(os.path.basename(__file__))
+        # now = dt.datetime.now().strftime('%Y%m')
+        # oldpath = 'data_{}_sp_{}.csv'.format(basepath, now)
 
-            # basepath, ext = os.path.splitext(os.path.basename(__file__))
-            # now = dt.datetime.now().strftime('%Y%m')
-            # oldpath = 'data_{}_sp_{}.csv'.format(basepath, now)
+        # response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
+        # response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
+        # df_list[4].to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
 
-            # response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-            # response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-            # df_list[4].to_csv(path_or_buf=response, float_format='%.2f', decimal=",")
-
-            # sleep(1)
+        # sleep(1)
     driver.quit()
 
     return redirect("/dev/")

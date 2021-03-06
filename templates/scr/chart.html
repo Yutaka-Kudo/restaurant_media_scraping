@@ -1,0 +1,141 @@
+{% extends 'scr/index.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<canvas id='chart'></canvas>
+
+<!-- <div class="df_table">
+    <table border="3">
+        <tr>
+            <th></th>
+            {% for day in dayList %}
+            <th>{{day}}</th>
+            {% endfor %}
+        </tr>
+        {% for index,data in df_forTable_l.iterrows %}
+        <tr>
+            <td>            
+                {{index}}
+            </td>
+            {% for d in data %}
+            <td>
+                {{d}}
+            </td>
+            {% endfor %}
+        </tr>
+        
+        {% endfor %}
+        
+    </table>
+    正確率{{accuracy_l}}
+</div> -->
+
+<canvas id='fesDinnerChart'></canvas>
+
+<div class="df_table">
+    <table border="3">
+        <tr>
+            <th></th>
+            {% for day in dayList %}
+            <th>{{day}}</th>
+            {% endfor %}
+        </tr>
+        {% for index,data in df_forTable_d.iterrows %}
+        <tr>
+            <td>
+                {{index}}
+            </td>
+            {% for d in data %}
+            <td>
+                {{d}}
+            </td>
+            {% endfor %}
+        </tr>
+
+        {% endfor %}
+
+    </table>
+    正確率{{accuracy_d}}
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+    // ーーーー昼ーーーーー
+    const list = [];
+    {% for i in xticks %}
+    list.push("{{i}}")
+    {% endfor %}
+
+    new Chart(document.getElementById("chart"), {
+        type: "line",
+        data: {
+            labels: list,
+            datasets: [{
+                label: "実際客数",
+                data: {{ actually_l }},
+        borderColor: ["rgb(25, 99, 132)"],
+        lineTension: 0,
+        fill: false,
+        // borderWidth:
+    }, {
+        label: "予測",
+        data: {{ pred_l }},
+        borderColor: ["rgb(255, 99, 132)"],
+        lineTension: 0,
+        fill: false,
+                // borderWidth:
+            },
+
+
+            ],
+        },
+        options: {
+        title: {
+            display: true,
+            text: '{{store}}:ランチ'
+        },
+    }
+    });
+
+
+    // ーーーーーーよるーーーーーー
+    const list_d = [];
+    {% for i in xticks %}
+    list_d.push("{{i}}")
+    {% endfor %}
+
+    new Chart(document.getElementById("fesDinnerChart"), {
+        type: "line",
+        data: {
+            labels: list_d,
+            datasets: [{
+                label: "実際客数",
+                data: {{ actually_d }},
+        borderColor: ["rgb(25, 99, 132)"],
+        lineTension: 0,
+        fill: false,
+        // borderWidth:
+    }, {
+        label: "予測",
+        data: {{ pred_d }},
+        borderColor: ["rgb(255, 99, 132)"],
+        lineTension: 0,
+        fill: false,
+                // borderWidth:
+            },
+
+
+            ],
+        },
+        options: {
+        title: {
+            display: true,
+            text: '{{store}}ディナー'
+        },
+    }
+    });
+</script>
+{% endblock content %}
