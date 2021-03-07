@@ -107,3 +107,38 @@ class Wananakame_tb_sp_scrapeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Wananakame_tb_sp_scrape, Wananakame_tb_sp_scrapeAdmin)
+
+
+class Fes_GMBAdmin(admin.ModelAdmin):
+    list_display = ("span", "total_evaluation")
+
+
+admin.site.register(Fes_GMB, Fes_GMBAdmin)
+
+
+class Grg_GMBAdmin(admin.ModelAdmin):
+    list_display = ("span", "total_evaluation")
+
+
+admin.site.register(Grg_GMB, Grg_GMBAdmin)
+
+
+class Toro_GMBAdmin(admin.ModelAdmin):
+    list_display = ("span", "total_evaluation")
+
+
+admin.site.register(Toro_GMB, Toro_GMBAdmin)
+
+
+class Wanaichi_GMBAdmin(admin.ModelAdmin):
+    list_display = ("span", "total_evaluation")
+
+
+admin.site.register(Wanaichi_GMB, Wanaichi_GMBAdmin)
+
+
+class Wananakame_GMBAdmin(admin.ModelAdmin):
+    list_display = ("span", "total_evaluation")
+
+
+admin.site.register(Wananakame_GMB, Wananakame_GMBAdmin)

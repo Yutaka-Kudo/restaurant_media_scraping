@@ -23,7 +23,7 @@ from django.shortcuts import render, redirect
 from scraping import models
 from scraping import pwd
 
-from scraping.driver_settings import options
+from scraping.site_package.driver_settings import options
 
 
 def hp_sp(request):

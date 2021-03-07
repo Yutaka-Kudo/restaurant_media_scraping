@@ -18,7 +18,7 @@ from django.shortcuts import render, redirect
 # from django.urls import reverse
 
 
-from scraping.driver_settings import options
+from scraping.site_package.driver_settings import options
 
 from scraping import models
 from scraping import pwd

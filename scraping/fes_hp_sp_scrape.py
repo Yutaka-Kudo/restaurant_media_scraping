@@ -23,7 +23,7 @@ from .models import Fes_hp_sp_scrape
 
 from . import pwd
 
-from .driver_settings import options
+from scraping.site_package.driver_settings import options
 
 
 def fes_hp_sp(request):

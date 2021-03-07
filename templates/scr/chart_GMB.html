@@ -36,39 +36,6 @@
                 fill: false,
                         // borderWidth:
             },
-
-            ],
-        },
-        options: {
-            title: {
-                display: true,
-                text: '{{store}}:{{media}}'
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        min: 0,
-                        max: 500,
-                        stepSize: 100,
-                    },
-
-                }],
-            },
-        },
-    });
-
-
-    const list_d = [];
-    {% for i in xticks %}
-    list_d.push("{{i}}")
-    {% endfor %}
-
-    new Chart(document.getElementById("chart2"), {
-        type: "line",
-        data: {
-            labels: list_d,
-            datasets: [
-
             {
                 label: '{{data3_name}}',
                 data: {{ data3 }},
@@ -84,8 +51,39 @@
                 lineTension: 0,
                 fill: false,
                         // borderWidth:
-            },
+            }, 
 
+            ],
+        },
+        options: {
+        title: {
+            display: true,
+            text: '{{store}}:{{media}}'
+            },
+            scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 25000,
+                            // stepSize: ,
+                        },
+
+                    }],
+                },
+        }
+    });
+
+
+    const list_d = [];
+    {% for i in xticks %}
+    list_d.push("{{i}}")
+    {% endfor %}
+
+    new Chart(document.getElementById("chart2"), {
+        type: "line",
+        data: {
+            labels: list_d,
+            datasets: [
             {
                 label: '{{data5_name}}',
                 data: {{ data5 }},
@@ -97,23 +95,22 @@
 
                     ],
                 },
-                options: {
-                    title: {
+            options: {
+                title: {
                     display: true,
-                    text: ''
-                    },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                min: 0,
-                                max: 60,
-                                // stepSize: 10,
-                            },
+                    text: '{{store}}{{data5_name}}'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 150,
+                            // stepSize: 150,
+                        },
 
-                        }],
-            },
-
-                }
+                    }],
+                },
+        }
     });
 </script>
 {% endblock content %}

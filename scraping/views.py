@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect
 
 from django_pandas.io import read_frame
+import pandas as pd
 import os
 from django.http import HttpResponse
 from scraping import models
-
-
-def index(request):
-    return render(request, "scr/index.html")
+from devtools import debug
+import datetime
 
 
 def admin_scr(request):
@@ -18,24 +17,71 @@ def dev(request):
     return render(request, 'scr/dev.html')
 
 
-def garage(request):
-    return render(request, "scr/garage.html")
+def index(request):
+    return render(request, "scr/index.html")
 
 
-def grg_gn_sp_get(request):
-    fes_query = request.GET.get('q')
+def store_page(request, store):
+    return render(request, "scr/store.html", {"store": store})
+
+
+def create_df(query, store, media):
+    if media == "gn":
+        fieldnames = ["date", "week", "total", "top", "menu", "seat", "photo", "commitment", "map", "coupon", "reserve"]
+        rename_col = ['日付', "曜日", "合計", '店舗トップ', 'メニュー', '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
+        if store == "fes":
+            dbmodel = models.Fes_gn_sp_scrape
+        elif store == "garage":
+            dbmodel = models.Grg_gn_sp_scrape
+        elif store == "tourou":
+            dbmodel = models.Toro_gn_sp_scrape
+        elif store == "wanaichi":
+            dbmodel = models.Wana_gn_sp_scrape
+        elif store == "wananakame":
+            dbmodel = models.Wananakame_gn_sp_scrape
+    elif media == "hp":
+        fieldnames = ["date", "week", "pv_all_sp", "pv_top_sp", "pv_coupon_sp", "cvr_sp", "tell_sp", "reserve_sp", "reserve_hp", "reserve_homepage", "day_over_day_changes"]
+        rename_col = ["日付", "曜日", "店舗総PV（SP）", "店舗TOP PV（SP）", "クーポンページPV（SP）", "CVR（SP）", "電話件数（SP）", "予約件数（SP）", "予約件数（ホットペッパー）", "予約件数（ホームページ）", "前日比"]
+        if store == "fes":
+            dbmodel = models.Fes_hp_sp_scrape
+        elif store == "garage":
+            dbmodel = models.Grg_hp_sp_scrape
+        elif store == "tourou":
+            dbmodel = models.Toro_hp_sp_scrape
+        elif store == "wanaichi":
+            dbmodel = models.Wana_hp_sp_scrape
+        elif store == "wananakame":
+            dbmodel = models.Wananakame_hp_sp_scrape
+    elif media == "tb":
+        fieldnames = ["date", "week", "top", "photo", "photo_info", "rating", "menu", "map", "coupon", "p_coupon", "seat", "other", "total"]
+        rename_col = ["日付", "曜日", "店舗トップ", "写真一覧", "写真詳細", "口コミ・評価", "メニュー", "お店地図", "クーポン", "プレミアムクーポン", "座席情報", "その他", "店舗全体（合計）"]
+        if store == "fes":
+            dbmodel = models.Fes_tb_sp_scrape
+        elif store == "garage":
+            dbmodel = models.Grg_tb_sp_scrape
+        elif store == "tourou":
+            dbmodel = models.Toro_tb_sp_scrape
+        elif store == "wanaichi":
+            dbmodel = models.Wana_tb_sp_scrape
+        elif store == "wananakame":
+            dbmodel = models.Wananakame_tb_sp_scrape
 
     # month_keyでクエリセット
-    qs = models.Grg_gn_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
+    qs = dbmodel.objects.filter(month_key=query)
+    print(query)
 
-    df = read_frame(qs, fieldnames=["date", "week", "total", "top",
-                                    "menu", "seat", "photo", "commitment", "map", "coupon", "reserve"])
-    df.columns = ['日にち', "曜日", "合計", '店舗トップ', 'メニュー',
-                  '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
+    df = read_frame(qs, fieldnames=fieldnames)
+    df.columns = rename_col
+
+    return df
+
+
+def download_excel(request, store: str, media: str):
+    query: str = request.GET.get('q')
+    df = create_df(query, store, media)
 
     basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_grg_gn_sp_{}.csv'.format(fes_query)
+    oldpath = f'data_{store}_gn_sp_{query}.csv'
 
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
@@ -44,270 +90,105 @@ def grg_gn_sp_get(request):
     return response
 
 
-def grg_hp_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    qs = models.Grg_hp_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    df = read_frame(qs, fieldnames=["date", "week", "pv_all_sp", "pv_top_sp", "pv_coupon_sp", "cvr_sp",
-                                    "tell_sp", "reserve_sp", "reserve_hp", "reserve_homepage", "day_over_day_changes"])
-    df.columns = ["日付", "曜日", "店舗総PV（SP）", "店舗TOP PV（SP）", "クーポンページPV（SP）",
-                  "CVR（SP）", "電話件数（SP）", "予約件数（SP）", "予約件数（ホットペッパー）", "予約件数（ホームページ）", "前日比"]
-
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data__{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
-
-
-def grg_tb_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    qs = models.Grg_tb_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    df = read_frame(qs, fieldnames=["date", "week", "top", "photo", "photo_info",
-                                    "rating", "menu", "map", "coupon", "p_coupon", "seat", "other", "total"])
-    df.columns = ["日付", "曜日", "店舗トップ", "写真一覧", "写真詳細", "口コミ・評価",
-                  "メニュー", "お店地図", "クーポン", "プレミアムクーポン", "座席情報", "その他", "店舗全体（合計）"]
-
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_grg_tb_sp_{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
-
-
-def fes(request):
-    fes_query = request.GET.get('q')
-    print(fes_query)
-    return render(request, "scr/fes.html", {'fes_query': fes_query})
-
-
-def fes_hp_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    # qs = models.Fes_hp_sp_scrape.objects.all()
-    qs = models.Fes_hp_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    # qs = Fes_hp_sp_scrape.objects.filter(date__gte=dt.date(
-    #     2020, 9, 24), date__lte=dt.date(2020, 10, 19))
-    # qs2 = Fes_hp_sp_scrape.objects.filter(date__gte=dt.date(
-    #     2020, 8, 27), date__lte=dt.date(2020, 9, 23))
-
-    df = read_frame(qs, fieldnames=["date", "week", "pv_all_sp", "pv_top_sp", "pv_coupon_sp", "cvr_sp",
-                                    "tell_sp", "reserve_sp", "reserve_hp", "reserve_homepage", "day_over_day_changes"])
-    df.columns = ["日付", "曜日", "店舗総PV（SP）", "店舗TOP PV（SP）", "クーポンページPV（SP）",
-                  "CVR（SP）", "電話件数（SP）", "予約件数（SP）", "予約件数（ホットペッパー）", "予約件数（ホームページ）", "前日比"]
-
-    # df2 = read_frame(qs2)
-
-    # df_fix = pd.concat([df2, df])
-
-    # now = dt.datetime.now().strftime('%Y%m%d')
-    # basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_fes_hp_sp_{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
-
-
-def fes_gn_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    qs = models.Fes_gn_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    df = read_frame(qs, fieldnames=["date", "week", "total", "top",
-                                    "menu", "seat", "photo", "commitment", "map", "coupon", "reserve"])
-    df.columns = ['日にち', "曜日", "合計", '店舗トップ', 'メニュー',
-                  '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
-
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_fes_gn_sp_{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
-
-
-def fes_tb_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    qs = models.Fes_tb_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    df = read_frame(qs, fieldnames=["date", "week", "top", "photo", "photo_info",
-                                    "rating", "menu", "map", "coupon", "p_coupon", "seat", "other", "total"])
-    df.columns = ["日付", "曜日", "店舗トップ", "写真一覧", "写真詳細", "口コミ・評価",
-                  "メニュー", "お店地図", "クーポン", "プレミアムクーポン", "座席情報", "その他", "店舗全体（合計）"]
-
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_fes_tb_sp_{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
-
-
-def wana(request):
-    return render(request, "scr/wana_ichimoku.html")
-
-
-def wana_gn_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    qs = models.Wana_gn_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    df = read_frame(qs, fieldnames=["date", "week", "total", "top",
-                                    "menu", "seat", "photo", "commitment", "map", "coupon", "reserve"])
-    df.columns = ['日にち', "曜日", "合計", '店舗トップ', 'メニュー',
-                  '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
-
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_wana_gn_sp_{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
-
-
-def wana_hp_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    qs = models.Wana_hp_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    df = read_frame(qs, fieldnames=["date", "week", "pv_all_sp", "pv_top_sp", "pv_coupon_sp", "cvr_sp",
-                                    "tell_sp", "reserve_sp", "reserve_hp", "reserve_homepage", "day_over_day_changes"])
-    df.columns = ["日付", "曜日", "店舗総PV（SP）", "店舗TOP PV（SP）", "クーポンページPV（SP）",
-                  "CVR（SP）", "電話件数（SP）", "予約件数（SP）", "予約件数（ホットペッパー）", "予約件数（ホームページ）", "前日比"]
-
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_wana_hp_sp_{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
-
-
-def wana_tb_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    qs = models.Wana_tb_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    df = read_frame(qs, fieldnames=["date", "week", "top", "photo", "photo_info",
-                                    "rating", "menu", "map", "coupon", "p_coupon", "seat", "other", "total"])
-    df.columns = ["日付", "曜日", "店舗トップ", "写真一覧", "写真詳細", "口コミ・評価",
-                  "メニュー", "お店地図", "クーポン", "プレミアムクーポン", "座席情報", "その他", "店舗全体（合計）"]
-
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_wana_tb_sp_{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
-
-
-def toro(request):
-    return render(request, "scr/toro.html")
-# class Garage(TemplateView):
-#     template_name = "scr/garage.html"
-
-
-def toro_gn_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    qs = models.Toro_gn_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    df = read_frame(qs, fieldnames=["date", "week", "total", "top",
-                                    "menu", "seat", "photo", "commitment", "map", "coupon", "reserve"])
-    df.columns = ['日にち', "曜日", "合計", '店舗トップ', 'メニュー',
-                  '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
-
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_toro_gn_sp_{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
-
-
-def toro_hp_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    qs = models.Toro_hp_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    df = read_frame(qs, fieldnames=["date", "week", "pv_all_sp", "pv_top_sp", "pv_coupon_sp", "cvr_sp",
-                                    "tell_sp", "reserve_sp", "reserve_hp", "reserve_homepage", "day_over_day_changes"])
-    df.columns = ["日付", "曜日", "店舗総PV（SP）", "店舗TOP PV（SP）", "クーポンページPV（SP）",
-                  "CVR（SP）", "電話件数（SP）", "予約件数（SP）", "予約件数（ホットペッパー）", "予約件数（ホームページ）", "前日比"]
-
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_toro_hp_sp_{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
-
-
-def toro_tb_sp_get(request):
-    fes_query = request.GET.get('q')
-
-    # month_keyでクエリセット
-    qs = models.Toro_tb_sp_scrape.objects.filter(month_key=fes_query)
-    print(fes_query)
-
-    df = read_frame(qs, fieldnames=["date", "week", "top", "photo", "photo_info",
-                                    "rating", "menu", "map", "coupon", "p_coupon", "seat", "other", "total"])
-    df.columns = ["日付", "曜日", "店舗トップ", "写真一覧", "写真詳細", "口コミ・評価",
-                  "メニュー", "お店地図", "クーポン", "プレミアムクーポン", "座席情報", "その他", "店舗全体（合計）"]
-
-    basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = 'data_toro_tb_sp_{}.csv'.format(fes_query)
-
-    response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
-    response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
-    df.to_csv(path_or_buf=response, index=False, float_format='%.2f', decimal=",")
-
-    return response
+def chart(request, store: str, media: str):
+    query: str = request.GET.get('q')
+    df = create_df(query, store, media)
+    dates = [datetime.date.strftime(s, '%Y-%m-%d') for s in df["日付"]]
+    # dates = list(map(lambda x:  datetime.date.strftime(x, '%Y-%m-%d') ,list(df["日付"])))
+    xticks = list(dates + df["曜日"])
+
+    if media == "gn":
+        total = list(df["合計"])
+        data2 = list(df["店舗トップ"])
+        data2_name = "店舗トップ"
+        data3 = list(df["地図"])
+        data3_name = "地図"
+        data4 = list(df["クーポン"])
+        data4_name = "クーポン"
+        data5 = list(df["予約"])
+        data5_name = "予約"
+    if media == "hp":
+        total = list(df["店舗総PV（SP）"])
+        data2 = list(df["店舗TOP PV（SP）"])
+        data2_name = "店舗TOP PV（SP）"
+        # = list(df["クーポンページPV（SP）"])
+        # = list(df["クーポンページPV（SP）"])
+        data3 = list(df["CVR（SP）"])
+        data3 = [float(i[:-1]) for i in list(df["CVR（SP）"])]
+        data3_name = "CVR（SP）"
+        data4 = list(df["予約件数（SP）"])
+        data4_name = "予約件数（SP）"
+        data5 = list(df["予約件数（ホットペッパー）"])
+        data5_name = "予約件数（ホットペッパー）"
+        #  = list(df["予約件数（ホームページ）"])
+        #  = list(df["予約件数（ホームページ）"])
+    if media == "tb":
+        total = list(df["店舗全体（合計）"])
+        data2 = list(df["店舗トップ"])
+        data2_name = "店舗トップ"
+        data3 = list(df["口コミ・評価"])
+        data3_name = "口コミ・評価"
+        data4 = list(df["お店地図"])
+        data4_name = "お店地図"
+        data5 = list(df["クーポン"])
+        data5_name = "クーポン"
+
+    context = {
+        "store": store,
+        "media": media,
+        "df": df,
+        "xticks": xticks,
+        "total": total,
+        "data2": data2,
+        "data2_name": data2_name,
+        "data3": data3,
+        "data3_name": data3_name,
+        "data4": data4,
+        "data4_name": data4_name,
+        "data5": data5,
+        "data5_name": data5_name,
+    }
+    return render(request, "scr/chart.html", context)
+
+
+def chart_GMB(request, store):
+    if store == "fes":
+        dbmodel = models.Fes_GMB
+    elif store == "garage":
+        dbmodel = models.Grg_GMB
+    elif store == "tourou":
+        dbmodel = models.Toro_GMB
+    elif store == "wanaichi":
+        dbmodel = models.Wanaichi_GMB
+    elif store == "wananakame":
+        dbmodel = models.Wananakame_GMB
+
+    df = pd.DataFrame(dbmodel.objects.all().values())
+
+    xticks = list(df["span"])
+
+    total = list(df["total_show"])
+    data2 = list(df["total_search"])
+    data2_name = "合計検索数"
+    data3 = list(df["direct_search"])
+    data3_name = "直接検索数"
+    data4 = list(df["indirect_search"])
+    data4_name = "間接検索数"
+    data5 = list(df["total_action"])
+    data5_name = "合計反応数"
+
+    context = {
+        "store": store,
+        "df": df,
+        "xticks": xticks,
+        "total": total,
+        "data2": data2,
+        "data2_name": data2_name,
+        "data3": data3,
+        "data3_name": data3_name,
+        "data4": data4,
+        "data4_name": data4_name,
+        "data5": data5,
+        "data5_name": data5_name,
+    }
+    return render(request, "scr/chart_GMB.html", context)

@@ -28,13 +28,14 @@
 
 {% block content %}
 
+    
 <div class="section about_section layout_padding dash_bg">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="full">
                     <div class="heading_main text_align_center">
-                        <h2>媒体選択 FES</h2>
+                        <h2>媒体選択 {{store}}</h2>
                     </div>
                 </div>
             </div>
@@ -47,8 +48,15 @@
                     </div>
                     <div class="full">
                         <h4>ぐるなび</h4>
-                        <form action="{% url 'scraping:fes_gn_sp_get' %}" method="GET">
+                        <form action="{% url 'scraping:download_excel' store=store media='gn' %}" method="GET">
                             <input id="datepicker" type="text" name="q" value="年月選択">
+                            <input type="submit">
+                            <script src="{% static 'js/datepicker.js' %}"></script>
+
+                        </form>
+
+                        <form action="{% url 'scraping:chart' store=store media='gn' %}" method="GET">
+                            <input id="datepicker4" type="text" name="q" value="年月選択">
                             <input type="submit">
                             <script src="{% static 'js/datepicker.js' %}"></script>
 
@@ -66,8 +74,15 @@
                     </div>
                     <div class="full">
                         <h4>HotPepper</h4>
-                        <form action="{% url 'scraping:fes_hp_sp_get' %}" method="GET">
+                        <form action="{% url 'scraping:download_excel' store=store media='hp'  %}" method="GET">
                             <input id="datepicker2" type="text" name="q" value="年月選択">
+                            <input type="submit">
+                            <script src="{% static 'js/datepicker.js' %}"></script>
+
+                        </form>
+
+                        <form action="{% url 'scraping:chart' store=store media='hp' %}" method="GET">
+                            <input id="datepicker5" type="text" name="q" value="年月選択">
                             <input type="submit">
                             <script src="{% static 'js/datepicker.js' %}"></script>
 
@@ -84,18 +99,29 @@
                     </div>
                     <div class="full">
                         <h4>食べログ</h4>
-                        <form action="{% url 'scraping:fes_tb_sp_get' %}" method="GET">
+                        <form action="{% url 'scraping:download_excel' store=store media='tb' %}" method="GET">
                             <input id="datepicker3" type="text" name="q" value="年月選択">
                             <input type="submit">
                             <script src="{% static 'js/datepicker.js' %}"></script>
+                        </form>
+
+                        <form action="{% url 'scraping:chart' store=store media='tb' %}" method="GET">
+                            <input id="datepicker6" type="text" name="q" value="年月選択">
+                            <input type="submit">
+                            <script src="{% static 'js/datepicker.js' %}"></script>
+
                         </form>
                     </div>
                     <div class="full">
                     </div>
                 </div>
             </div>
+            <form action="{% url 'scraping:chart_GMB' store=store %}" method="GET">
+                <h4>GMB</h4>
+                <input type="submit" value="GMB">
+            </form>
         </div>
+        
     </div>
 </div>
-
 {% endblock content %}

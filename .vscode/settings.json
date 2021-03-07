@@ -12,5 +12,5 @@
         "wngi",
         "wngp"
     ],
-    "python.pythonPath": "/Users/yutakakudo/.pyenv/shims/python"
+    "python.pythonPath": "~/.venvs/restaurant_media_scraping-HY-cjz-z/bin/python"
 }
