@@ -362,6 +362,7 @@ class Wananakame_tb_sp_scrape(models.Model):
 
 class Fes_GMB(models.Model):
     # title = models.CharField(max_length=100)
+    span_id = models.CharField("期間ID", default='0', max_length=20, blank=False, null=False)
     span = models.CharField("期間", max_length=20, blank=False, null=False, primary_key=True)
     total_evaluation = models.FloatField("総合評価", blank=True, null=True)
     total_search = models.IntegerField("合計検索数", blank=True, null=True)
@@ -385,6 +386,7 @@ class Fes_GMB(models.Model):
 
 class Grg_GMB(models.Model):
     # title = models.CharField(max_length=100)
+    span_id = models.CharField("期間ID", default='0', max_length=20, blank=False, null=False)
     span = models.CharField("期間", max_length=20, blank=False, null=False, primary_key=True)
     total_evaluation = models.FloatField("総合評価", blank=True, null=True)
     total_search = models.IntegerField("合計検索数", blank=True, null=True)
@@ -408,6 +410,7 @@ class Grg_GMB(models.Model):
 
 class Toro_GMB(models.Model):
     # title = models.CharField(max_length=100)
+    span_id = models.CharField("期間ID", default='0', max_length=20, blank=False, null=False)
     span = models.CharField("期間", max_length=20, blank=False, null=False, primary_key=True)
     total_evaluation = models.FloatField("総合評価", blank=True, null=True)
     total_search = models.IntegerField("合計検索数", blank=True, null=True)
@@ -431,6 +434,7 @@ class Toro_GMB(models.Model):
 
 class Wanaichi_GMB(models.Model):
     # title = models.CharField(max_length=100)
+    span_id = models.CharField("期間ID", default='0', max_length=20, blank=False, null=False)
     span = models.CharField("期間", max_length=20, blank=False, null=False, primary_key=True)
     total_evaluation = models.FloatField("総合評価", blank=True, null=True)
     total_search = models.IntegerField("合計検索数", blank=True, null=True)
@@ -454,6 +458,7 @@ class Wanaichi_GMB(models.Model):
 
 class Wananakame_GMB(models.Model):
     # title = models.CharField(max_length=100)
+    span_id = models.CharField("期間ID", default='0', max_length=20, blank=False, null=False)
     span = models.CharField("期間", max_length=20, blank=False, null=False, primary_key=True)
     total_evaluation = models.FloatField("総合評価", blank=True, null=True)
     total_search = models.IntegerField("合計検索数", blank=True, null=True)

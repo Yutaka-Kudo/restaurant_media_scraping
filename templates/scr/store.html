@@ -49,17 +49,21 @@
                     <div class="full">
                         <h4>ぐるなび</h4>
                         <form action="{% url 'scraping:download_excel' store=store media='gn' %}" method="GET">
-                            <input id="datepicker" type="text" name="q" value="年月選択">
+                            <select name="q" >
+                                {% for span in span_list %}
+                                <option value="{{span}}">{{span}}</option>
+                                {% endfor %}
+                            </select>
                             <input type="submit">
-                            <script src="{% static 'js/datepicker.js' %}"></script>
-
                         </form>
 
                         <form action="{% url 'scraping:chart' store=store media='gn' %}" method="GET">
-                            <input id="datepicker4" type="text" name="q" value="年月選択">
+                            <select name="q" >
+                                {% for span in span_list %}
+                                <option value="{{span}}">{{span}}</option>
+                                {% endfor %}
+                            </select>
                             <input type="submit">
-                            <script src="{% static 'js/datepicker.js' %}"></script>
-
                         </form>
                     </div>
                     <div class="full">
@@ -75,17 +79,21 @@
                     <div class="full">
                         <h4>HotPepper</h4>
                         <form action="{% url 'scraping:download_excel' store=store media='hp'  %}" method="GET">
-                            <input id="datepicker2" type="text" name="q" value="年月選択">
+                            <select name="q" >
+                                {% for span in span_list %}
+                                <option value="{{span}}">{{span}}</option>
+                                {% endfor %}
+                            </select>
                             <input type="submit">
-                            <script src="{% static 'js/datepicker.js' %}"></script>
-
                         </form>
 
                         <form action="{% url 'scraping:chart' store=store media='hp' %}" method="GET">
-                            <input id="datepicker5" type="text" name="q" value="年月選択">
+                            <select name="q" >
+                                {% for span in span_list %}
+                                <option value="{{span}}">{{span}}</option>
+                                {% endfor %}
+                            </select>
                             <input type="submit">
-                            <script src="{% static 'js/datepicker.js' %}"></script>
-
                         </form>
                     </div>
                     <div class="full">
@@ -100,16 +108,21 @@
                     <div class="full">
                         <h4>食べログ</h4>
                         <form action="{% url 'scraping:download_excel' store=store media='tb' %}" method="GET">
-                            <input id="datepicker3" type="text" name="q" value="年月選択">
+                            <select name="q" >
+                                {% for span in span_list %}
+                                <option value="{{span}}">{{span}}</option>
+                                {% endfor %}
+                            </select>
                             <input type="submit">
-                            <script src="{% static 'js/datepicker.js' %}"></script>
                         </form>
 
                         <form action="{% url 'scraping:chart' store=store media='tb' %}" method="GET">
-                            <input id="datepicker6" type="text" name="q" value="年月選択">
+                            <select name="q" >
+                                {% for span in span_list %}
+                                <option value="{{span}}">{{span}}</option>
+                                {% endfor %}
+                            </select>
                             <input type="submit">
-                            <script src="{% static 'js/datepicker.js' %}"></script>
-
                         </form>
                     </div>
                     <div class="full">

@@ -1,8 +1,33 @@
 {% extends 'scr/index.html' %}
 {% load static %}
 
+{% block head %}
+<header class="top-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="logo_main">
+                    <!-- <a href="index.html"> -->
+                    <h2>Web媒体データ取得</h2>
+                    <!-- </a> -->
+                </div>
+            </div>
+            <form action="{% url 'scraping:chart' store=store media=media %}" method="GET">
+                <input type="submit" name="move" value='before'>
+                <select name="q" >
+                    <option value="{{date}}">{{date}}</option>
+                </select>
+                <input type="submit" name="move" value='after'>
+            </form>
+            
+        </div>
+    </div>
+</header>
+{% endblock head %}
 
 {% block content %}
+
+
 
 <canvas id='chart' height="120"></canvas>
 <canvas id='chart2' height="120"></canvas>
@@ -21,7 +46,7 @@
             labels: list,
             datasets: [{
 
-                label: "合計PV",
+                label: "合計PV {{total_1}}",
                 data: {{ total }},
                 borderColor: ["rgb(00, 00, 00)"],
                 lineTension: 0,
@@ -29,7 +54,7 @@
                 // borderWidth:
             }, 
             {
-                label: '{{data2_name}}',
+                label: '{{data2_name}} {{total_2}}',
                 data: {{ data2 }},
                 borderColor: ["rgb(00, 80, 255)"],
                 lineTension: 0,
@@ -48,7 +73,7 @@
                 yAxes: [{
                     ticks: {
                         min: 0,
-                        max: 500,
+                        max: 1000,
                         stepSize: 100,
                     },
 
@@ -70,7 +95,7 @@
             datasets: [
 
             {
-                label: '{{data3_name}}',
+                label: '{{data3_name}} {{total_3}}',
                 data: {{ data3 }},
                 borderColor: ["rgb(00, 255, 00)"],
                 lineTension: 0,
@@ -78,7 +103,7 @@
                         // borderWidth:
             },
             {
-                label: '{{data4_name}}',
+                label: '{{data4_name}} {{total_4}}',
                 data: {{ data4 }},
                 borderColor: ["rgb(255, 00, 00)"],
                 lineTension: 0,
@@ -87,7 +112,7 @@
             },
 
             {
-                label: '{{data5_name}}',
+                label: '{{data5_name}} {{total_5}}',
                 data: {{ data5 }},
                 borderColor: ["rgb(200, 200, 00)"],
                 lineTension: 0,
@@ -106,7 +131,7 @@
                         yAxes: [{
                             ticks: {
                                 min: 0,
-                                max: 60,
+                                max: 100,
                                 // stepSize: 10,
                             },
 

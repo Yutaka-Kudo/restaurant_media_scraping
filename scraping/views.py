@@ -1,3 +1,4 @@
+from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, redirect
 
 from django_pandas.io import read_frame
@@ -22,10 +23,26 @@ def index(request):
 
 
 def store_page(request, store):
-    return render(request, "scr/store.html", {"store": store})
+    global span_list
+    if store == "fes":
+        dbmodel = models.Fes_gn_sp_scrape
+    elif store == "garage":
+        dbmodel = models.Grg_gn_sp_scrape
+    elif store == "tourou":
+        dbmodel = models.Toro_gn_sp_scrape
+    elif store == "wanaichi":
+        dbmodel = models.Wana_gn_sp_scrape
+    elif store == "wananakame":
+        dbmodel = models.Wananakame_gn_sp_scrape
+    obj = dbmodel.objects.all().order_by("date")
+    span_list = []
+    for i in obj:
+        span_list.append(i.month_key)
+    span_list = sorted(set(span_list), reverse=True)
+    return render(request, "scr/store.html", {"store": store, "span_list": span_list})
 
 
-def create_df(query, store, media):
+def create_df(y_m, store, media):
     if media == "gn":
         fieldnames = ["date", "week", "total", "top", "menu", "seat", "photo", "commitment", "map", "coupon", "reserve"]
         rename_col = ['日付', "曜日", "合計", '店舗トップ', 'メニュー', '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
@@ -67,8 +84,8 @@ def create_df(query, store, media):
             dbmodel = models.Wananakame_tb_sp_scrape
 
     # month_keyでクエリセット
-    qs = dbmodel.objects.filter(month_key=query)
-    print(query)
+    qs = dbmodel.objects.filter(month_key=y_m).order_by('date')
+    print(y_m)
 
     df = read_frame(qs, fieldnames=fieldnames)
     df.columns = rename_col
@@ -77,11 +94,11 @@ def create_df(query, store, media):
 
 
 def download_excel(request, store: str, media: str):
-    query: str = request.GET.get('q')
-    df = create_df(query, store, media)
+    y_m: str = request.GET.get('q')
+    df = create_df(y_m, store, media)
 
     basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = f'data_{store}_gn_sp_{query}.csv'
+    oldpath = f'data_{store}_gn_sp_{y_m}.csv'
 
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
@@ -90,11 +107,32 @@ def download_excel(request, store: str, media: str):
     return response
 
 
+def trans_monthkey(i):
+    if type(i) == str:
+        result = datetime.datetime.strptime(i, '%Y-%m').date()
+    elif type(i) == datetime.date:
+        result = datetime.date.strftime(i, '%Y-%m')
+    else:
+        result = None
+    return result
+
+
 def chart(request, store: str, media: str):
-    query: str = request.GET.get('q')
-    df = create_df(query, store, media)
+    move = request.GET.get('move')
+    y_m: str = request.GET.get('q')
+    if move == "before":
+        date = trans_monthkey(y_m)
+        date -= relativedelta(months=1)
+        y_m = trans_monthkey(date)
+    elif move == "after":
+        date = trans_monthkey(y_m)
+        date += relativedelta(months=1)
+        y_m = trans_monthkey(date)
+    else:
+        pass
+    df = create_df(y_m, store, media)
+
     dates = [datetime.date.strftime(s, '%Y-%m-%d') for s in df["日付"]]
-    # dates = list(map(lambda x:  datetime.date.strftime(x, '%Y-%m-%d') ,list(df["日付"])))
     xticks = list(dates + df["曜日"])
 
     if media == "gn":
@@ -107,6 +145,12 @@ def chart(request, store: str, media: str):
         data4_name = "クーポン"
         data5 = list(df["予約"])
         data5_name = "予約"
+
+        total_1 = df["合計"].sum()
+        total_2 = df["店舗トップ"].sum()
+        total_3 = df["地図"].sum()
+        total_4 = df["クーポン"].sum()
+        total_5 = df["予約"].sum()
     if media == "hp":
         total = list(df["店舗総PV（SP）"])
         data2 = list(df["店舗TOP PV（SP）"])
@@ -114,7 +158,7 @@ def chart(request, store: str, media: str):
         # = list(df["クーポンページPV（SP）"])
         # = list(df["クーポンページPV（SP）"])
         data3 = list(df["CVR（SP）"])
-        data3 = [float(i[:-1]) for i in list(df["CVR（SP）"])]
+        data3 = [float(i[:-1]) if i != "-" else 0 for i in list(df["CVR（SP）"])]
         data3_name = "CVR（SP）"
         data4 = list(df["予約件数（SP）"])
         data4_name = "予約件数（SP）"
@@ -122,6 +166,11 @@ def chart(request, store: str, media: str):
         data5_name = "予約件数（ホットペッパー）"
         #  = list(df["予約件数（ホームページ）"])
         #  = list(df["予約件数（ホームページ）"])
+        total_1 = df["店舗総PV（SP）"].sum()
+        total_2 = df["店舗TOP PV（SP）"].sum()
+        total_3 = str(round(sum(data3) / len(data3), 1)) + "%"
+        total_4 = df["予約件数（SP）"].sum()
+        total_5 = df["予約件数（ホットペッパー）"].sum()
     if media == "tb":
         total = list(df["店舗全体（合計）"])
         data2 = list(df["店舗トップ"])
@@ -132,8 +181,15 @@ def chart(request, store: str, media: str):
         data4_name = "お店地図"
         data5 = list(df["クーポン"])
         data5_name = "クーポン"
+        total_1 = df["店舗全体（合計）"].sum()
+        total_2 = df["店舗トップ"].sum()
+        total_3 = df["口コミ・評価"].sum()
+        total_4 = df["お店地図"].sum()
+        total_5 = df["クーポン"].sum()
 
     context = {
+        "date": y_m,
+        "span_list": span_list,
         "store": store,
         "media": media,
         "df": df,
@@ -147,6 +203,11 @@ def chart(request, store: str, media: str):
         "data4_name": data4_name,
         "data5": data5,
         "data5_name": data5_name,
+        "total_1": total_1,
+        "total_2": total_2,
+        "total_3": total_3,
+        "total_4": total_4,
+        "total_5": total_5,
     }
     return render(request, "scr/chart.html", context)
 
@@ -163,7 +224,7 @@ def chart_GMB(request, store):
     elif store == "wananakame":
         dbmodel = models.Wananakame_GMB
 
-    df = pd.DataFrame(dbmodel.objects.all().values())
+    df = pd.DataFrame(dbmodel.objects.all().order_by('span_id').values())
 
     xticks = list(df["span"])
 
