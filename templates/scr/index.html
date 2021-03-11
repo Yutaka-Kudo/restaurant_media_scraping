@@ -16,6 +16,8 @@
     <!-- Site Icons -->
     <link rel="icon" href="{% static 'favicon.ico' %}">
 
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
@@ -145,8 +147,8 @@
             {% endblock content %}
 
 <center>
-    <a href="{% url 'scraping:index' %}" class="function-btn3"><button>TOP</button></a>
-    <a href="{% url 'scraping:admin' %}" class="function-btn3"><button>管理画面</button></a>
+    <a href="{% url 'scraping:index' %}" class="function-btn1"><button>TOP</button></a>
+    <a href="{% url 'scraping:admin' %}" class="function-btn2"><button>管理画面</button></a>
 </center>
     
 </body>

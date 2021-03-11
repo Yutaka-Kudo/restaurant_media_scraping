@@ -2,6 +2,7 @@ from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, redirect
 
 from django_pandas.io import read_frame
+from numpy import select
 import pandas as pd
 import os
 from django.http import HttpResponse
@@ -42,7 +43,7 @@ def store_page(request, store):
     return render(request, "scr/store.html", {"store": store, "span_list": span_list})
 
 
-def create_df(y_m, store, media):
+def select_dbmodel(store: str, media: str):
     if media == "gn":
         fieldnames = ["date", "week", "total", "top", "menu", "seat", "photo", "commitment", "map", "coupon", "reserve"]
         rename_col = ['日付', "曜日", "合計", '店舗トップ', 'メニュー', '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
@@ -82,10 +83,34 @@ def create_df(y_m, store, media):
             dbmodel = models.Wana_tb_sp_scrape
         elif store == "wananakame":
             dbmodel = models.Wananakame_tb_sp_scrape
+    return dbmodel, fieldnames, rename_col
 
-    # month_keyでクエリセット
-    qs = dbmodel.objects.filter(month_key=y_m).order_by('date')
-    print(y_m)
+
+def create_df(y_m: str, store: str, media: str, interval: str, start="", end=""):
+    dbmodel, fieldnames, rename_col = select_dbmodel(store, media)
+
+    if interval == "daily":
+        # month_keyでクエリセット
+        qs = dbmodel.objects.filter(month_key=y_m).order_by('date')
+        print(y_m)
+    elif interval == "weekly":
+        # if move == "before":
+        #     to_day: datetime.date = trans_date(y_m) - relativedelta(days=7)
+        # elif move == "after":
+        #     to_day: datetime.date = trans_date(y_m) + relativedelta(days=7)
+        #     if to_day > dbmodel.objects.latest('date').date:
+        #         to_day = dbmodel.objects.latest('date').date
+        # else:
+        #     to_day: datetime.date = dbmodel.objects.latest('date').date
+        # before6: datetime.date = to_day - relativedelta(days=6)
+        # qs = dbmodel.objects.filter(date__lte=to_day, date__gte=before6).order_by('-date')
+        # for i in qs:
+        #     if i.week == "土":  # 土曜を探して起点にする
+        #         to_day = i.date
+        #         break
+        # before12weeks: datetime.date = to_day - relativedelta(days=83)
+        # dateでクエリセット
+        qs = dbmodel.objects.filter(date__lte=start, date__gte=end).order_by('date')
 
     df = read_frame(qs, fieldnames=fieldnames)
     df.columns = rename_col
@@ -93,9 +118,25 @@ def create_df(y_m, store, media):
     return df
 
 
+def trans_monthkey(i):
+    if type(i) == str:
+        result = datetime.datetime.strptime(i, '%Y-%m').date()
+    elif type(i) == datetime.date:
+        result = datetime.date.strftime(i, '%Y-%m')
+    return result
+
+
+def trans_date(i):  # 0000-00-00の形
+    if type(i) == str:
+        result = datetime.datetime.strptime(i, '%Y-%m-%d').date()
+    elif type(i) == datetime.date:
+        result = datetime.date.strftime(i, '%Y-%m-%d')
+    return result
+
+
 def download_excel(request, store: str, media: str):
     y_m: str = request.GET.get('q')
-    df = create_df(y_m, store, media)
+    df = create_df(y_m, store, media, interval="daily")
 
     basepath, ext = os.path.splitext(os.path.basename(__file__))
     oldpath = f'data_{store}_gn_sp_{y_m}.csv'
@@ -107,19 +148,11 @@ def download_excel(request, store: str, media: str):
     return response
 
 
-def trans_monthkey(i):
-    if type(i) == str:
-        result = datetime.datetime.strptime(i, '%Y-%m').date()
-    elif type(i) == datetime.date:
-        result = datetime.date.strftime(i, '%Y-%m')
-    else:
-        result = None
-    return result
-
-
 def chart(request, store: str, media: str):
-    move = request.GET.get('move')
     y_m: str = request.GET.get('q')
+
+    # beforeボタン、afterボタン押下時
+    move = request.GET.get('move')
     if move == "before":
         date = trans_monthkey(y_m)
         date -= relativedelta(months=1)
@@ -130,7 +163,7 @@ def chart(request, store: str, media: str):
         y_m = trans_monthkey(date)
     else:
         pass
-    df = create_df(y_m, store, media)
+    df = create_df(y_m, store, media, interval="daily")
 
     dates = [datetime.date.strftime(s, '%Y-%m-%d') for s in df["日付"]]
     xticks = list(dates + df["曜日"])
@@ -189,7 +222,6 @@ def chart(request, store: str, media: str):
 
     context = {
         "date": y_m,
-        "span_list": span_list,
         "store": store,
         "media": media,
         "df": df,
@@ -210,6 +242,120 @@ def chart(request, store: str, media: str):
         "total_5": total_5,
     }
     return render(request, "scr/chart.html", context)
+
+
+def chart_weekly(request, store: str, media: str):
+    dbmodel, _, _ = select_dbmodel(store, media)
+    y_m_d: str = request.GET.get('q')
+    if not y_m_d:  # requestgetがなかったら＝初期動作
+        to_day: datetime.date = dbmodel.objects.latest('date').date
+        before6: datetime.date = to_day - relativedelta(days=6)
+        qs = dbmodel.objects.filter(date__lte=to_day, date__gte=before6).order_by('-date')
+        for i in qs:
+            if i.week == "土":  # 土曜を探して起点にする
+                to_day = i.date
+                break
+        # y_m_d = str(to_day)
+
+    # beforeボタン、afterボタン押下時
+    move = request.GET.get('move')
+    if move == "before":
+        to_day: datetime.date = trans_date(y_m_d) - relativedelta(days=7)
+    elif move == "after":
+        to_day: datetime.date = trans_date(y_m_d) + relativedelta(days=7)
+        if to_day > dbmodel.objects.latest('date').date:
+            to_day = trans_date(y_m_d)
+
+    before12weeks: datetime.date = to_day - relativedelta(days=83)
+
+    _df = create_df(None, store, media, interval="weekly", start=to_day, end=before12weeks)
+    list = []
+    # 7日ごとの合計をリストに挿入
+    for i in range(0, len(_df), 7):
+        list.append(_df[i:i+7].sum())
+
+    df = pd.DataFrame(list)
+    dates = [trans_date(s)+"_"+trans_date(s+relativedelta(days=6)) for s in _df["日付"][::7]]
+    xticks = dates
+
+    if media == "gn":
+        total = df["合計"].values.tolist()
+        data2 = df["店舗トップ"].values.tolist()
+        data2_name = "店舗トップ"
+        data3 = df["地図"].values.tolist()
+        data3_name = "地図"
+        data4 = df["クーポン"].values.tolist()
+        data4_name = "クーポン"
+        data5 = df["予約"].values.tolist()
+        data5_name = "予約"
+
+        total_1 = df["合計"].sum()
+        total_2 = df["店舗トップ"].sum()
+        total_3 = df["地図"].sum()
+        total_4 = df["クーポン"].sum()
+        total_5 = df["予約"].sum()
+    if media == "hp":
+        total = df["店舗総PV（SP）"].values.tolist()
+        data2 = df["店舗TOP PV（SP）"].values.tolist()
+        data2_name = "店舗TOP PV（SP）"
+        # = df["クーポンページPV（SP）"].values.tolist()
+        # = df["クーポンページPV（SP）"].values.tolist()
+        cvr_list = [float(i[:-1]) if i != "-" else 0 for i in _df["CVR（SP）"].values.tolist()]
+        cvr_result = []
+        for i in range(0, len(_df), 7):
+            cvr_result.append(round(sum(cvr_list[i:i+7]) / len(cvr_list[i:i+7]),1))
+        data3 = cvr_result
+        data3_name = "CVR（SP）"
+        data4 = df["予約件数（SP）"].values.tolist()
+        data4_name = "予約件数（SP）"
+        data5 = df["予約件数（ホットペッパー）"].values.tolist()
+        data5_name = "予約件数（ホットペッパー）"
+        #  = df["予約件数（ホームページ）"].values.tolist()
+        #  = df["予約件数（ホームページ）"].values.tolist()
+        total_1 = df["店舗総PV（SP）"].sum()
+        total_2 = df["店舗TOP PV（SP）"].sum()
+        total_3 = str(round(sum(data3) / len(data3), 1)) + "%"
+        total_4 = df["予約件数（SP）"].sum()
+        total_5 = df["予約件数（ホットペッパー）"].sum()
+    if media == "tb":
+        total = df["店舗全体（合計）"].values.tolist()
+        data2 = df["店舗トップ"].values.tolist()
+        data2_name = "店舗トップ"
+        data3 = df["口コミ・評価"].values.tolist()
+        data3_name = "口コミ・評価"
+        data4 = df["お店地図"].values.tolist()
+        data4_name = "お店地図"
+        data5 = df["クーポン"].values.tolist()
+        data5_name = "クーポン"
+        total_1 = df["店舗全体（合計）"].sum()
+        total_2 = df["店舗トップ"].sum()
+        total_3 = df["口コミ・評価"].sum()
+        total_4 = df["お店地図"].sum()
+        total_5 = df["クーポン"].sum()
+
+    context = {
+        "date": str(to_day),
+        "span_list": span_list,
+        "store": store,
+        "media": media,
+        "df": df,
+        "xticks": xticks,
+        "total": total,
+        "data2": data2,
+        "data2_name": data2_name,
+        "data3": data3,
+        "data3_name": data3_name,
+        "data4": data4,
+        "data4_name": data4_name,
+        "data5": data5,
+        "data5_name": data5_name,
+        "total_1": total_1,
+        "total_2": total_2,
+        "total_3": total_3,
+        "total_4": total_4,
+        "total_5": total_5,
+    }
+    return render(request, "scr/chart_weekly.html", context)
 
 
 def chart_GMB(request, store):

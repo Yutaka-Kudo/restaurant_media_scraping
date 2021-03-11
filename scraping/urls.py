@@ -19,4 +19,5 @@ urlpatterns = [
     path('chart_GMB/<str:store>', views.chart_GMB, name='chart_GMB'),
     path('<str:store>/<str:media>', views.download_excel, name='download_excel'),
     path('<str:store>/<str:media>/chart', views.chart, name='chart'),
+    path('<str:store>/<str:media>/chart_weekly', views.chart_weekly, name='chart_weekly'),
 ]
