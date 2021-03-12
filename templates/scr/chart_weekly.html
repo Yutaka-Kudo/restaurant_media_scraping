@@ -14,12 +14,39 @@
             </div>
             <form action="{% url 'scraping:chart_weekly' store=store media=media %}" method="GET">
                 <input type="submit" name="move" value='before'>
-                <select name="q" >
+                <select name="q">
                     <option value="{{date}}">{{date}}</option>
                 </select>
                 <input type="submit" name="move" value='after'>
             </form>
-            
+
+            <div class="storebtn storebtn1">
+                <form action="{% url 'scraping:chart_weekly' store='fes' media=media %}" method="GET">
+                    <input type="submit" value="FES">
+                </form>
+            </div>
+            <div class="storebtn">
+                <form action="{% url 'scraping:chart_weekly' store='garage' media=media %}" method="GET">
+                    <input type="submit" value="Garage">
+                </form>
+            </div>
+            <div class="storebtn">
+                <form action="{% url 'scraping:chart_weekly' store='tourou' media=media %}" method="GET">
+                    <input type="submit" value="灯篭">
+                </form>
+            </div>
+            <div class="storebtn">
+                <form action="{% url 'scraping:chart_weekly' store='wanaichi' media=media %}" method="GET">
+                    <input type="submit" value="罠一目">
+                </form>
+            </div>
+            <div class="storebtn">
+                <form action="{% url 'scraping:chart_weekly' store='wananakame' media=media %}" method="GET">
+                    <input type="submit" value="罠中目">
+                </form>
+            </div>
+
+
         </div>
     </div>
 </header>
@@ -48,45 +75,45 @@
 
                 label: "合計PV {{total_1}}",
                 data: {{ total }},
-                borderColor: ["rgb(00, 00, 00)"],
-                lineTension: 0,
-                fill: false,
-                // borderWidth:
-            }, 
-            {
-                label: '{{data2_name}} {{total_2}}',
-                data: {{ data2 }},
-                borderColor: ["rgb(00, 80, 255)"],
-                lineTension: 0,
-                fill: false,
+        borderColor: ["rgb(00, 00, 00)"],
+        lineTension: 0,
+        fill: false,
+        // borderWidth:
+    },
+        {
+            label: '{{data2_name}} {{total_2}}',
+            data: {{ data2 }},
+        borderColor: ["rgb(00, 80, 255)"],
+        lineTension: 0,
+        fill: false,
                         // borderWidth:
             },
 
             ],
         },
         options: {
-            title: {
-                display: true,
-                text: '{{store}}:{{media}}'
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        min: 0,
-                        max: 1000,
-                        stepSize: 100,
-                    },
-
-                }],
-                xAxes: [{
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 70,
-                        minRotation: 70,
-                    },
-                }],
-            },
+        title: {
+            display: true,
+            text: '{{store}}:{{media}}'
         },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    max: 1000,
+                    stepSize: 100,
+                },
+
+            }],
+            xAxes: [{
+                ticks: {
+                    autoSkip: false,
+                    maxRotation: 70,
+                    minRotation: 70,
+                },
+            }],
+        },
+    },
     });
 
 
@@ -101,58 +128,58 @@
             labels: list_d,
             datasets: [
 
-            {
-                label: '{{data3_name}} {{total_3}}',
-                data: {{ data3 }},
-                borderColor: ["rgb(00, 255, 00)"],
-                lineTension: 0,
-                fill: false,
-                        // borderWidth:
-            },
-            {
-                label: '{{data4_name}} {{total_4}}',
-                data: {{ data4 }},
-                borderColor: ["rgb(255, 00, 00)"],
-                lineTension: 0,
-                fill: false,
+                {
+                    label: '{{data3_name}} {{total_3}}',
+                    data: {{ data3 }},
+        borderColor: ["rgb(00, 255, 00)"],
+        lineTension: 0,
+        fill: false,
+        // borderWidth:
+    },
+        {
+            label: '{{data4_name}} {{total_4}}',
+            data: {{ data4 }},
+        borderColor: ["rgb(255, 00, 00)"],
+        lineTension: 0,
+        fill: false,
                         // borderWidth:
             },
 
-            {
-                label: '{{data5_name}} {{total_5}}',
-                data: {{ data5 }},
-                borderColor: ["rgb(200, 200, 00)"],
-                lineTension: 0,
-                fill: false,
+        {
+            label: '{{data5_name}} {{total_5}}',
+            data: {{ data5 }},
+        borderColor: ["rgb(200, 200, 00)"],
+        lineTension: 0,
+        fill: false,
                         // borderWidth:
             },
 
                     ],
                 },
-                options: {
-                    title: {
-                    display: true,
-                    text: ''
-                    },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                min: 0,
-                                max: 150,
-                                // stepSize: 10,
-                            },
+        options: {
+        title: {
+            display: true,
+            text: ''
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0,
+                    max: 150,
+                    // stepSize: 10,
+                },
 
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                autoSkip: false,
-                                maxRotation: 70,
-                                minRotation: 70,
-                            },
-                        }],
-                    },
+            }],
+            xAxes: [{
+                ticks: {
+                    autoSkip: false,
+                    maxRotation: 70,
+                    minRotation: 70,
+                },
+            }],
+        },
 
-                }
+    }
     });
 </script>
 {% endblock content %}

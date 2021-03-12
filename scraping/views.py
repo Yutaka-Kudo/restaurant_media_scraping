@@ -20,27 +20,46 @@ def dev(request):
 
 
 def index(request):
-    return render(request, "scr/index.html")
-
-
-def store_page(request, store):
-    global span_list
-    if store == "fes":
-        dbmodel = models.Fes_gn_sp_scrape
-    elif store == "garage":
-        dbmodel = models.Grg_gn_sp_scrape
-    elif store == "tourou":
-        dbmodel = models.Toro_gn_sp_scrape
-    elif store == "wanaichi":
-        dbmodel = models.Wana_gn_sp_scrape
-    elif store == "wananakame":
-        dbmodel = models.Wananakame_gn_sp_scrape
-    obj = dbmodel.objects.all().order_by("date")
-    span_list = []
+    span_list_fes = []
+    obj =  models.Fes_gn_scrape.objects.all().order_by("date")
     for i in obj:
-        span_list.append(i.month_key)
-    span_list = sorted(set(span_list), reverse=True)
-    return render(request, "scr/store.html", {"store": store, "span_list": span_list})
+        span_list_fes.append(i.month_key)
+    span_list_fes = sorted(set(span_list_fes), reverse=True)
+
+    span_list_garage = []
+    obj =  models.Grg_gn_scrape.objects.all().order_by("date")
+    for i in obj:
+        span_list_garage.append(i.month_key)
+    span_list_garage = sorted(set(span_list_garage), reverse=True)
+
+    span_list_tourou = []
+    obj =  models.Toro_gn_scrape.objects.all().order_by("date")
+    for i in obj:
+        span_list_tourou.append(i.month_key)
+    span_list_tourou = sorted(set(span_list_tourou), reverse=True)
+
+    span_list_wanaichi = []
+    obj =  models.Wana_gn_scrape.objects.all().order_by("date")
+    for i in obj:
+        span_list_wanaichi.append(i.month_key)
+    span_list_wanaichi = sorted(set(span_list_wanaichi), reverse=True)
+
+    span_list_wananakame = []
+    obj =  models.Wananakame_gn_scrape.objects.all().order_by("date")
+    for i in obj:
+        span_list_wananakame.append(i.month_key)
+    span_list_wananakame = sorted(set(span_list_wananakame), reverse=True)
+
+    context = {
+        # "store": store,
+        #  "span_list": span_list,
+         "span_list_fes": span_list_fes,
+         "span_list_garage": span_list_garage,
+         "span_list_tourou": span_list_tourou,
+         "span_list_wanaichi": span_list_wanaichi,
+         "span_list_wananakame": span_list_wananakame,
+        }
+    return render(request, "scr/index.html", context)
 
 
 def select_dbmodel(store: str, media: str):
@@ -48,41 +67,41 @@ def select_dbmodel(store: str, media: str):
         fieldnames = ["date", "week", "total", "top", "menu", "seat", "photo", "commitment", "map", "coupon", "reserve"]
         rename_col = ['日付', "曜日", "合計", '店舗トップ', 'メニュー', '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
         if store == "fes":
-            dbmodel = models.Fes_gn_sp_scrape
+            dbmodel = models.Fes_gn_scrape
         elif store == "garage":
-            dbmodel = models.Grg_gn_sp_scrape
+            dbmodel = models.Grg_gn_scrape
         elif store == "tourou":
-            dbmodel = models.Toro_gn_sp_scrape
+            dbmodel = models.Toro_gn_scrape
         elif store == "wanaichi":
-            dbmodel = models.Wana_gn_sp_scrape
+            dbmodel = models.Wana_gn_scrape
         elif store == "wananakame":
-            dbmodel = models.Wananakame_gn_sp_scrape
+            dbmodel = models.Wananakame_gn_scrape
     elif media == "hp":
         fieldnames = ["date", "week", "pv_all_sp", "pv_top_sp", "pv_coupon_sp", "cvr_sp", "tell_sp", "reserve_sp", "reserve_hp", "reserve_homepage", "day_over_day_changes"]
         rename_col = ["日付", "曜日", "店舗総PV（SP）", "店舗TOP PV（SP）", "クーポンページPV（SP）", "CVR（SP）", "電話件数（SP）", "予約件数（SP）", "予約件数（ホットペッパー）", "予約件数（ホームページ）", "前日比"]
         if store == "fes":
-            dbmodel = models.Fes_hp_sp_scrape
+            dbmodel = models.Fes_hp_scrape
         elif store == "garage":
-            dbmodel = models.Grg_hp_sp_scrape
+            dbmodel = models.Grg_hp_scrape
         elif store == "tourou":
-            dbmodel = models.Toro_hp_sp_scrape
+            dbmodel = models.Toro_hp_scrape
         elif store == "wanaichi":
-            dbmodel = models.Wana_hp_sp_scrape
+            dbmodel = models.Wana_hp_scrape
         elif store == "wananakame":
-            dbmodel = models.Wananakame_hp_sp_scrape
+            dbmodel = models.Wananakame_hp_scrape
     elif media == "tb":
         fieldnames = ["date", "week", "top", "photo", "photo_info", "rating", "menu", "map", "coupon", "p_coupon", "seat", "other", "total"]
         rename_col = ["日付", "曜日", "店舗トップ", "写真一覧", "写真詳細", "口コミ・評価", "メニュー", "お店地図", "クーポン", "プレミアムクーポン", "座席情報", "その他", "店舗全体（合計）"]
         if store == "fes":
-            dbmodel = models.Fes_tb_sp_scrape
+            dbmodel = models.Fes_tb_scrape
         elif store == "garage":
-            dbmodel = models.Grg_tb_sp_scrape
+            dbmodel = models.Grg_tb_scrape
         elif store == "tourou":
-            dbmodel = models.Toro_tb_sp_scrape
+            dbmodel = models.Toro_tb_scrape
         elif store == "wanaichi":
-            dbmodel = models.Wana_tb_sp_scrape
+            dbmodel = models.Wana_tb_scrape
         elif store == "wananakame":
-            dbmodel = models.Wananakame_tb_sp_scrape
+            dbmodel = models.Wananakame_tb_scrape
     return dbmodel, fieldnames, rename_col
 
 
@@ -139,7 +158,7 @@ def download_excel(request, store: str, media: str):
     df = create_df(y_m, store, media, interval="daily")
 
     basepath, ext = os.path.splitext(os.path.basename(__file__))
-    oldpath = f'data_{store}_gn_sp_{y_m}.csv'
+    oldpath = f'data_{store}_gn_{y_m}.csv'
 
     response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)
@@ -188,22 +207,25 @@ def chart(request, store: str, media: str):
         total = list(df["店舗総PV（SP）"])
         data2 = list(df["店舗TOP PV（SP）"])
         data2_name = "店舗TOP PV（SP）"
-        # = list(df["クーポンページPV（SP）"])
-        # = list(df["クーポンページPV（SP）"])
-        data3 = list(df["CVR（SP）"])
-        data3 = [float(i[:-1]) if i != "-" else 0 for i in list(df["CVR（SP）"])]
-        data3_name = "CVR（SP）"
-        data4 = list(df["予約件数（SP）"])
-        data4_name = "予約件数（SP）"
-        data5 = list(df["予約件数（ホットペッパー）"])
-        data5_name = "予約件数（ホットペッパー）"
+        data3= list(df["クーポンページPV（SP）"])
+        data3_name= "クーポンページPV（SP）"
+        # data3 = list(df["CVR（SP）"])
+        # data3 = [float(i[:-1]) if i != "-" else 0 for i in list(df["CVR（SP）"])]
+        # data3_name = "CVR（SP）"
+        data4 = list(df["予約件数（SP）"] + df["予約件数（ホットペッパー）"]+df["予約件数（ホームページ）"])
+        data4_name = "予約件数(総合)"
+        data5 = [round((x / y)*100,1) for x, y in zip(data4, data2)]
+        print(data4)
+        print(data2)
+        print(data5)
+        data5_name = "CVR 予約/TOPPV"
         #  = list(df["予約件数（ホームページ）"])
         #  = list(df["予約件数（ホームページ）"])
         total_1 = df["店舗総PV（SP）"].sum()
         total_2 = df["店舗TOP PV（SP）"].sum()
-        total_3 = str(round(sum(data3) / len(data3), 1)) + "%"
-        total_4 = df["予約件数（SP）"].sum()
-        total_5 = df["予約件数（ホットペッパー）"].sum()
+        total_3 = df["クーポンページPV（SP）"].sum()
+        total_4 = sum(data4)
+        total_5 = str(round((total_4 / total_2)*100,1)) + '%'
     if media == "tb":
         total = list(df["店舗全体（合計）"])
         data2 = list(df["店舗トップ"])
@@ -298,25 +320,25 @@ def chart_weekly(request, store: str, media: str):
         total = df["店舗総PV（SP）"].values.tolist()
         data2 = df["店舗TOP PV（SP）"].values.tolist()
         data2_name = "店舗TOP PV（SP）"
-        # = df["クーポンページPV（SP）"].values.tolist()
-        # = df["クーポンページPV（SP）"].values.tolist()
-        cvr_list = [float(i[:-1]) if i != "-" else 0 for i in _df["CVR（SP）"].values.tolist()]
-        cvr_result = []
-        for i in range(0, len(_df), 7):
-            cvr_result.append(round(sum(cvr_list[i:i+7]) / len(cvr_list[i:i+7]),1))
-        data3 = cvr_result
-        data3_name = "CVR（SP）"
-        data4 = df["予約件数（SP）"].values.tolist()
-        data4_name = "予約件数（SP）"
-        data5 = df["予約件数（ホットペッパー）"].values.tolist()
-        data5_name = "予約件数（ホットペッパー）"
+        data3= df["クーポンページPV（SP）"].values.tolist()
+        data3_name= "クーポンページPV（SP）"
+        # cvr_list = [float(i[:-1]) if i != "-" else 0 for i in _df["CVR（SP）"].values.tolist()]
+        # cvr_result = []
+        # for i in range(0, len(_df), 7):
+        #     cvr_result.append(round(sum(cvr_list[i:i+7]) / len(cvr_list[i:i+7]),1))
+        # data3 = cvr_result
+        # data3_name = "CVR（SP）"
+        data4 = [x+y+z for x,y,z in zip(df["予約件数（SP）"].values.tolist(),df["予約件数（ホットペッパー）"].values.tolist(),df["予約件数（ホームページ）"].values.tolist())]
+        data4_name = "予約件数(総合)"
+        data5 =  [round((x / y)*100,1) for x, y in zip(data4, data2)]
+        data5_name = "CVR 予約/TOPPV"
         #  = df["予約件数（ホームページ）"].values.tolist()
         #  = df["予約件数（ホームページ）"].values.tolist()
         total_1 = df["店舗総PV（SP）"].sum()
         total_2 = df["店舗TOP PV（SP）"].sum()
-        total_3 = str(round(sum(data3) / len(data3), 1)) + "%"
-        total_4 = df["予約件数（SP）"].sum()
-        total_5 = df["予約件数（ホットペッパー）"].sum()
+        total_3 =  df["クーポンページPV（SP）"].sum()
+        total_4 = sum(data4)
+        total_5 = str(round((total_4 / total_2)*100,1)) + '%'
     if media == "tb":
         total = df["店舗全体（合計）"].values.tolist()
         data2 = df["店舗トップ"].values.tolist()
@@ -335,7 +357,6 @@ def chart_weekly(request, store: str, media: str):
 
     context = {
         "date": str(to_day),
-        "span_list": span_list,
         "store": store,
         "media": media,
         "df": df,

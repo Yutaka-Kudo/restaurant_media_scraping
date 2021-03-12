@@ -18,7 +18,7 @@ from django.shortcuts import render, redirect
 # from django.urls import reverse
 # import os
 
-from .models import Fes_hp_sp_scrape
+from .models import Fes_hp_scrape
 
 
 from . import pwd
@@ -156,7 +156,7 @@ def fes_hp_sp(request):
     df_list[4].fillna(0, inplace=True)
 
     for s in df_list[4].itertuples():
-        Fes_hp_sp_scrape.objects.update_or_create(
+        Fes_hp_scrape.objects.update_or_create(
             date=s[0],
             defaults={
                 "week": s[1],
@@ -179,7 +179,7 @@ def fes_hp_sp(request):
 
     # basepath, ext = os.path.splitext(os.path.basename(__file__))
     # now = dt.datetime.now().strftime('%Y%m')
-    # oldpath = 'data_{}_sp_{}.csv'.format(basepath, now)
+    # oldpath = 'data_{}_{}.csv'.format(basepath, now)
 
     # response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
     # response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)

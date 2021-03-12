@@ -11,3 +11,18 @@
     left: 570px;
     margin: 10px;
 }
+
+.store{
+    float: left;
+    margin: 0px 0px 0px 90px ;
+    /* display: inline-block; */
+}
+
+.elem{
+    margin: 15px 0 0 0;
+}
+
+.storebtn1{
+    /* float: left; */
+    margin-left: 10px;
+}

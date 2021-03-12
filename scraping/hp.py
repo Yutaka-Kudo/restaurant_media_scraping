@@ -101,19 +101,19 @@ def hp_sp(request):
         # 店舗選択
         if store_name == "fes":
             elem = driver.find_element_by_link_text('FES by asobi')
-            dbmodel = models.Fes_hp_sp_scrape
+            dbmodel = models.Fes_hp_scrape
         elif store_name == "garage":
             elem = driver.find_element_by_link_text('Garage Kitchenあそび　西船橋店')
-            dbmodel = models.Grg_hp_sp_scrape
+            dbmodel = models.Grg_hp_scrape
         elif store_name == "tourou":
             elem = driver.find_element_by_link_text('路地ノ裏 灯篭 西船橋店')
-            dbmodel = models.Toro_hp_sp_scrape
+            dbmodel = models.Toro_hp_scrape
         elif store_name == "wanaichi":
             elem = driver.find_element_by_link_text('焼ジビエ 罠 一目 船橋店')
-            dbmodel = models.Wana_hp_sp_scrape
+            dbmodel = models.Wana_hp_scrape
         elif store_name == "wananakame":
             elem = driver.find_element_by_link_text('焼ジビエ 罠 中目黒店')
-            dbmodel = models.Wananakame_hp_sp_scrape
+            dbmodel = models.Wananakame_hp_scrape
         else:
             elem = None
             driver.quit()
@@ -210,7 +210,7 @@ def hp_sp(request):
 
         # basepath, ext = os.path.splitext(os.path.basename(__file__))
         # now = dt.datetime.now().strftime('%Y%m')
-        # oldpath = 'data_{}_sp_{}.csv'.format(basepath, now)
+        # oldpath = 'data_{}_{}.csv'.format(basepath, now)
 
         # response = HttpResponse(content_type='text/csv; charset=UTF-8-sig')
         # response['Content-Disposition'] = 'attachment; filename={}'.format(oldpath)

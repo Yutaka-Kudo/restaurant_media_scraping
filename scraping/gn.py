@@ -1,3 +1,4 @@
+from numpy import true_divide
 from selenium import webdriver
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
@@ -63,23 +64,23 @@ def gn_sp(request):
         if store_name == "fes":
             user_name = pwd.fgi
             pw = pwd.fgp
-            dbmodel = models.Fes_gn_sp_scrape
+            dbmodel = models.Fes_gn_scrape
         elif store_name == "garage":
             user_name = pwd.ggi
             pw = pwd.ggp
-            dbmodel = models.Grg_gn_sp_scrape
+            dbmodel = models.Grg_gn_scrape
         elif store_name == "tourou":
             user_name = pwd.tgi
             pw = pwd.tgp
-            dbmodel = models.Toro_gn_sp_scrape
+            dbmodel = models.Toro_gn_scrape
         elif store_name == "wanaichi":
             user_name = pwd.wgi
             pw = pwd.wgp
-            dbmodel = models.Wana_gn_sp_scrape
+            dbmodel = models.Wana_gn_scrape
         elif store_name == "wananakame":
             user_name = pwd.wngi
             pw = pwd.wngp
-            dbmodel = models.Wananakame_gn_sp_scrape
+            dbmodel = models.Wananakame_gn_scrape
         else:
             user_name, pw = None, None
             driver.quit()
@@ -92,12 +93,14 @@ def gn_sp(request):
 
         # 2回転目用
         try:
+            sleep(2)
             driver.find_element_by_link_text("ログアウト").click()
         except Exception:
             driver.execute_script("window.stop();")
 
         # フォーム取得
         try:
+            sleep(2)
             id_input = driver.find_element_by_id("loginID")
             pw_input = driver.find_element_by_id('input_password')
             print('open url!')
@@ -111,8 +114,6 @@ def gn_sp(request):
 
         try:
             # 入力
-            # driver.find_element_by_xpath(
-            #     "/html/body/main/div[2]/div/div/div[2]/dl/dd/form/div[3]/div[1]/label").click()
             id_input.send_keys(user_name)
             pw_input.send_keys(pw)
             print('input OK!')
@@ -126,6 +127,7 @@ def gn_sp(request):
 
         # driver.set_page_load_timeout(10)
         try:
+            sleep(2)
             elem = driver.find_element_by_xpath('/html/body/center/div/div[3]/div[1]/div[1]/input')
             print('in btn catch!')
         except Exception:
@@ -145,10 +147,10 @@ def gn_sp(request):
 
         # 未確認情報存在時
         try:
+            sleep(2)
             elem = driver.find_element_by_id('js-unconfirmedRsvModalClose')
             elem.click()
             print('未確認情報OK!')
-            sleep(1)
         except Exception:
             pass
 
@@ -157,6 +159,7 @@ def gn_sp(request):
         try:
             # elem = wait.until(EC.presence_of_element_located(
             #     (By.XPATH, '//input[@value="アクセス状況の詳細を確認"]')))
+            sleep(2)
             elem = driver.find_element_by_xpath('//input[@value="アクセス状況の詳細を確認"]')
             print('GON catch!')
         except Exception:
@@ -169,15 +172,11 @@ def gn_sp(request):
         except Exception:
             print('GON click!')
             driver.execute_script("window.stop();")
-            #
 
         # # ↑別のやり方
         # elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'//input[@value="アクセス状況の詳細を確認"]')))
 
-        # In[16]:
-
         # SP　クリック
-        #
         try:
             sleep(2)
             elem = driver.find_element_by_xpath("//a[text()='スマートフォン']")
@@ -185,29 +184,21 @@ def gn_sp(request):
         except Exception:
             print('SP btn catch NG')
             driver.quit()
-
         try:
             elem.click()
             print('SP btn click!')
         except Exception:
             print('SP btn click!')
             driver.execute_script("window.stop();")
-            # driver.execute_script("window.stop();")
-            #
-
-        # In[17]:
         sleep(1)
-        # 本番用
-        #
         for date in span_list:
             try:
                 # 月選択
+                sleep(2)
                 month_select_elem = driver.find_element_by_id('ym')
                 month_select_object = Select(month_select_elem)
                 month_select_object.select_by_value(date)
-                sleep(2)
-
-                # ここにデータ取得コードを。
+                sleep(2) # これ絶対ひつよう
                 df_list = pd.read_html(driver.page_source)
                 df = df_list[0]
 
@@ -216,15 +207,14 @@ def gn_sp(request):
                 raise Exception('データ収集エラー')
 
             try:
-                df.columns = ['日にち', "天気", "合計", '店舗トップ', 'メニュー',
-                              '席・個室・貸切', '写真', 'こだわり', '地図', 'クーポン', '予約']
-                df.drop('天気', axis=1, inplace=True)
-                # df.drop(df.index[list(range(len(df)-3,len(df)))],inplace=True)
-                # どちらでも可
+
+                df = df.T.reset_index(level=0, drop=True).T
                 df.drop(df.tail(3).index, inplace=True)
-                df.set_index('日にち', inplace=True)
+                df.set_index(df.columns[0], inplace=True)
                 df.index = df.index.str.rstrip('(月火水木金土日)')
                 df.index = pd.to_datetime(df.index, format='%Y/%m/%d')
+                df.drop('天気', axis=1, inplace=True)
+                
                 df.insert(0, "曜日", df.index.strftime('%a'))
                 df['曜日'].replace({
                     "Mon": "月",
@@ -243,28 +233,187 @@ def gn_sp(request):
             print('create df_list')
 
             month = df.index.astype(str)
-            month_fix = month[0][:7]
+            month_fix = month[0][:7]  # 最初だけ month_key用
 
             for s in df.itertuples():
                 dbmodel.objects.update_or_create(
                     date=s[0],
                     defaults={
                         "week": s[1],
-                        "total": s[2],
-                        "top": s[3],
-                        "menu": s[4],
-                        "seat": s[5],
-                        "photo": s[6],
-                        "commitment": s[7],
-                        "map": s[8],
-                        "coupon": s[9],
-                        "reserve": s[10],
+                        "total_pv_sp": s[2],
+                        "top_pv_sp": s[3],
+                        "menu_pv_sp": s[4],
+                        "seat_pv_sp": s[5],
+                        "photo_pv_sp": s[6],
+                        "commitment_pv_sp": s[7],
+                        "map_pv_sp": s[8],
+                        "coupon_pv_sp": s[9],
+                        "reserve_pv_sp": s[10],
                         "month_key": month_fix,
+                    }
+                )
+        # PC
+        try:
+            sleep(2)
+            elem = driver.find_element_by_xpath("//a[text()='PC']")
+            print('PC btn catch!')
+        except Exception:
+            print('PC btn catch NG')
+            driver.quit()
+        try:
+            elem.click()
+            print('PC btn click!')
+        except Exception:
+            print('PC btn click!')
+            driver.execute_script("window.stop();")
+        sleep(1)
+        for date in span_list:
+            try:
+                # 月選択
+                sleep(2)
+                month_select_elem = driver.find_element_by_id('ym')
+                month_select_object = Select(month_select_elem)
+                month_select_object.select_by_value(date)
+                sleep(2) # これ絶対ひつよう
+                df_list = pd.read_html(driver.page_source)
+                df = df_list[0]
+
+            except Exception:
+                driver.quit()
+                raise Exception('データ収集エラー')
+
+            try:
+                df = df.T.reset_index(level=0, drop=True).T
+                df.drop(df.tail(3).index, inplace=True)
+                df.drop('その他',axis=1,inplace=True)
+                df.drop('天気', axis=1, inplace=True)
+                df.set_index(df.columns[0], inplace=True)
+                df.index = df.index.str.rstrip('(月火水木金土日)')
+                df.index = pd.to_datetime(df.index, format='%Y/%m/%d')
+            except Exception:
+                driver.quit()
+                raise Exception('df fix NG')
+
+            print('create df_list')
+
+            for s in df.itertuples():
+                dbmodel.objects.update_or_create(
+                    date=s[0],
+                    defaults={
+                        "total_pv_pc": s[1],
+                        "top_pv_pc": s[2],
+                        "menu_pv_pc": s[3],
+                        "seat_pv_pc": s[4],
+                        "photo_pv_pc": s[5],
+                        "commitment_pv_pc": s[6],
+                        "map_pv_pc": s[7],
+                        "coupon_pv_pc": s[8],
+                        "reserve_pv_pc": s[9],
+                    }
+                )
+
+        # app
+        try:
+            sleep(2)
+            elem = driver.find_element_by_xpath("//a[text()='スマートフォンアプリ']")
+            print('PC btn catch!')
+        except Exception:
+            print('PC btn catch NG')
+            driver.quit()
+        try:
+            elem.click()
+            print('PC btn click!')
+        except Exception:
+            print('PC btn click!')
+            driver.execute_script("window.stop();")
+        sleep(1)
+        for date in span_list:
+            try:
+                # 月選択
+                sleep(2)
+                month_select_elem = driver.find_element_by_id('ym')
+                month_select_object = Select(month_select_elem)
+                month_select_object.select_by_value(date)
+                sleep(2) # これ絶対ひつよう
+                df_list = pd.read_html(driver.page_source)
+                df = df_list[0]
+
+            except Exception:
+                driver.quit()
+                raise Exception('データ収集エラー')
+
+            try:
+                df = df.T.reset_index(level=0, drop=True).T
+                df.drop(df.tail(3).index, inplace=True)
+                df.drop('天気', axis=1, inplace=True)
+                df.set_index(df.columns[0], inplace=True)
+                df.index = df.index.str.rstrip('(月火水木金土日)')
+                df.index = pd.to_datetime(df.index, format='%Y/%m/%d')
+            except Exception:
+                driver.quit()
+                raise Exception('df fix NG')
+
+            print('create df_list')
+
+            for s in df.itertuples():
+                dbmodel.objects.update_or_create(
+                    date=s[0],
+                    defaults={
+                        "total_pv_app": s[1],
+                        "top_pv_app": s[2],
+                        "menu_pv_app": s[3],
+                        "seat_pv_app": s[4],
+                        "photo_pv_app": s[5],
+                        "commitment_pv_app": s[6],
+                        "map_pv_app": s[7],
+                        "coupon_pv_app": s[8],
+                        "reserve_pv_app": s[9],
+                    }
+                )
+
+        # 予約数取得
+        for date in span_list:
+            try:
+                sleep(2)
+                reserve_count_btn = driver.find_element_by_link_text('予約受付数')
+                reserve_count_btn.click()
+                month_select_elem = driver.find_element_by_id('ym')
+                month_select_object = Select(month_select_elem)
+                month_select_object.select_by_value(date)
+                sleep(2)
+                df = pd.read_html(driver.page_source)[0]
+            except Exception:
+                driver.quit()
+                raise Exception('データ収集エラー2')
+
+            try:
+                df = df.T.reset_index(level=0, drop=True).T
+                df = df.drop([df.index[-1],df.index[-2],df.index[-3]])
+                df.set_index(df.columns[0], inplace=True)
+                df.index = df.index.str.rstrip('(月火水木金土日)')
+                df.index = pd.to_datetime(df.index, format='%Y/%m/%d')
+            except Exception:
+                driver.quit()
+                raise Exception('df fix NG2')
+
+            print('create df_list2')
+
+            for s in df.itertuples():
+                dbmodel.objects.update_or_create(
+                    date=s[0],
+                    defaults={
+                        "reserve_course_number": s[1],
+                        "reserve_course_people": s[2],
+                        "reserve_course_price": s[3],
+                        "reserve_seatonly_number": s[4],
+                        "reserve_seatonly_people": s[5],
+                        "reserve_request_number": s[6],
+                        "reserve_request_people": s[7],
+                        "reserve_total": s[8],
                     }
                 )
 
             # df_fix = pd.concat([df_list_fix[i] for i in range(0, len(df_list_fix))])
-
             print(date)
     driver.quit()
 

@@ -99,23 +99,23 @@ def tb_sp(request):
         if store_name == "fes":
             elem = driver.find_element(
                 By.XPATH, ("/html/body/div[4]/div[2]/ul/li[8]/div[2]/form/input[4]"))
-            dbmodel = models.Fes_tb_sp_scrape
+            dbmodel = models.Fes_tb_scrape
         elif store_name == "garage":
             elem = driver.find_element(
                 By.XPATH, ("/html/body/div[4]/div[2]/ul/li[4]/div[2]/form/input[4]"))
-            dbmodel = models.Grg_tb_sp_scrape
+            dbmodel = models.Grg_tb_scrape
         elif store_name == "tourou":
             elem = driver.find_element(
                 By.XPATH, ("/html/body/div[4]/div[2]/ul/li[10]/div[2]/form/input[4]"))
-            dbmodel = models.Toro_tb_sp_scrape
+            dbmodel = models.Toro_tb_scrape
         elif store_name == "wanaichi":
             elem = driver.find_element(
                 By.XPATH, ('/html/body/div[4]/div[2]/ul/li[11]/div[2]/form/input[4]'))
-            dbmodel = models.Wana_tb_sp_scrape
+            dbmodel = models.Wana_tb_scrape
         elif store_name == "wananakame":
             elem = driver.find_element(
                 By.XPATH, ("/html/body/div[4]/div[2]/ul/li[13]/div[2]/form/input[4]"))
-            dbmodel = models.Wananakame_tb_sp_scrape
+            dbmodel = models.Wananakame_tb_scrape
         else:
             elem = None
             driver.quit()

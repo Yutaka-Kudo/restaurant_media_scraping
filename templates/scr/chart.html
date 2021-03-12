@@ -7,9 +7,9 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="logo_main">
-                    <!-- <a href="index.html"> -->
-                    <h2>Web媒体データ取得</h2>
-                    <!-- </a> -->
+                    <h2>
+                        <a href="{% url 'scraping:index' %}">店舗選択へ</a>
+                    </h2>
                 </div>
             </div>
             <form action="{% url 'scraping:chart' store=store media=media %}" method="GET">
