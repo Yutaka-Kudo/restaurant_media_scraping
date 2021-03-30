@@ -21,6 +21,10 @@ rq = "*"
 redis = "*"
 django-pandas = "*"
 devtools = "*"
+requests = "*"
+beautifulsoup4 = "*"
+openpyxl = "*"
+livereload = "*"
 
 [requires]
 python_version = "3.7"

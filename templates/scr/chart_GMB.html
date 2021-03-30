@@ -2,6 +2,7 @@
 {% load static %}
 
 
+
 {% block content %}
 
 <canvas id='chart' height="120"></canvas>
@@ -61,15 +62,23 @@
             text: '{{store}}:Google My Business'
             },
             scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: 0,
-                            max: 25000,
-                            // stepSize: ,
-                        },
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 25000,
+                        // stepSize: ,
+                    },
 
-                    }],
-                },
+                }],
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 70,
+                        minRotation: 70,
+                    },
+                }],
+                    
+            },
         }
     });
 
@@ -108,6 +117,13 @@
                             // stepSize: 150,
                         },
 
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 70,
+                            minRotation: 70,
+                        },
                     }],
                 },
         }

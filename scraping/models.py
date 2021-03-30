@@ -6,19 +6,25 @@ from django.db import models
 
 
 class Fes_hp_scrape(models.Model):
-    # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
-    date = models.DateField(null=True)
+    date = models.DateField(null=True, blank=True)
     week = models.CharField(max_length=10, null=True)
-    pv_all_sp = models.IntegerField(null=True)
-    pv_top_sp = models.IntegerField(null=True)
-    pv_coupon_sp = models.IntegerField(null=True)
-    cvr_sp = models.CharField(max_length=10, null=True)
-    tell_sp = models.IntegerField(null=True)
-    reserve_sp = models.IntegerField(null=True)
-    reserve_hp = models.IntegerField(null=True)
-    reserve_homepage = models.IntegerField(null=True)
-    day_over_day_changes = models.IntegerField(null=True)
+    pv_all_sp = models.IntegerField("店舗総PV_sp", null=True)
+    pv_top_sp = models.IntegerField("店舗TOP PV_sp", null=True)
+    pv_coupon_sp = models.IntegerField("クーポンページPV_sp", null=True)
+    cvr_sp = models.CharField("CVR_sp", max_length=10, null=True)
+    tell_sp = models.IntegerField("電話件数_sp", null=True)
+    reserve_sp = models.IntegerField("予約件数_sp", null=True)
+    reserve_hp_sp = models.IntegerField("予約件数_ホットペッパー_sp", null=True)
+    reserve_homepage_sp = models.IntegerField("予約件数_ホームページ_sp", null=True)
+    pv_all_pc = models.IntegerField("店舗総PV_pc", null=True)
+    pv_top_pc = models.IntegerField("店舗TOP PV_pc", null=True)
+    pv_coupon_pc = models.IntegerField("クーポンページPV_pc", null=True)
+    cvr_pc = models.CharField("CVR_pc", max_length=10, null=True)
+    tell_pc = models.IntegerField("電話件数_pc", null=True)
+    reserve_pc = models.IntegerField("予約件数_pc", null=True)
+    reserve_hp_pc = models.IntegerField("予約件数_ホットペッパー_pc", null=True)
+    reserve_homepage_pc = models.IntegerField("予約件数_ホームページ_pc", null=True)
 
     def __str__(self):
         return str(self.date)
@@ -29,19 +35,26 @@ class Fes_hp_scrape(models.Model):
 
 
 class Grg_hp_scrape(models.Model):
-    # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
-    date = models.DateField(null=True)
+    date = models.DateField(null=True, blank=True)
     week = models.CharField(max_length=10, null=True)
-    pv_all_sp = models.IntegerField(null=True)
-    pv_top_sp = models.IntegerField(null=True)
-    pv_coupon_sp = models.IntegerField(null=True)
-    cvr_sp = models.CharField(max_length=10, null=True)
-    tell_sp = models.IntegerField(null=True)
-    reserve_sp = models.IntegerField(null=True)
-    reserve_hp = models.IntegerField(null=True)
-    reserve_homepage = models.IntegerField(null=True)
-    day_over_day_changes = models.IntegerField(null=True)
+    pv_all_sp = models.IntegerField("店舗総PV_sp", null=True)
+    pv_top_sp = models.IntegerField("店舗TOP PV_sp", null=True)
+    pv_coupon_sp = models.IntegerField("クーポンページPV_sp", null=True)
+    cvr_sp = models.CharField("CVR_sp", max_length=10, null=True)
+    tell_sp = models.IntegerField("電話件数_sp", null=True)
+    reserve_sp = models.IntegerField("予約件数_sp", null=True)
+    reserve_hp_sp = models.IntegerField("予約件数_ホットペッパー_sp", null=True)
+    reserve_homepage_sp = models.IntegerField("予約件数_ホームページ_sp", null=True)
+
+    pv_all_pc = models.IntegerField("店舗総PV_pc", null=True)
+    pv_top_pc = models.IntegerField("店舗TOP PV_pc", null=True)
+    pv_coupon_pc = models.IntegerField("クーポンページPV_pc", null=True)
+    cvr_pc = models.CharField("CVR_pc", max_length=10, null=True)
+    tell_pc = models.IntegerField("電話件数_pc", null=True)
+    reserve_pc = models.IntegerField("予約件数_pc", null=True)
+    reserve_hp_pc = models.IntegerField("予約件数_ホットペッパー_pc", null=True)
+    reserve_homepage_pc = models.IntegerField("予約件数_ホームページ_pc", null=True)
 
     def __str__(self):
         return str(self.date)
@@ -52,19 +65,25 @@ class Grg_hp_scrape(models.Model):
 
 
 class Toro_hp_scrape(models.Model):
-    # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
-    date = models.DateField(null=True)
+    date = models.DateField(null=True, blank=True)
     week = models.CharField(max_length=10, null=True)
-    pv_all_sp = models.IntegerField(null=True)
-    pv_top_sp = models.IntegerField(null=True)
-    pv_coupon_sp = models.IntegerField(null=True)
-    cvr_sp = models.CharField(max_length=10, null=True)
-    tell_sp = models.IntegerField(null=True)
-    reserve_sp = models.IntegerField(null=True)
-    reserve_hp = models.IntegerField(null=True)
-    reserve_homepage = models.IntegerField(null=True)
-    day_over_day_changes = models.IntegerField(null=True)
+    pv_all_sp = models.IntegerField("店舗総PV_sp", null=True)
+    pv_top_sp = models.IntegerField("店舗TOP PV_sp", null=True)
+    pv_coupon_sp = models.IntegerField("クーポンページPV_sp", null=True)
+    cvr_sp = models.CharField("CVR_sp", max_length=10, null=True)
+    tell_sp = models.IntegerField("電話件数_sp", null=True)
+    reserve_sp = models.IntegerField("予約件数_sp", null=True)
+    reserve_hp_sp = models.IntegerField("予約件数_ホットペッパー_sp", null=True)
+    reserve_homepage_sp = models.IntegerField("予約件数_ホームページ_sp", null=True)
+    pv_all_pc = models.IntegerField("店舗総PV_pc", null=True)
+    pv_top_pc = models.IntegerField("店舗TOP PV_pc", null=True)
+    pv_coupon_pc = models.IntegerField("クーポンページPV_pc", null=True)
+    cvr_pc = models.CharField("CVR_pc", max_length=10, null=True)
+    tell_pc = models.IntegerField("電話件数_pc", null=True)
+    reserve_pc = models.IntegerField("予約件数_pc", null=True)
+    reserve_hp_pc = models.IntegerField("予約件数_ホットペッパー_pc", null=True)
+    reserve_homepage_pc = models.IntegerField("予約件数_ホームページ_pc", null=True)
 
     def __str__(self):
         return str(self.date)
@@ -75,19 +94,25 @@ class Toro_hp_scrape(models.Model):
 
 
 class Wana_hp_scrape(models.Model):
-    # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
-    date = models.DateField(null=True)
+    date = models.DateField(null=True, blank=True)
     week = models.CharField(max_length=10, null=True)
-    pv_all_sp = models.IntegerField(null=True)
-    pv_top_sp = models.IntegerField(null=True)
-    pv_coupon_sp = models.IntegerField(null=True)
-    cvr_sp = models.CharField(max_length=10, null=True)
-    tell_sp = models.IntegerField(null=True)
-    reserve_sp = models.IntegerField(null=True)
-    reserve_hp = models.IntegerField(null=True)
-    reserve_homepage = models.IntegerField(null=True)
-    day_over_day_changes = models.IntegerField(null=True)
+    pv_all_sp = models.IntegerField("店舗総PV_sp", null=True)
+    pv_top_sp = models.IntegerField("店舗TOP PV_sp", null=True)
+    pv_coupon_sp = models.IntegerField("クーポンページPV_sp", null=True)
+    cvr_sp = models.CharField("CVR_sp", max_length=10, null=True)
+    tell_sp = models.IntegerField("電話件数_sp", null=True)
+    reserve_sp = models.IntegerField("予約件数_sp", null=True)
+    reserve_hp_sp = models.IntegerField("予約件数_ホットペッパー_sp", null=True)
+    reserve_homepage_sp = models.IntegerField("予約件数_ホームページ_sp", null=True)
+    pv_all_pc = models.IntegerField("店舗総PV_pc", null=True)
+    pv_top_pc = models.IntegerField("店舗TOP PV_pc", null=True)
+    pv_coupon_pc = models.IntegerField("クーポンページPV_pc", null=True)
+    cvr_pc = models.CharField("CVR_pc", max_length=10, null=True)
+    tell_pc = models.IntegerField("電話件数_pc", null=True)
+    reserve_pc = models.IntegerField("予約件数_pc", null=True)
+    reserve_hp_pc = models.IntegerField("予約件数_ホットペッパー_pc", null=True)
+    reserve_homepage_pc = models.IntegerField("予約件数_ホームページ_pc", null=True)
 
     def __str__(self):
         return str(self.date)
@@ -98,19 +123,25 @@ class Wana_hp_scrape(models.Model):
 
 
 class Wananakame_hp_scrape(models.Model):
-    # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
-    date = models.DateField(null=True)
+    date = models.DateField(null=True, blank=True)
     week = models.CharField(max_length=10, null=True)
-    pv_all_sp = models.IntegerField(null=True)
-    pv_top_sp = models.IntegerField(null=True)
-    pv_coupon_sp = models.IntegerField(null=True)
-    cvr_sp = models.CharField(max_length=10, null=True)
-    tell_sp = models.IntegerField(null=True)
-    reserve_sp = models.IntegerField(null=True)
-    reserve_hp = models.IntegerField(null=True)
-    reserve_homepage = models.IntegerField(null=True)
-    day_over_day_changes = models.IntegerField(null=True)
+    pv_all_sp = models.IntegerField("店舗総PV_sp", null=True)
+    pv_top_sp = models.IntegerField("店舗TOP PV_sp", null=True)
+    pv_coupon_sp = models.IntegerField("クーポンページPV_sp", null=True)
+    cvr_sp = models.CharField("CVR_sp", max_length=10, null=True)
+    tell_sp = models.IntegerField("電話件数_sp", null=True)
+    reserve_sp = models.IntegerField("予約件数_sp", null=True)
+    reserve_hp_sp = models.IntegerField("予約件数_ホットペッパー_sp", null=True)
+    reserve_homepage_sp = models.IntegerField("予約件数_ホームページ_sp", null=True)
+    pv_all_pc = models.IntegerField("店舗総PV_pc", null=True)
+    pv_top_pc = models.IntegerField("店舗TOP PV_pc", null=True)
+    pv_coupon_pc = models.IntegerField("クーポンページPV_pc", null=True)
+    cvr_pc = models.CharField("CVR_pc", max_length=10, null=True)
+    tell_pc = models.IntegerField("電話件数_pc", null=True)
+    reserve_pc = models.IntegerField("予約件数_pc", null=True)
+    reserve_hp_pc = models.IntegerField("予約件数_ホットペッパー_pc", null=True)
+    reserve_homepage_pc = models.IntegerField("予約件数_ホームページ_pc", null=True)
 
     def __str__(self):
         return str(self.date)
@@ -161,8 +192,6 @@ class Fes_gn_scrape(models.Model):
     reserve_request_people = models.IntegerField("予約_リクエスト_人数", null=True)
     reserve_total = models.IntegerField("予約_合計件数", null=True)
 
-
-
     def __str__(self):
         return str(self.date)
 
@@ -185,6 +214,7 @@ class Grg_gn_scrape(models.Model):
     map_pv_sp = models.IntegerField("地図PV_SP", null=True)
     coupon_pv_sp = models.IntegerField("クーポンPV_SP", null=True)
     reserve_pv_sp = models.IntegerField("予約PV_SP", null=True)
+
     total_pv_pc = models.IntegerField("合計PV_PC", null=True)
     top_pv_pc = models.IntegerField("店舗トップPV_PC", null=True)
     menu_pv_pc = models.IntegerField("メニューPV_PC", null=True)
@@ -194,6 +224,7 @@ class Grg_gn_scrape(models.Model):
     map_pv_pc = models.IntegerField("地図PV_PC", null=True)
     coupon_pv_pc = models.IntegerField("クーポンPV_PC", null=True)
     reserve_pv_pc = models.IntegerField("予約PV_PC", null=True)
+
     total_pv_app = models.IntegerField("合計PV_app", null=True)
     top_pv_app = models.IntegerField("店舗トップPV_app", null=True)
     menu_pv_app = models.IntegerField("メニューPV_app", null=True)
@@ -203,6 +234,7 @@ class Grg_gn_scrape(models.Model):
     map_pv_app = models.IntegerField("地図PV_app", null=True)
     coupon_pv_app = models.IntegerField("クーポンPV_app", null=True)
     reserve_pv_app = models.IntegerField("予約PV_app", null=True)
+    
     reserve_course_number = models.IntegerField("予約_コース_件数", null=True)
     reserve_course_people = models.IntegerField("予約_コース_人数", null=True)
     reserve_course_price = models.IntegerField("予約_コース_金額", null=True)
@@ -211,7 +243,6 @@ class Grg_gn_scrape(models.Model):
     reserve_request_number = models.IntegerField("予約_リクエスト_件数", null=True)
     reserve_request_people = models.IntegerField("予約_リクエスト_人数", null=True)
     reserve_total = models.IntegerField("予約_合計件数", null=True)
-
 
     def __str__(self):
         return str(self.date)
@@ -262,7 +293,6 @@ class Toro_gn_scrape(models.Model):
     reserve_request_people = models.IntegerField("予約_リクエスト_人数", null=True)
     reserve_total = models.IntegerField("予約_合計件数", null=True)
 
-
     def __str__(self):
         return str(self.date)
 
@@ -311,7 +341,6 @@ class Wana_gn_scrape(models.Model):
     reserve_request_number = models.IntegerField("予約_リクエスト_件数", null=True)
     reserve_request_people = models.IntegerField("予約_リクエスト_人数", null=True)
     reserve_total = models.IntegerField("予約_合計件数", null=True)
-
 
     def __str__(self):
         return str(self.date)
@@ -362,7 +391,6 @@ class Wananakame_gn_scrape(models.Model):
     reserve_request_people = models.IntegerField("予約_リクエスト_人数", null=True)
     reserve_total = models.IntegerField("予約_合計件数", null=True)
 
-
     def __str__(self):
         return str(self.date)
 
@@ -372,21 +400,35 @@ class Wananakame_gn_scrape(models.Model):
 
 
 class Fes_tb_scrape(models.Model):
-    # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
     date = models.DateField(null=True)
     week = models.CharField(max_length=10, null=True)
-    top = models.IntegerField(null=True)
-    photo = models.IntegerField(null=True)
-    photo_info = models.IntegerField(null=True)
-    rating = models.IntegerField(null=True)
-    menu = models.IntegerField(null=True)
-    map = models.IntegerField(null=True)
-    coupon = models.IntegerField(null=True)
-    p_coupon = models.IntegerField(null=True)
-    seat = models.IntegerField(null=True)
-    other = models.IntegerField(null=True)
-    total = models.IntegerField(null=True)
+    top_pv_sp = models.IntegerField("店舗トップPV_sp", null=True)
+    photo_pv_sp = models.IntegerField("写真一覧PV_sp", null=True)
+    photo_info_pv_sp = models.IntegerField("写真詳細PV_sp", null=True)
+    rating_pv_sp = models.IntegerField("口コミPV_sp", null=True)
+    menu_pv_sp = models.IntegerField("メニューPV_sp", null=True)
+    map_pv_sp = models.IntegerField("地図PV_sp", null=True)
+    coupon_pv_sp = models.IntegerField("クーポンPV_sp", null=True)
+    p_coupon_pv_sp = models.IntegerField("プレミアムクーポンPV_sp", null=True)
+    seat_pv_sp = models.IntegerField("座席情報PV_sp", null=True)
+    other_pv_sp = models.IntegerField("その他PV_sp", null=True)
+    total_pv_sp = models.IntegerField("合計PV_sp", null=True)
+
+    top_pv_pc = models.IntegerField("店舗トップPV_pc", null=True)
+    photo_food_pv_pc = models.IntegerField("料理写真PV_pc", null=True)
+    photo_drink_pv_pc = models.IntegerField("ドリンク写真_pc", null=True)
+    photo_interior_pv_pc = models.IntegerField("内観写真_pc", null=True)
+    photo_exterior_pv_pc = models.IntegerField("外観写真_pc", null=True)
+    rating_pv_pc = models.IntegerField("口コミPV_pc", null=True)
+    menu_pv_pc = models.IntegerField("メニューPV_pc", null=True)
+    map_coupon_pv_pc = models.IntegerField("地図_クーポンPV_pc", null=True)
+    p_coupon_pv_pc = models.IntegerField("プレミアムクーポンPV_pc", null=True)
+    seat_pv_pc = models.IntegerField("座席情報PV_pc", null=True)
+    other_pv_pc = models.IntegerField("その他PV_pc", null=True)
+    total_pv_pc = models.IntegerField("合計PV_pc", null=True)
+
+    net_reserve = models.IntegerField("ネット予約", null=True)
 
     def __str__(self):
         return str(self.date)
@@ -397,21 +439,35 @@ class Fes_tb_scrape(models.Model):
 
 
 class Grg_tb_scrape(models.Model):
-    # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
     date = models.DateField(null=True)
     week = models.CharField(max_length=10, null=True)
-    top = models.IntegerField(null=True)
-    photo = models.IntegerField(null=True)
-    photo_info = models.IntegerField(null=True)
-    rating = models.IntegerField(null=True)
-    menu = models.IntegerField(null=True)
-    map = models.IntegerField(null=True)
-    coupon = models.IntegerField(null=True)
-    p_coupon = models.IntegerField(null=True)
-    seat = models.IntegerField(null=True)
-    other = models.IntegerField(null=True)
-    total = models.IntegerField(null=True)
+    top_pv_sp = models.IntegerField("店舗トップPV_sp", null=True)
+    photo_pv_sp = models.IntegerField("写真一覧PV_sp", null=True)
+    photo_info_pv_sp = models.IntegerField("写真詳細PV_sp", null=True)
+    rating_pv_sp = models.IntegerField("口コミPV_sp", null=True)
+    menu_pv_sp = models.IntegerField("メニューPV_sp", null=True)
+    map_pv_sp = models.IntegerField("地図PV_sp", null=True)
+    coupon_pv_sp = models.IntegerField("クーポンPV_sp", null=True)
+    p_coupon_pv_sp = models.IntegerField("プレミアムクーポンPV_sp", null=True)
+    seat_pv_sp = models.IntegerField("座席情報PV_sp", null=True)
+    other_pv_sp = models.IntegerField("その他PV_sp", null=True)
+    total_pv_sp = models.IntegerField("合計PV_sp", null=True)
+
+    top_pv_pc = models.IntegerField("店舗トップPV_pc", null=True)
+    photo_food_pv_pc = models.IntegerField("料理写真PV_pc", null=True)
+    photo_drink_pv_pc = models.IntegerField("ドリンク写真_pc", null=True)
+    photo_interior_pv_pc = models.IntegerField("内観写真_pc", null=True)
+    photo_exterior_pv_pc = models.IntegerField("外観写真_pc", null=True)
+    rating_pv_pc = models.IntegerField("口コミPV_pc", null=True)
+    menu_pv_pc = models.IntegerField("メニューPV_pc", null=True)
+    map_coupon_pv_pc = models.IntegerField("地図_クーポンPV_pc", null=True)
+    p_coupon_pv_pc = models.IntegerField("プレミアムクーポンPV_pc", null=True)
+    seat_pv_pc = models.IntegerField("座席情報PV_pc", null=True)
+    other_pv_pc = models.IntegerField("その他PV_pc", null=True)
+    total_pv_pc = models.IntegerField("合計PV_pc", null=True)
+
+    net_reserve = models.IntegerField("ネット予約", null=True)
 
     def __str__(self):
         return str(self.date)
@@ -422,21 +478,35 @@ class Grg_tb_scrape(models.Model):
 
 
 class Toro_tb_scrape(models.Model):
-    # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
     date = models.DateField(null=True)
     week = models.CharField(max_length=10, null=True)
-    top = models.IntegerField(null=True)
-    photo = models.IntegerField(null=True)
-    photo_info = models.IntegerField(null=True)
-    rating = models.IntegerField(null=True)
-    menu = models.IntegerField(null=True)
-    map = models.IntegerField(null=True)
-    coupon = models.IntegerField(null=True)
-    p_coupon = models.IntegerField(null=True)
-    seat = models.IntegerField(null=True)
-    other = models.IntegerField(null=True)
-    total = models.IntegerField(null=True)
+    top_pv_sp = models.IntegerField("店舗トップPV_sp", null=True)
+    photo_pv_sp = models.IntegerField("写真一覧PV_sp", null=True)
+    photo_info_pv_sp = models.IntegerField("写真詳細PV_sp", null=True)
+    rating_pv_sp = models.IntegerField("口コミPV_sp", null=True)
+    menu_pv_sp = models.IntegerField("メニューPV_sp", null=True)
+    map_pv_sp = models.IntegerField("地図PV_sp", null=True)
+    coupon_pv_sp = models.IntegerField("クーポンPV_sp", null=True)
+    p_coupon_pv_sp = models.IntegerField("プレミアムクーポンPV_sp", null=True)
+    seat_pv_sp = models.IntegerField("座席情報PV_sp", null=True)
+    other_pv_sp = models.IntegerField("その他PV_sp", null=True)
+    total_pv_sp = models.IntegerField("合計PV_sp", null=True)
+
+    top_pv_pc = models.IntegerField("店舗トップPV_pc", null=True)
+    photo_food_pv_pc = models.IntegerField("料理写真PV_pc", null=True)
+    photo_drink_pv_pc = models.IntegerField("ドリンク写真_pc", null=True)
+    photo_interior_pv_pc = models.IntegerField("内観写真_pc", null=True)
+    photo_exterior_pv_pc = models.IntegerField("外観写真_pc", null=True)
+    rating_pv_pc = models.IntegerField("口コミPV_pc", null=True)
+    menu_pv_pc = models.IntegerField("メニューPV_pc", null=True)
+    map_coupon_pv_pc = models.IntegerField("地図_クーポンPV_pc", null=True)
+    p_coupon_pv_pc = models.IntegerField("プレミアムクーポンPV_pc", null=True)
+    seat_pv_pc = models.IntegerField("座席情報PV_pc", null=True)
+    other_pv_pc = models.IntegerField("その他PV_pc", null=True)
+    total_pv_pc = models.IntegerField("合計PV_pc", null=True)
+
+    net_reserve = models.IntegerField("ネット予約", null=True)
 
     def __str__(self):
         return str(self.date)
@@ -447,21 +517,35 @@ class Toro_tb_scrape(models.Model):
 
 
 class Wana_tb_scrape(models.Model):
-    # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
     date = models.DateField(null=True)
     week = models.CharField(max_length=10, null=True)
-    top = models.IntegerField(null=True)
-    photo = models.IntegerField(null=True)
-    photo_info = models.IntegerField(null=True)
-    rating = models.IntegerField(null=True)
-    menu = models.IntegerField(null=True)
-    map = models.IntegerField(null=True)
-    coupon = models.IntegerField(null=True)
-    p_coupon = models.IntegerField(null=True)
-    seat = models.IntegerField(null=True)
-    other = models.IntegerField(null=True)
-    total = models.IntegerField(null=True)
+    top_pv_sp = models.IntegerField("店舗トップPV_sp", null=True)
+    photo_pv_sp = models.IntegerField("写真一覧PV_sp", null=True)
+    photo_info_pv_sp = models.IntegerField("写真詳細PV_sp", null=True)
+    rating_pv_sp = models.IntegerField("口コミPV_sp", null=True)
+    menu_pv_sp = models.IntegerField("メニューPV_sp", null=True)
+    map_pv_sp = models.IntegerField("地図PV_sp", null=True)
+    coupon_pv_sp = models.IntegerField("クーポンPV_sp", null=True)
+    p_coupon_pv_sp = models.IntegerField("プレミアムクーポンPV_sp", null=True)
+    seat_pv_sp = models.IntegerField("座席情報PV_sp", null=True)
+    other_pv_sp = models.IntegerField("その他PV_sp", null=True)
+    total_pv_sp = models.IntegerField("合計PV_sp", null=True)
+
+    top_pv_pc = models.IntegerField("店舗トップPV_pc", null=True)
+    photo_food_pv_pc = models.IntegerField("料理写真PV_pc", null=True)
+    photo_drink_pv_pc = models.IntegerField("ドリンク写真_pc", null=True)
+    photo_interior_pv_pc = models.IntegerField("内観写真_pc", null=True)
+    photo_exterior_pv_pc = models.IntegerField("外観写真_pc", null=True)
+    rating_pv_pc = models.IntegerField("口コミPV_pc", null=True)
+    menu_pv_pc = models.IntegerField("メニューPV_pc", null=True)
+    map_coupon_pv_pc = models.IntegerField("地図_クーポンPV_pc", null=True)
+    p_coupon_pv_pc = models.IntegerField("プレミアムクーポンPV_pc", null=True)
+    seat_pv_pc = models.IntegerField("座席情報PV_pc", null=True)
+    other_pv_pc = models.IntegerField("その他PV_pc", null=True)
+    total_pv_pc = models.IntegerField("合計PV_pc", null=True)
+
+    net_reserve = models.IntegerField("ネット予約", null=True)
 
     def __str__(self):
         return str(self.date)
@@ -472,21 +556,35 @@ class Wana_tb_scrape(models.Model):
 
 
 class Wananakame_tb_scrape(models.Model):
-    # title = models.CharField(max_length=100)
     month_key = models.CharField(max_length=20, blank=True, null=True)
     date = models.DateField(null=True)
     week = models.CharField(max_length=10, null=True)
-    top = models.IntegerField(null=True)
-    photo = models.IntegerField(null=True)
-    photo_info = models.IntegerField(null=True)
-    rating = models.IntegerField(null=True)
-    menu = models.IntegerField(null=True)
-    map = models.IntegerField(null=True)
-    coupon = models.IntegerField(null=True)
-    p_coupon = models.IntegerField(null=True)
-    seat = models.IntegerField(null=True)
-    other = models.IntegerField(null=True)
-    total = models.IntegerField(null=True)
+    top_pv_sp = models.IntegerField("店舗トップPV_sp", null=True)
+    photo_pv_sp = models.IntegerField("写真一覧PV_sp", null=True)
+    photo_info_pv_sp = models.IntegerField("写真詳細PV_sp", null=True)
+    rating_pv_sp = models.IntegerField("口コミPV_sp", null=True)
+    menu_pv_sp = models.IntegerField("メニューPV_sp", null=True)
+    map_pv_sp = models.IntegerField("地図PV_sp", null=True)
+    coupon_pv_sp = models.IntegerField("クーポンPV_sp", null=True)
+    p_coupon_pv_sp = models.IntegerField("プレミアムクーポンPV_sp", null=True)
+    seat_pv_sp = models.IntegerField("座席情報PV_sp", null=True)
+    other_pv_sp = models.IntegerField("その他PV_sp", null=True)
+    total_pv_sp = models.IntegerField("合計PV_sp", null=True)
+
+    top_pv_pc = models.IntegerField("店舗トップPV_pc", null=True)
+    photo_food_pv_pc = models.IntegerField("料理写真PV_pc", null=True)
+    photo_drink_pv_pc = models.IntegerField("ドリンク写真_pc", null=True)
+    photo_interior_pv_pc = models.IntegerField("内観写真_pc", null=True)
+    photo_exterior_pv_pc = models.IntegerField("外観写真_pc", null=True)
+    rating_pv_pc = models.IntegerField("口コミPV_pc", null=True)
+    menu_pv_pc = models.IntegerField("メニューPV_pc", null=True)
+    map_coupon_pv_pc = models.IntegerField("地図_クーポンPV_pc", null=True)
+    p_coupon_pv_pc = models.IntegerField("プレミアムクーポンPV_pc", null=True)
+    seat_pv_pc = models.IntegerField("座席情報PV_pc", null=True)
+    other_pv_pc = models.IntegerField("その他PV_pc", null=True)
+    total_pv_pc = models.IntegerField("合計PV_pc", null=True)
+
+    net_reserve = models.IntegerField("ネット予約", null=True)
 
     def __str__(self):
         return str(self.date)

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
+    "livereload",
     'scraping',
     'django.contrib.admin',
     'django.contrib.auth',

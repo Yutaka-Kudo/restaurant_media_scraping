@@ -6,8 +6,8 @@ from scraping.site_package.my_module import create_dbdict
 from django.core.management.base import BaseCommand
 
 # csvファイルの名前の文末の謎数字消す前処理、忘れずに
-start_date = "2020-11-1"
-file_count = 17
+start_date = "2021-3-21"
+file_count = 1
 
 
 def trans_date(i):
