@@ -594,7 +594,7 @@ def gn_sp(request, all: bool = False):
 #         i.clear()
 #         i.send_keys(value)
 
-# i = driver.find_element_by_xpath('//*[@id="menu_text"]')
+# i = driver.find_element_by_xpath('//*[@id="foodChoosyCatch0"]')
 # addtax()
 
 
@@ -672,4 +672,5 @@ def gn_sp(request, all: bool = False):
 #     addtax()
 #     target = driver.find_element_by_id('appealPointInput')
 #     addtax()
+
 

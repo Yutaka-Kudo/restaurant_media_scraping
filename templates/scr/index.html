@@ -129,7 +129,7 @@
         </div>
 
         <div class="elem">
-            <form action="{% url 'scraping:chart_GMB' store='fes' %}" method="GET">
+            <form action="{% url 'scraping:chart' store='fes' media='gmb' %}" method="GET">
                 <h4>GMB</h4>
                 <input type="submit" value="GMB">
             </form>
@@ -211,10 +211,8 @@
             </form>
             <a href="{% url 'scraping:chart' store='garage' media='tb' %}">週間</a>
         </div>
-        <div class=
-        "elem">
-
-            <form action="{% url 'scraping:chart_GMB' store='garage' %}" method="GET">
+        <div class="elem">
+            <form action="{% url 'scraping:chart' store='fes' media='gmb' %}" method="GET">
                 <h4>GMB</h4>
                 <input type="submit" value="GMB">
             </form>
@@ -287,7 +285,7 @@
             <input type="submit">
         </form>
         <a href="{% url 'scraping:chart' store='tourou' media='tb' %}">週間</a>
-        <form action="{% url 'scraping:chart_GMB' store='tourou' %}" method="GET">
+        <form action="{% url 'scraping:chart' store='fes' media='gmb' %}" method="GET">
             <h4
             >GMB</h4>
             <input type="submit" value="GMB">
@@ -358,7 +356,7 @@
             <input type="submit">
         </form>
         <a href="{% url 'scraping:chart' store='wanaichi' media='tb' %}">週間</a>
-        <form action="{% url 'scraping:chart_GMB' store='wanaichi' %}" method="GET">
+        <form action="{% url 'scraping:chart' store='fes' media='gmb' %}" method="GET">
             <h4
             >GMB</h4>
             <input type="submit" value="GMB">
@@ -429,7 +427,7 @@
             <input type="submit">
         </form>
         <a href="{% url 'scraping:chart' store='wananakame' media='tb' %}">週間</a>
-        <form action="{% url 'scraping:chart_GMB' store='wananakame' %}" method="GET">
+        <form action="{% url 'scraping:chart' store='fes' media='gmb' %}" method="GET">
             <h4
             >GMB</h4>
             <input type="submit" value="GMB">

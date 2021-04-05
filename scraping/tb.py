@@ -539,70 +539,70 @@ def tb_sp(request, all: bool = False):
 
 
 
-# 手動用
-def replace_tax():
-    user_name = pwd.tbi
-    pw = pwd.tbp
+# # 手動用
+# def replace_tax():
+#     user_name = pwd.tbi
+#     pw = pwd.tbp
 
-    driver = webdriver.Chrome(chrome_options=options)
-    driver.get("https://ssl.tabelog.com/owner_account/login/")
-    driver.find_element_by_id('login_id').send_keys(user_name)
-    driver.find_element_by_id('password').send_keys(pw).submit()
-    driver.find_element_by_id('password').submit()
-    driver.find_element_by_link_text('店舗ページ編集').click()
-    driver.find_element_by_link_text('メニューの編集').click()
-    driver.find_element_by_xpath('/html/body/div[4]/div[6]/div/div/div[1]/article/section[2]/section[1]/div[1]/div[2]/a').click()
-
-
-    folist = driver.find_elements_by_xpath("//input[@type='number']")
-    for fo in folist:
-        if fo.get_attribute('value'):
-            new_price = round(int(fo.get_attribute('value'))*1.1)
-            fo.clear()
-            fo.send_keys(new_price)
+#     driver = webdriver.Chrome(chrome_options=options)
+#     driver.get("https://ssl.tabelog.com/owner_account/login/")
+#     driver.find_element_by_id('login_id').send_keys(user_name)
+#     driver.find_element_by_id('password').send_keys(pw).submit()
+#     driver.find_element_by_id('password').submit()
+#     driver.find_element_by_link_text('店舗ページ編集').click()
+#     driver.find_element_by_link_text('メニューの編集').click()
+#     driver.find_element_by_xpath('/html/body/div[4]/div[6]/div/div/div[1]/article/section[2]/section[1]/div[1]/div[2]/a').click()
 
 
-    # メニューページーーーーーーーー
-    menu_descri = driver.find_elements_by_id('menus[][description]')
-
-    for i in menu_descri:
-        value = i.get_attribute('value')
-        index_num_list = [n for n,v in enumerate(value) if v == "円"]
-        if index_num_list:
-            for position in reversed(index_num_list):
-                st_posi = position-1
-                try:
-                    while type(int(value[st_posi])) == int:
-                        st_posi -= 1
-                        if value[st_posi] == ",":
-                            st_posi -= 1
-                except:
-                    old_price = value[st_posi+1:position].replace(',','')
-                    # print(old_price)
-                    new_price = (int(old_price)*1.1)
-                    # print(new_price)
-                    new_sentence = "(税込{:,.0f}円)".format(new_price)
-                    # print(new_sentence)
-                    value = value[:position+1]+new_sentence+value[position+1:]
-            print(value)
-            i.clear()
-            i.send_keys(value)
+#     folist = driver.find_elements_by_xpath("//input[@type='number']")
+#     for fo in folist:
+#         if fo.get_attribute('value'):
+#             new_price = round(int(fo.get_attribute('value'))*1.1)
+#             fo.clear()
+#             fo.send_keys(new_price)
 
 
+#     # メニューページーーーーーーーー
+#     menu_descri = driver.find_elements_by_id('menus[][description]')
 
-    # ネット予約個別設定
-    for i in range(1,11):
-        folist = driver.find_elements_by_class_name('js-open-setting-modal')
-        folist[i].click()
-        driver.find_element_by_xpath('/html/body/main/div/div/section/div[3]/div/div[2]/div/form/table[1]/tbody/tr[2]/td/div/div/div[2]/label').click()
-        month_select_elem = driver.find_element_by_id('js-dinner_start') # dinner_end
-        month_select_object = Select(month_select_elem)
-        month_select_object.select_by_value("1200")
-        # month_select_elem = driver.find_element_by_id('js-dinner_end') # dinner_end
-        # month_select_object = Select(month_select_elem)
-        # month_select_object.select_by_value("2100")
-        driver.find_element_by_xpath('/html/body/main/div/div/section/div[3]/div/div[2]/div/form/table[2]/tbody/tr[2]/td/div/div/input').click()
-        # driver.refresh()
-        sleep(1.5)
+#     for i in menu_descri:
+#         value = i.get_attribute('value')
+#         index_num_list = [n for n,v in enumerate(value) if v == "円"]
+#         if index_num_list:
+#             for position in reversed(index_num_list):
+#                 st_posi = position-1
+#                 try:
+#                     while type(int(value[st_posi])) == int:
+#                         st_posi -= 1
+#                         if value[st_posi] == ",":
+#                             st_posi -= 1
+#                 except:
+#                     old_price = value[st_posi+1:position].replace(',','')
+#                     # print(old_price)
+#                     new_price = (int(old_price)*1.1)
+#                     # print(new_price)
+#                     new_sentence = "(税込{:,.0f}円)".format(new_price)
+#                     # print(new_sentence)
+#                     value = value[:position+1]+new_sentence+value[position+1:]
+#             print(value)
+#             i.clear()
+#             i.send_keys(value)
+
+
+
+#     # ネット予約個別設定
+#     for i in range(0,26):
+#         folist = driver.find_elements_by_class_name('js-open-setting-modal')
+#         folist[i].click()
+#         driver.find_element_by_xpath('/html/body/main/div/div/section/div[3]/div/div[2]/div/form/table[1]/tbody/tr[2]/td/div/div/div[2]/label').click()
+#         # month_select_elem = driver.find_element_by_id('js-dinner_start') # dinner_start
+#         # month_select_object = Select(month_select_elem)
+#         # month_select_object.select_by_value("1130")
+#         month_select_elem = driver.find_element_by_id('js-dinner_end') # dinner_end
+#         month_select_object = Select(month_select_elem)
+#         month_select_object.select_by_value("2100")
+#         driver.find_element_by_xpath('/html/body/main/div/div/section/div[3]/div/div[2]/div/form/table[2]/tbody/tr[2]/td/div/div/input').click()
+#         # driver.refresh()
+#         sleep(1.5)
 
 
