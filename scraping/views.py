@@ -55,15 +55,12 @@ def index(request):
         span_list_wananakame_tb.append(i.month_key)
     span_list_wananakame_tb = sorted(set(span_list_wananakame_tb), reverse=True)
 
+    media_list_for_index = [["ぐるなび", "gn"], ["HotPepper", "hp"], ["食べログ", "tb"]]
+    store_list_for_index = [["Fes", "fes", span_list_fes], ["Garage", "garage", span_list_garage], ["灯籠", "tourou", span_list_tourou], ["罠　一目", "wanaichi", span_list_wanaichi], ["罠　中目罠", "wananakame", span_list_wananakame]]
+
     context = {
-        # "store": store,
-        #  "span_list": span_list,
-        "span_list_fes": span_list_fes,
-        "span_list_garage": span_list_garage,
-        "span_list_tourou": span_list_tourou,
-        "span_list_wanaichi": span_list_wanaichi,
-        "span_list_wananakame": span_list_wananakame,
-        "span_list_wananakame_tb": span_list_wananakame_tb,
+        "media_list_for_index": media_list_for_index,
+        "store_list_for_index": store_list_for_index,
     }
     return render(request, "scr/index.html", context)
 
@@ -256,7 +253,7 @@ def chart(request, store: str, media: str):
         # DF生成ーーーーーーーーーーー
         if media == "gmb":  # GMBだけもともと曜日ごとにデータ持ってる
             before12weeks = to_day - relativedelta(days=84)
-            to_day_str, before12weeks_str = list(map(trans_date,[to_day,before12weeks]))  # データ体型がdateでなくstrなので変換
+            to_day_str, before12weeks_str = list(map(trans_date, [to_day, before12weeks]))  # データ体型がdateでなくstrなので変換
             df = create_df(None, store, media, interval="gmb", start=to_day_str, end=before12weeks_str)
             xticks = list(df["期間"])
         else:
@@ -593,4 +590,3 @@ def chart(request, store: str, media: str):
             return render(request, "scr/chart_weekly_tb.html", context)
         elif media == "gmb":
             return render(request, "scr/chart_GMB.html", context)
-

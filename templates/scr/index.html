@@ -54,386 +54,43 @@
     {% endblock head %}
 
     {% block content %}
+
+    {% for store_name, store, span_list in store_list_for_index %}
     <div class="store">
-
-        <h4>Fes</h4>
+        <h4>{{store_name}}</h4>
+        {% for media_name, media in media_list_for_index %}
         <div class="elem">
-            <h4>ぐるなび</h4>
-            <form action="{% url 'scraping:download_excel' store='fes' media='gn' %}" method="GET">
+            <h4>{{media_name}}</h4>
+            <form action="{% url 'scraping:download_excel' store=store media=media %}" method="GET">
                 <select name="q">
-                    {% for span in span_list_fes %}
+                    {% for span in span_list %}
                     <option value="{{span}}">{{span}}</option>
                     {% endfor %}
                 </select>
                 <input type="submit">
             </form>
 
-            <form action="{% url 'scraping:chart' store='fes' media='gn' %}" method="GET">
+            <form action="{% url 'scraping:chart' store=store media=media %}" method="GET">
                 <select name="q">
-                    {% for span in span_list_fes %}
+                    {% for span in span_list %}
                     <option value="{{span}}">{{span}}</option>
                     {% endfor %}
                 </select>
                 <input type="hidden" name="daily_flg" value="True">
                 <input type="submit">
             </form>
-            <a href="{% url 'scraping:chart' store='fes' media='gn' %}">週間</a>
+            <a href="{% url 'scraping:chart' store=store media=media %}">週間</a>
         </div>
+        {% endfor %}
 
         <div class="elem">
-            <h4>HotPepper</h4>
-            <form action="{% url 'scraping:download_excel' store='fes' media='hp'  %}" method="GET">
-                <select name="q">
-                    {% for span in span_list_fes %}
-                    <option value="{{span}}">{{span}}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit">
-            </form>
-
-            <form action="{% url 'scraping:chart' store='fes' media='hp' %}" method="GET">
-                <select name="q">
-                    {% for span in span_list_fes %}
-                    <option value="{{span}}">{{span}}</option>
-                    {% endfor %}
-                </select>
-                <input type="hidden" name="daily_flg" value="True">
-                <input type="submit">
-            </form>
-            <a href="{% url 'scraping:chart' store='fes' media='hp' %}">週間</a>
-        </div>
-
-
-        <div class="elem">
-            <h4>食べログ</h4>
-            <form action="{% url 'scraping:download_excel' store='fes' media='tb' %}" method="GET">
-                <select name="q">
-                    {% for span in span_list_fes %}
-                    <option value="{{span}}">{{span}}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit">
-            </form>
-
-            <form action="{% url 'scraping:chart' store='fes' media='tb' %}" method="GET">
-                <select name="q">
-                    {% for span in span_list_fes %}
-                    <option value="{{span}}">{{span}}</option>
-                    {% endfor %}
-                </select>
-                <input type="hidden" name="daily_flg" value="True">
-                <input type="submit">
-            </form>
-
-            <a href="{% url 'scraping:chart' store='fes' media='tb' %}">週間</a>
-        </div>
-
-        <div class="elem">
-            <form action="{% url 'scraping:chart' store='fes' media='gmb' %}" method="GET">
+            <form action="{% url 'scraping:chart' store=store media='gmb' %}" method="GET">
                 <h4>GMB</h4>
                 <input type="submit" value="GMB">
             </form>
         </div>
     </div>
-
-
-    <div class="store">
-
-        <h4>Garage</h4>
-        <div class="elem">
-
-            <h4>ぐるなび</h4>
-            <form action="{% url 'scraping:download_excel' store='garage' media='gn' %}" method="GET">
-                <select name="q">
-                    {% for span in span_list_garage %}
-                    <option value="{{span}}">{{span}}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit">
-            </form>
-
-            <form action="{% url 'scraping:chart' store='garage' media='gn' %}" method="GET">
-                <select name="q">
-                    {% for span in span_list_garage %}
-                    <option value="{{span}}">{{span}}</option>
-                    {% endfor %}
-                </select>
-                <input type="hidden" name="daily_flg" value="True">
-                <input type="submit">
-            </form>
-            <a href="{% url 'scraping:chart' store='garage' media='gn' %}">週間</a>
-        </div>
-        <div class=
-        "elem">
-
-            <h4>HotPepper</h4>
-            <form action="{% url 'scraping:download_excel' store='garage' media='hp'  %}" method="GET">
-                <select name="q">
-                    {% for span in span_list_garage %}
-                    <option value="{{span}}">{{span}}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit">
-            </form>
-
-            <form action="{% url 'scraping:chart' store='garage' media='hp' %}" method="GET">
-                <select name="q">
-                    {% for span in span_list_garage %}
-                    <option value="{{span}}">{{span}}</option>
-                    {% endfor %}
-                </select>
-                <input type="hidden" name="daily_flg" value="True">
-                <input type="submit">
-            </form>
-            <a href="{% url 'scraping:chart' store='garage' media='hp' %}">週間</a>
-        </div>
-        <div class=
-        "elem">
-
-            <h4>食べログ</h4>
-            <form action="{% url 'scraping:download_excel' store='garage' media='tb' %}" method="GET">
-                <select name="q">
-                    {% for span in span_list_garage %}
-                    <option value="{{span}}">{{span}}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit">
-            </form>
-
-            <form action="{% url 'scraping:chart' store='garage' media='tb' %}" method="GET">
-                <select name="q">
-                    {% for span in span_list_garage %}
-                    <option value="{{span}}">{{span}}</option>
-                    {% endfor %}
-                </select>
-                <input type="hidden" name="daily_flg" value="True">
-                <input type="submit">
-            </form>
-            <a href="{% url 'scraping:chart' store='garage' media='tb' %}">週間</a>
-        </div>
-        <div class="elem">
-            <form action="{% url 'scraping:chart' store='fes' media='gmb' %}" method="GET">
-                <h4>GMB</h4>
-                <input type="submit" value="GMB">
-            </form>
-        </div>
-    </div>
-
-    <div class="store">
-
-
-        <h4>灯籠</h4>
-        <h4>ぐるなび</h4>
-        <form action="{% url 'scraping:download_excel' store='tourou' media='gn' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_tourou %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit">
-        </form>
-
-        <form action="{% url 'scraping:chart' store='tourou' media='gn' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_tourou %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="daily_flg" value="True">
-            <input type="submit">
-        </form>
-        <a href="{% url 'scraping:chart' store='tourou' media='gn' %}">週間</a>
-        <h4>HotPepper</h4>
-        <form a
-        ction="{% url 'scraping:download_excel' store='tourou' media='hp'  %}" method="GET">
-            <select name="q">
-                {% for span in span_list_tourou %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit">
-        </form>
-
-        <form action="{% url 'scraping:chart' store='tourou' media='hp' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_tourou %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="daily_flg" value="True">
-            <input type="submit">
-        </form>
-        <a href="{% url 'scraping:chart' store='tourou' media='hp' %}">週間</a>
-        <h4>食べログ</h4>
-        <form a
-        ction="{% url 'scraping:download_excel' store='tourou' media='tb' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_tourou %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit">
-        </form>
-
-        <form action="{% url 'scraping:chart' store='tourou' media='tb' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_tourou %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="daily_flg" value="True">
-            <input type="submit">
-        </form>
-        <a href="{% url 'scraping:chart' store='tourou' media='tb' %}">週間</a>
-        <form action="{% url 'scraping:chart' store='fes' media='gmb' %}" method="GET">
-            <h4
-            >GMB</h4>
-            <input type="submit" value="GMB">
-        </form>
-    </div>
-
-    <div class="store">
-        <h4>罠　一目</h4>
-        <h4>ぐるなび</h4>
-        <form action="{% url 'scraping:download_excel' store='wanaichi' media='gn' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wanaichi %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit">
-        </form>
-
-        <form action="{% url 'scraping:chart' store='wanaichi' media='gn' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wanaichi %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="daily_flg" value="True">
-            <input type="submit">
-        </form>
-        <a href="{% url 'scraping:chart' store='wanaichi' media='gn' %}">週間</a>
-        <h4>HotPepper</h4>
-        <form a
-        ction="{% url 'scraping:download_excel' store='wanaichi' media='hp'  %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wanaichi %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit">
-        </form>
-
-        <form action="{% url 'scraping:chart' store='wanaichi' media='hp' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wanaichi %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="daily_flg" value="True">
-            <input type="submit">
-        </form>
-        <a href="{% url 'scraping:chart' store='wanaichi' media='hp' %}">週間</a>
-        <h4>食べログ</h4>
-        <form a
-        ction="{% url 'scraping:download_excel' store='wanaichi' media='tb' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wanaichi %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit">
-        </form>
-
-        <form action="{% url 'scraping:chart' store='wanaichi' media='tb' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wanaichi %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="daily_flg" value="True">
-            <input type="submit">
-        </form>
-        <a href="{% url 'scraping:chart' store='wanaichi' media='tb' %}">週間</a>
-        <form action="{% url 'scraping:chart' store='fes' media='gmb' %}" method="GET">
-            <h4
-            >GMB</h4>
-            <input type="submit" value="GMB">
-        </form>
-    </div>
-    <div class="store">
-
-        <h4>罠　中目罠</h4>
-        <h4>ぐるなび</h4>
-        <form action="{% url 'scraping:download_excel' store='wananakame' media='gn' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wananakame %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit">
-        </form>
-
-        <form action="{% url 'scraping:chart' store='wananakame' media='gn' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wananakame %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="daily_flg" value="True">
-            <input type="submit">
-        </form>
-        <a href="{% url 'scraping:chart' store='wananakame' media='gn' %}">週間</a>
-        <h4>HotPepper</h4>
-        <form a
-        ction="{% url 'scraping:download_excel' store='wananakame' media='hp'  %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wananakame %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit">
-        </form>
-
-        <form action="{% url 'scraping:chart' store='wananakame' media='hp' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wananakame %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="daily_flg" value="True">
-            <input type="submit">
-        </form>
-        <a href="{% url 'scraping:chart' store='wananakame' media='hp' %}">週間</a>
-        <h4>食べログ</h4>
-        <form a
-        ction="{% url 'scraping:download_excel' store='wananakame' media='tb' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wananakame_tb %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="submit">
-        </form>
-
-        <form action="{% url 'scraping:chart' store='wananakame' media='tb' %}" method="GET">
-            <select name="q">
-                {% for span in span_list_wananakame_tb %}
-                <option value="{{span}}">{{span}}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="daily_flg" value="True">
-            <input type="submit">
-        </form>
-        <a href="{% url 'scraping:chart' store='wananakame' media='tb' %}">週間</a>
-        <form action="{% url 'scraping:chart' store='fes' media='gmb' %}" method="GET">
-            <h4
-            >GMB</h4>
-            <input type="submit" value="GMB">
-        </form>
-    </div>
-
+    {% endfor %}
 
     {% endblock content %}
 
