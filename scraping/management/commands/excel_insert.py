@@ -201,5 +201,5 @@ class Command(BaseCommand):  # コマンド python manage.py get_insert_db
                 debug(s, m)
                 excel_insert_weekly(s, m)
 
-        for s in store_list:  # GMB用
-            excel_insert_GMB(s)
+        # for s in store_list:  # GMB用
+        #     excel_insert_GMB(s)

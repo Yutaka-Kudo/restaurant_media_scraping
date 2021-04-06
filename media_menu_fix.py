@@ -129,12 +129,12 @@ def input_all_gn(items):
 
 
 def get_elem_tb(start_elem_num: int):
-    name_eles = driver.find_elements_by_class_name('js-menu-input.js-menu-input-name.oc-textfield.menu-line__menu-input')[start_elem_num]
+    name_eles = driver.find_elements_by_class_name('js-menu-input.js-menu-input-name.oc-textfield.menu-line__menu-input')[start_elem_num:]
     name_eles[0].click()
-    description_eles = driver.find_elements_by_class_name('js-menu-input.js-menu-input-description.oc-textfield.oc-textfield--full.oc-textfield--textarea.menu-category__textarea')[start_elem_num]
+    description_eles = driver.find_elements_by_class_name('js-menu-input.js-menu-input-description.oc-textfield.oc-textfield--full.oc-textfield--textarea.menu-category__textarea')[start_elem_num:]
     sleep(0.5)
     description_eles[0].click()
-    price_eles = driver.find_elements_by_class_name('js-menu-input.js-menu-input-price.oc-textfield.menu-line__price-input')[start_elem_num]
+    price_eles = driver.find_elements_by_class_name('js-menu-input.js-menu-input-price.oc-textfield.menu-line__price-input')[start_elem_num:]
     sleep(0.5)
     price_eles[0].click()
     return name_eles, description_eles, price_eles
@@ -288,7 +288,7 @@ pw_gn = pwd.wngp
 driver.find_element_by_id("loginID").send_keys(user_name_gn)
 driver.find_element_by_id('input_password').send_keys(pw_gn + Keys.ENTER)
 
-items = get_elem_gn(start_elem_num=0)[:-1]
+items = get_elem_gn(start_elem_num=1)[:-1]
 items[-1].find_element_by_class_name('textarea__main').click()  # 最後列の確認
 names, descriptions, prices = get_all_gn(items=items)
 input_all_gn(items=items)
@@ -299,7 +299,7 @@ driver.get("https://ssl.tabelog.com/owner_account/login/")
 driver.find_element_by_id('login_id').send_keys(pwd.tbi)
 driver.find_element_by_id('password').send_keys(pwd.tbp + Keys.ENTER)
 
-name_eles, description_eles, price_eles = get_elem_tb(start_elem_num=0)
+name_eles, description_eles, price_eles = get_elem_tb(start_elem_num=4)
 names, descriptions, prices = get_all_tb(name_eles, description_eles, price_eles)
 input_all_tb(name_eles, description_eles, price_eles)
 # ーーーーーーーーーーーーーーたべ
