@@ -4,8 +4,6 @@ import openpyxl
 from django_pandas.io import read_frame
 import pandas as pd
 import os
-from django.http import HttpResponse
-from scraping import models
 from devtools import debug
 import datetime
 from dateutil.relativedelta import relativedelta
@@ -23,6 +21,7 @@ media_list = ["gn", "hp", "tb"]
 # media_list = ["gn"]
 
 wbname = '/Users/yutakakudo/OneDrive/ユビレジチェックと媒体レポート.xlsx'
+# wbname = '/Users/yutakakudo/OneDrive/ユビレジチェックと媒体レポートのコピー.xlsx'
 wb = openpyxl.load_workbook(wbname)
 #  表の一番最後のデータの日にちを求める。
 st = wb['FESレポート']  # どこのでも良い
@@ -42,6 +41,8 @@ def excel_insert_weekly(store: str, media: str):
         if i.week == "土":  # 土曜を探して起点にする
             saturday = i.date
             break
+    if not "saturday" in locals(): # 存在確認
+        raise UnboundLocalError(f'データがありません。{next_day} - {day_after6}')
 
     # 過去12週間分
     # before12weeks: datetime.date = saturday - relativedelta(days=83)
@@ -131,11 +132,6 @@ def excel_insert_weekly(store: str, media: str):
 
 
 def excel_insert_GMB(store: str):
-
-    # span_id = trans_date("2021-01-31")  # これ確認
-    span_id = next_day  # これ確認
-    debug(span_id)
-
     if store == "fes":
         dbmodel = Fes_GMB
         name = "FES"
@@ -152,16 +148,24 @@ def excel_insert_GMB(store: str):
         dbmodel = Wananakame_GMB
         name = "罠中目黒"
     st = wb[f'{name}レポート']
-    qs = dbmodel.objects.filter(span_id=span_id)
 
-    st.cell(last_date_row+1, 11).value = qs[0].total_show
-    span_id += relativedelta(days=7)
-    qs = dbmodel.objects.filter(span_id=span_id)
+    last_date_row_gmb: int = [i for i in range(5, st.max_row) if st.cell(i, 11).value][-1]
+    last_span_gmb: str = st.cell(last_date_row_gmb, 1).value  # →"2021-03-07_03-13"
+    last_date_gmb: str = last_span_gmb[:10] # →"2021-03-07"
+    next_date_gmb: str = trans_date(trans_date(last_date_gmb)+relativedelta(days=7))
+
+    debug(next_date_gmb)
+
+    qs = dbmodel.objects.filter(span_id=next_date_gmb)
+    if not qs:
+        raise Exception(f'データがありません。span_id: {next_date_gmb}')
+
+    st.cell(last_date_row_gmb+1, 11).value = qs[0].total_show
 
     wb.save(wbname)
 
     # # 最初にやったやつ。まとめて登録
-    # span_id = trans_date("2021-01-31")  # これ確認
+    # next_date_gmb = trans_date("2021-01-31")  # これ確認
 
     # if store == "fes":
     #     dbmodel = Fes_GMB
@@ -180,13 +184,13 @@ def excel_insert_GMB(store: str):
     #     name = "罠中目黒"
     # st = wb[f'{name}レポート']
     # start_row = 5
-    # qs = dbmodel.objects.filter(span_id=span_id)
+    # qs = dbmodel.objects.filter(span_id=next_date_gmb)
 
     # while qs:  # データなくなるまで
     #     st.cell(start_row, 11).value = qs[0].total_show
     #     start_row += 1
-    #     span_id += relativedelta(days=7)
-    #     qs = dbmodel.objects.filter(span_id=span_id)
+    #     next_date_gmb += relativedelta(days=7)
+    #     qs = dbmodel.objects.filter(span_id=next_date_gmb)
 
     # wb.save(wbname)
 
@@ -201,5 +205,5 @@ class Command(BaseCommand):  # コマンド python manage.py get_insert_db
                 debug(s, m)
                 excel_insert_weekly(s, m)
 
-        # for s in store_list:  # GMB用
-        #     excel_insert_GMB(s)
+        for s in store_list:  # GMB用
+            excel_insert_GMB(s)

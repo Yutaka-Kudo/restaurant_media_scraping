@@ -1,4 +1,5 @@
 from scraping.models import *
+import datetime
 
 
 def create_dbdict(dbmodel):
@@ -12,3 +13,11 @@ def create_dbdict(dbmodel):
             pass
     dbdict = dict(zip(db_column_list, ver_name_list))
     return dbdict
+
+
+def trans_date(i):  # 0000-00-00の形
+    if type(i) == str:
+        result = datetime.datetime.strptime(i, '%Y-%m-%d').date()
+    elif type(i) == datetime.date:
+        result = datetime.date.strftime(i, '%Y-%m-%d')
+    return result

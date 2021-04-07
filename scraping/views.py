@@ -10,6 +10,8 @@ from scraping import models
 from devtools import debug
 import datetime
 
+from scraping.site_package.my_module import trans_date
+
 
 def admin_scr(request):
     return redirect('/admin/')
@@ -170,12 +172,7 @@ def trans_monthkey(i):
     return result
 
 
-def trans_date(i):  # 0000-00-00の形
-    if type(i) == str:
-        result = datetime.datetime.strptime(i, '%Y-%m-%d').date()
-    elif type(i) == datetime.date:
-        result = datetime.date.strftime(i, '%Y-%m-%d')
-    return result
+
 
 
 def download_excel(request, store: str, media: str):
@@ -414,7 +411,6 @@ def chart(request, store: str, media: str):
         data16 = [round((i / i2)*100, 1) for i, i2 in zip(data13, data4)]
         data16_name = "CV率 ネット予約/TOP "
         total_16 = str(round(total_13 / total_4*100, 1))+"%"
-        print(data16)
 
         # total_4 = sum(data4)
         # data5 = [round((x / y)*100, 1) for x, y in zip(data4, data2)]
