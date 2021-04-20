@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -40,7 +41,7 @@ def hp_sp(request, all: bool = False):
     store_list = [request.GET.get("fes"), request.GET.get("garage"), request.GET.get("tourou"), request.GET.get("wanaichi"), request.GET.get("wananakame")]
     store_list = list(filter(None, store_list))  # Noneを除外
     if all is True:
-        store_list = ["fes","garage","tourou","wanaichi","wananakame"]
+        store_list = ["fes", "garage", "tourou", "wanaichi", "wananakame"]
     print(store_list)
 
     # 期間リスト作成ーーーーーーー
@@ -178,7 +179,7 @@ def hp_sp(request, all: bool = False):
 
         try:
             if all is True:
-                span_list = range(1,3)
+                span_list = range(1, 3)
             for date in span_list:
                 # 月選択
                 month_select_elem = driver.find_element_by_name('numberCd')
@@ -287,3 +288,32 @@ def hp_sp(request, all: bool = False):
     }
 
     return render(request, "scr/dev.html", context)
+
+
+
+
+# # ネット予約設定ーーーーーーーーーーーー
+# driver = webdriver.Chrome(chrome_options=options)
+# driver.get('https://connect.airregi.jp/')
+# driver.find_element_by_name('username').send_keys('FES130')
+# driver.find_element_by_name('password').send_keys('fes///130' + Keys.ENTER)
+
+# st_day = 20
+# till_day = 30
+# elems = driver.find_elements_by_class_name('input-time-with-suggest')
+# while st_day <= till_day: # clear1回だと効かない
+#     elems[st_day*4-4].find_element_by_tag_name('input').clear()
+#     elems[st_day*4-4].find_element_by_tag_name('input').clear()
+#     elems[st_day*4-4].find_element_by_tag_name('input').send_keys('13:00')
+#     elems[st_day*4-4].find_element_by_tag_name('input').clear() # 1回目なぜかコケる
+#     elems[st_day*4-4].find_element_by_tag_name('input').send_keys('13:00')
+#     elems[st_day*4-4+1].find_element_by_tag_name('input').clear()
+#     elems[st_day*4-4+1].find_element_by_tag_name('input').clear()
+#     elems[st_day*4-4+1].find_element_by_tag_name('input').send_keys('20:00')
+#     elems[st_day*4-4+2].find_element_by_tag_name('input').clear()
+#     elems[st_day*4-4+2].find_element_by_tag_name('input').clear()
+#     elems[st_day*4-4+2].find_element_by_tag_name('input').send_keys('18:45')
+#     elems[st_day*4-4+3].find_element_by_tag_name('input').clear()
+#     elems[st_day*4-4+3].find_element_by_tag_name('input').clear()
+#     elems[st_day*4-4+3].find_element_by_tag_name('input').send_keys('18:45')
+#     st_day += 1

@@ -1,0 +1,587 @@
+{% extends 'scr/index.html' %}
+{% load static %}
+
+{% block head %}
+<header class="top-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="logo_main">
+                    <h2>Web媒体データ取得</h2>
+                </div>
+            </div>
+            <div class="chart_selector">
+                <div>
+                    <form action="{% url 'scraping:chart' store=store media=media %}" method="GET" class="span_selector">
+                        <input type="submit" name="move" value='before'>
+                        <select name="q" >
+                            <option value="{{date}}">{{date}}</option>
+                        </select>
+                        <input type="hidden" name="daily_flg" value="True">
+                        <input type="submit" name="move" value='after'>
+                    </form>
+
+
+                    <div class="mediabtn">
+                        <form action="{% url 'scraping:chart' store=store media='gn' %}" method="GET">
+                            <input type="submit" value="ぐる">
+                            <input type="hidden" name='date'  value="{{date}}">
+                            <input type="hidden" name="daily_flg" value="True">
+                        </form>
+                    </div>
+                    <div class="mediabtn">
+                        <form action="{% url 'scraping:chart' store=store media='hp' %}" method="GET">
+                            <input type="submit" value="HP">
+                            <input type="hidden" name='date'  value="{{date}}">
+                            <input type="hidden" name="daily_flg" value="True">
+                        </form>
+                    </div>
+                    <div class="mediabtn">
+                        <form action="{% url 'scraping:chart' store=store media='tb' %}" method="GET">
+                            <input type="submit" value="食ロ">
+                            <input type="hidden" name='date'  value="{{date}}">
+                            <input type="hidden" name="daily_flg" value="True">
+                        </form>
+                    </div>
+                </div>
+
+
+
+                <div class="storebtn storebtn1">
+                    <form action="{% url 'scraping:chart' store='fes' media=media %}" method="GET">
+                        <input type="submit" value="FES">
+                        <input type="hidden" name='date'  value="{{date}}">
+                        <input type="hidden" name="daily_flg" value="True">
+                    </form>
+                </div>
+                <div class="storebtn">
+                    <form action="{% url 'scraping:chart' store='garage' media=media %}" method="GET">
+                        <input type="submit" value="Garage">
+                        <input type="hidden" name='date'  value="{{date}}">
+                        <input type="hidden" name="daily_flg" value="True">
+                    </form>
+                </div>
+                <div class="storebtn">
+                    <form action="{% url 'scraping:chart' store='tourou' media=media %}" method="GET">
+                        <input type="submit" value="灯篭">
+                        <input type="hidden" name='date'  value="{{date}}">
+                        <input type="hidden" name="daily_flg" value="True">
+                    </form>
+                </div>
+                <div class="storebtn">
+                    <form action="{% url 'scraping:chart' store='wanaichi' media=media %}" method="GET">
+                        <input type="submit" value="罠一目">
+                        <input type="hidden" name='date'  value="{{date}}">
+                        <input type="hidden" name="daily_flg" value="True">
+                    </form>
+                </div>
+                <div class="storebtn">
+                    <form action="{% url 'scraping:chart' store='wananakame' media=media %}" method="GET">
+                        <input type="submit" value="罠中目">
+                        <input type="hidden" name='date'  value="{{date}}">
+                        <input type="hidden" name="daily_flg" value="True">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</header>
+{% endblock head %}
+
+{% block content %}
+
+
+
+<canvas id='chart' height="120"></canvas>
+
+<div class="df_table_wrapper">
+    <div class="df_table_container">
+        <table border="3" class="df_table">
+
+            <tr>
+                <th class="df_table_index"></th>
+                {% for x in xticks4table %}
+                <th class="df_table_column">{{x}}</th>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>回遊性</td>
+                {% for d in data17 %}
+                <td>
+                    {{d}}
+                </td>
+                {% endfor %}
+            </tr>
+
+
+        </table>
+        <br>
+    </div>
+</div>
+
+<canvas id='chart2' height="120"></canvas>
+<canvas id='chart3' height="120"></canvas>
+<canvas id='chart4' height="120"></canvas>
+<canvas id='chart5' height="120"></canvas>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+    {% if media == "gn" %}
+        const scale_y_1 = 200
+        const scale_y_2 = 200
+        const scale_y_3 = 200
+        const scale_y_4 = 200
+        const scale_y_5 = 15
+    {% elif media == "hp" %}
+        const scale_y_1 = 500
+        const scale_y_2 = 500
+        const scale_y_3 = 500
+        // const scale_y_4 = 1500
+        const scale_y_5 = 15
+    {% elif media == "tb" %}
+        const scale_y_1 = 800
+        const scale_y_2 = 800
+        const scale_y_3 = 800
+        // const scale_y_4 = 1500
+        const scale_y_5 = 15
+    {% endif %}
+
+    const datasets1 = [
+        {
+            label: "{{data1_name}} {{total_1}}",
+            data: {{ data1 }},
+            // borderColor: ["rgb(00, 00, 00)"],
+            backgroundColor : "rgba(254,97,132,0.5)",
+            lineTension: 0,
+            fill: false,
+            // borderWidth:
+        }, 
+        {
+            {% if media == "gn" %}
+                label: '{{data5_name}} {{total_5}}',
+                data: {{ data5 }},
+            {% elif media == "hp" or media == "tb" %}
+                label: '{{data4_name}} {{total_4}}',
+                data: {{ data4 }},
+            {% endif %}
+            // borderColor: ["rgb(00, 80, 255)"],
+            backgroundColor : "rgba(54,164,235,0.5)",
+            lineTension: 0,
+            fill: false,
+                    // borderWidth:
+        },
+        {
+            type: 'line',
+            label: '{{data2_name}} {{total_2}}',
+            data: {{ data2 }},
+            borderColor: ["rgb(00, 255, 00)"],
+            lineTension: 0,
+            fill: false,
+                    // borderWidth:
+        },
+        {
+            type: 'line',
+            label: '{{data3_name}} {{total_3}}',
+            data: {{ data3 }},
+            borderColor: ["rgb(255, 00, 00)"],
+            lineTension: 0,
+            fill: false,
+                    // borderWidth:
+        },
+        {% if media == "gn" %}
+            {
+                type: 'line',
+                label: '{{data4_name}} {{total_4}}',
+                data: {{ data4 }},
+                borderColor: ["rgb(200, 200, 00)"],
+                lineTension: 0,
+                fill: false,
+                        // borderWidth:
+            },
+        {% endif %}
+    ]
+
+    const datasets2 = [
+        {
+            label: "{{data2_name}} {{total_2}}",
+            data: {{ data2 }},
+            // borderColor: ["rgb(00, 00, 00)"],
+            backgroundColor : "rgba(254,97,132,0.5)",
+            lineTension: 0,
+            fill: false,
+            // borderWidth:
+        }, 
+        {
+            {% if media == "gn" %}
+                label: '{{data6_name}} {{total_6}}',
+                data: {{ data6 }},
+            {% elif media == "hp" or media == "tb" %}
+                label: '{{data5_name}} {{total_5}}',
+                data: {{ data5 }},
+            {% endif %}
+            // borderColor: ["rgb(00, 80, 255)"],
+            backgroundColor : "rgba(54,164,235,0.5)",
+            lineTension: 0,
+            fill: false,
+                    // borderWidth:
+        },
+        {
+            type: 'line',
+            label: '{{data18_name}} {{total_18}}',
+            data: {{ data18 }},
+            borderColor: ["rgb(00, 255, 00)"],
+            lineTension: 0,
+            fill: false,
+            yAxisID: "y2",
+                    // borderWidth:
+        },
+    ]
+    
+    const datasets3 = [
+        {
+            label: '{{data3_name}} {{total_3}}',
+            data: {{ data3 }},
+            // borderColor: ["rgb(00, 255, 00)"],
+            backgroundColor : "rgba(254,97,132,0.5)",
+            lineTension: 0,
+            fill: false,
+            yAxisID: "y1",
+                    // borderWidth:
+        },
+        {
+            {% if media == "gn" %}
+                label: '{{data7_name}} {{total_7}}',
+                data: {{ data7 }},
+            {% elif media == "hp" or media == "tb" %}
+                label: '{{data6_name}} {{total_6}}',
+                data: {{ data6 }},
+            {% endif %}
+            // borderColor: ["rgb(255, 00, 00)"],
+            backgroundColor : "rgba(54,164,235,0.5)",
+            lineTension: 0,
+            fill: false,
+            yAxisID: "y1",
+                    // borderWidth:
+        },
+
+        {
+            type: "line",
+            label: '{{data19_name}} {{total_19}}',
+            data: {{ data19 }},
+            borderColor: ["rgb(200, 200, 00)"],
+            lineTension: 0,
+            fill: false,
+            yAxisID: "y2",
+                    // borderWidth:
+        },
+    ]
+
+    {% if media == "gn" %}
+    const datasets4 = [
+        {
+            label: '{{data4_name}} {{total_4}}',
+            data: {{ data4 }},
+            // borderColor: ["rgb(00, 255, 00)"],
+            backgroundColor : "rgba(254,97,132,0.5)",
+            lineTension: 0,
+            fill: false,
+            yAxisID: "y1",
+                    // borderWidth:
+        },
+        {
+            label: '{{data8_name}} {{total_8}}',
+            data: {{ data8 }},
+            // borderColor: ["rgb(255, 00, 00)"],
+            backgroundColor : "rgba(54,164,235,0.5)",
+            lineTension: 0,
+            fill: false,
+            yAxisID: "y1",
+                    // borderWidth:
+        },
+        {
+            type: "line",
+            label: '{{data20_name}} {{total_20}}',
+            data: {{ data20 }},
+            borderColor: ["rgb(200, 200, 00)"],
+            lineTension: 0,
+            fill: false,
+            yAxisID: "y2",
+                    // borderWidth:
+        },
+    ]
+    {% endif %}
+
+    const datasets5 = [
+        {
+            label: '{{data21_name}} {{total_21}}',
+            data: {{ data21 }},
+            // borderColor: ["rgb(00, 255, 00)"],
+            backgroundColor : "rgba(254,97,132,0.5)",
+            lineTension: 0,
+            fill: false,
+                    // borderWidth:
+        },
+        {
+            type: "line",
+            label: '{{data22_name}} {{total_22}}',
+            data: {{ data22 }},
+            borderColor: ["rgb(255, 00, 00)"],
+            lineTension: 0,
+            fill: false,
+            yAxisID: "y2",
+                    // borderWidth:
+        },
+        {% if media == "hp" %}
+        {
+            label: '{{data14_name}} {{total_14}}',
+            data: {{ data14 }},
+            backgroundColor: "rgb(00, 255, 00, 0.3)",
+            lineTension: 0,
+                    // borderWidth:
+        },
+        {
+            label: '{{data15_name}} {{total_15}}',
+            data: {{ data15 }},
+            backgroundColor: "rgb(00, 255, 00, 0.3)",
+            lineTension: 0,
+                    // borderWidth:
+        },
+        {
+            label: '{{data10_name}} {{total_10}}',
+            data: {{ data10 }},
+            backgroundColor: "rgb(00, 255, 00, 0.3)",
+            lineTension: 0,
+            fill: true,
+                    // borderWidth:
+        },
+        {% elif media == "tb" %}
+        {
+            label: '{{data7_name}} {{total_7}}',
+            data: {{ data7 }},
+            // borderColor: ["rgb(00, 255, 00)"],
+            backgroundColor: "rgb(00, 255, 00, 0.3)",
+            lineTension: 0,
+            fill: false,
+                    // borderWidth:
+        },
+        {% endif %}
+    ]
+
+    const list = [];
+    {% for i in xticks %}
+    list.push("{{i}}")
+    {% endfor %}
+
+    new Chart(document.getElementById("chart"), {
+        type: "bar",
+        data: {
+            labels: list,
+            datasets: datasets1,
+        },
+        options: {
+            title: {
+                display: true,
+                text: '{{store}}:{{media}}'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: scale_y_1,
+                        // stepSize: 100,
+                    },
+
+                }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 15,
+                        minRotation: 15,
+                    }
+                }]
+            },
+        },
+    });
+
+
+    new Chart(document.getElementById("chart2"), {
+        type: "bar",
+        data: {
+            labels: list,
+            datasets: datasets2,
+        },
+        options: {
+            title: {
+                display: true,
+                text: '{{store}}:{{media}}'
+            },
+            scales: {
+                yAxes: [{
+                    id: "y1",
+                    position: "left",
+                    ticks: {
+                        min: 0,
+                        max: scale_y_2,
+                        // stepSize: 10,
+                    },
+
+                },{
+                    id: "y2",
+                    position: "right",
+                    ticks: {
+                        min: 0,
+                        max: 10,
+                    },
+                    gridLines: {drawOnChartArea: false,}, // 非表示
+                        }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 15,
+                        minRotation: 15,
+                    }
+                }]
+            },
+
+                }
+    });
+    new Chart(document.getElementById("chart3"), {
+        type: "bar",
+        data: {
+            labels: list,
+            datasets: datasets3,
+                },
+                options: {
+                    title: {
+                display: true,
+                text: '{{store}}:{{media}}'
+            },
+                    scales: {
+                        yAxes: [{
+                            id: "y1",
+                            position: "left",
+                            ticks: {
+                                min: 0,
+                                max: scale_y_3,
+                                // stepSize: 10,
+                            },
+
+                        },{
+                            id: "y2",
+                            position: "right",
+                            ticks: {
+                                min: 0,
+                                max: 10,
+                            },
+                            gridLines: {drawOnChartArea: false,}, // 非表示
+                        }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 15,
+                        minRotation: 15,
+                    }
+                }]
+            },
+
+                }
+    });
+
+    {% if media == "gn" %}
+    new Chart(document.getElementById("chart4"), {
+        type: "bar",
+        data: {
+            labels: list,
+            datasets: datasets4,
+                },
+                options: {
+                    title: {
+                display: true,
+                text: '{{store}}:{{media}}'
+            },
+                    scales: {
+                        yAxes: [{
+                            id: "y1",
+                            position: "left",
+                            ticks: {
+                                min: 0,
+                                max: scale_y_4,
+                                // stepSize: 10,
+                            },
+
+                        },{
+                            id: "y2",
+                            position: "right",
+                            ticks: {
+                                min: 0,
+                                max: 10,
+                            },
+                            gridLines: {drawOnChartArea: false,}, // 非表示
+                        }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 15,
+                        minRotation: 15,
+                    }
+                }]
+            },
+
+                }
+    });
+    {% endif %}
+
+
+    new Chart(document.getElementById("chart5"), {
+        type: "bar",
+        data: {
+            labels: list,
+            datasets: datasets5,
+                },
+                options: {
+                    title: {
+                display: true,
+                text: '{{store}}:{{media}}'
+            },
+                    scales: {
+                        yAxes: [{
+                            id: "y1",
+                            position: "left",
+                            ticks: {
+                                min: 0,
+                                max: scale_y_5,
+                                // stepSize: 10,
+                            },
+
+                        },{
+                            id: "y2",
+                            position: "right",
+                            ticks: {
+                                min: 0,
+                                max: 10,
+                            },
+                            gridLines: {drawOnChartArea: false,}, // 非表示
+                        }],
+
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 15,
+                        minRotation: 15,
+                    }
+                }]
+            },
+
+                }
+    });
+
+
+
+</script>
+{% endblock content %}

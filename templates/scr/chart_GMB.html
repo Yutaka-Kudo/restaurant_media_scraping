@@ -13,43 +13,45 @@
                     <!-- </a> -->
                 </div>
             </div>
-            <form action="{% url 'scraping:chart' store=store media=media %}" method="GET">
-                <input type="submit" name="move" value='before'>
-                <select name="q">
-                    <option value="{{date}}">{{date}}</option>
-                </select>
-                <input type="submit" name="move" value='after'>
-            </form>
+            <div class="chart_selector">
+                <form action="{% url 'scraping:chart' store=store media=media %}" method="GET">
+                    <input type="submit" name="move" value='before'>
+                    <select name="q">
+                        <option value="{{date}}">{{date}}</option>
+                    </select>
+                    <input type="submit" name="move" value='after'>
+                </form>
 
-            <div class="storebtn storebtn1">
-                <form action="{% url 'scraping:chart' store='fes' media=media %}" method="GET">
-                    <input type="submit" value="FES">
-                    <input type="hidden" name='date'  value="{{date}}">
-                </form>
-            </div>
-            <div class="storebtn">
-                <form action="{% url 'scraping:chart' store='garage' media=media %}" method="GET">
-                    <input type="submit" value="Garage">
-                    <input type="hidden" name='date'  value="{{date}}">
-                </form>
-            </div>
-            <div class="storebtn">
-                <form action="{% url 'scraping:chart' store='tourou' media=media %}" method="GET">
-                    <input type="submit" value="灯篭">
-                    <input type="hidden" name='date'  value="{{date}}">
-                </form>
-            </div>
-            <div class="storebtn">
-                <form action="{% url 'scraping:chart' store='wanaichi' media=media %}" method="GET">
-                    <input type="submit" value="罠一目">
-                    <input type="hidden" name='date'  value="{{date}}">
-                </form>
-            </div>
-            <div class="storebtn">
-                <form action="{% url 'scraping:chart' store='wananakame' media=media %}" method="GET">
-                    <input type="submit" value="罠中目">
-                    <input type="hidden" name='date'  value="{{date}}">
-                </form>
+                <div class="storebtn storebtn1">
+                    <form action="{% url 'scraping:chart' store='fes' media=media %}" method="GET">
+                        <input type="submit" value="FES">
+                        <input type="hidden" name='date'  value="{{date}}">
+                    </form>
+                </div>
+                <div class="storebtn">
+                    <form action="{% url 'scraping:chart' store='garage' media=media %}" method="GET">
+                        <input type="submit" value="Garage">
+                        <input type="hidden" name='date'  value="{{date}}">
+                    </form>
+                </div>
+                <div class="storebtn">
+                    <form action="{% url 'scraping:chart' store='tourou' media=media %}" method="GET">
+                        <input type="submit" value="灯篭">
+                        <input type="hidden" name='date'  value="{{date}}">
+                    </form>
+                </div>
+                <div class="storebtn">
+                    <form action="{% url 'scraping:chart' store='wanaichi' media=media %}" method="GET">
+                        <input type="submit" value="罠一目">
+                        <input type="hidden" name='date'  value="{{date}}">
+                    </form>
+                </div>
+                <div class="storebtn">
+                    <form action="{% url 'scraping:chart' store='wananakame' media=media %}" method="GET">
+                        <input type="submit" value="罠中目">
+                        <input type="hidden" name='date'  value="{{date}}">
+                    </form>
+                </div>
             </div>
 
 
@@ -77,8 +79,8 @@
             labels: list,
             datasets: [{
 
-                label: "合計PV",
-                data: {{ total }},
+                label: "{{data1_name}}",
+                data: {{ data1 }},
                 borderColor: ["rgb(00, 00, 00)"],
                 lineTension: 0,
                 fill: false,
@@ -138,19 +140,14 @@
     });
 
 
-    const list_d = [];
-    {% for i in xticks %}
-    list_d.push("{{i}}")
-    {% endfor %}
-
     new Chart(document.getElementById("chart2"), {
         type: "line",
         data: {
-            labels: list_d,
+            labels: list,
             datasets: [
             {
-                label: '{{data5_name}}',
-                data: {{ data5 }},
+                label: '{{data6_name}} {{total_6}}',
+                data: {{ data6 }},
                 borderColor: ["rgb(200, 200, 00)"],
                 lineTension: 0,
                 fill: false,
@@ -162,13 +159,13 @@
             options: {
                 title: {
                     display: true,
-                    text: '{{store}}{{data5_name}}'
+                    text: '{{store}} {{data6_name}}'
                 },
                 scales: {
                     yAxes: [{
                         ticks: {
                             min: 0,
-                            max: 150,
+                            max: 5,
                             // stepSize: 150,
                         },
 

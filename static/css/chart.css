@@ -1,0 +1,56 @@
+.chart_selector{
+    position: fixed;
+    width: auto;
+    font-size: 13px;
+    border: 2px solid;
+    background-color: white;
+    padding: 2px;
+    top: 10px;
+    right: 20px;
+    /* transform: translate(-50%, -50%); */
+    /* transform: translateX(-100%); */
+}
+.span_selector{
+    display: inline-block;
+    margin-right: 10px;
+
+}
+.mediabtn{
+    display: inline-block;
+
+}
+.storebtn{
+    display: inline-block;
+}
+
+.storebtn1{
+    /* float: left; */
+    margin-left: 10px;
+}
+
+
+.df_table_wrapper{
+    margin-bottom: 30px;
+}
+.df_table_container{
+    float: right;
+    width: 95%;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    
+}
+.df_table{
+    font-size: 12px;
+    table-layout: fixed;
+    width: 100%;
+}
+.df_table_index{
+    width: 60px;
+}
+.df_table_column{
+    width: 90px;
+}
+.df_table_wrapper span{
+    font-size: 12px;
+    display: block;
+}

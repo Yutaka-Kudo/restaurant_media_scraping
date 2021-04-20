@@ -590,19 +590,19 @@ def tb_sp(request, all: bool = False):
 
 
 
-#     # ネット予約個別設定
-#     for i in range(0,26):
-#         folist = driver.find_elements_by_class_name('js-open-setting-modal')
-#         folist[i].click()
-#         driver.find_element_by_xpath('/html/body/main/div/div/section/div[3]/div/div[2]/div/form/table[1]/tbody/tr[2]/td/div/div/div[2]/label').click()
-#         # month_select_elem = driver.find_element_by_id('js-dinner_start') # dinner_start
-#         # month_select_object = Select(month_select_elem)
-#         # month_select_object.select_by_value("1130")
-#         month_select_elem = driver.find_element_by_id('js-dinner_end') # dinner_end
-#         month_select_object = Select(month_select_elem)
-#         month_select_object.select_by_value("2100")
-#         driver.find_element_by_xpath('/html/body/main/div/div/section/div[3]/div/div[2]/div/form/table[2]/tbody/tr[2]/td/div/div/input').click()
-#         # driver.refresh()
-#         sleep(1.5)
+    # # ネット予約個別設定
+    # for i in range(2,24):
+    #     folist = driver.find_elements_by_class_name('js-open-setting-modal')
+    #     folist[i].click()
+    #     driver.find_element_by_xpath('/html/body/main/div/div/section/div[3]/div/div[2]/div/form/table[1]/tbody/tr[2]/td/div/div/div[2]/label').click()
+    #     month_select_elem = driver.find_element_by_id('js-dinner_start') # dinner_start
+    #     month_select_object = Select(month_select_elem)
+    #     month_select_object.select_by_value("1300")
+    #     month_select_elem = driver.find_element_by_id('js-dinner_end') # dinner_end
+    #     month_select_object = Select(month_select_elem)
+    #     month_select_object.select_by_value("2000")
+    #     driver.find_element_by_xpath('/html/body/main/div/div/section/div[3]/div/div[2]/div/form/table[2]/tbody/tr[2]/td/div/div/input').click()
+    #     # driver.refresh()
+    #     sleep(0.8)
 
 

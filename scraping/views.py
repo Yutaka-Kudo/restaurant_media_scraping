@@ -172,9 +172,6 @@ def trans_monthkey(i):
     return result
 
 
-
-
-
 def download_excel(request, store: str, media: str):
     y_m: str = request.GET.get('q')
     df = create_df(y_m, store, media, interval="daily")
@@ -264,13 +261,17 @@ def chart(request, store: str, media: str):
 
             df = pd.DataFrame(data_list)
             dates = [trans_date(s)+"_"+trans_date(s+relativedelta(days=6))[5:] for s in _df["日付"][::7]]
+            dates = [str(i)+" . "+s for i, s in enumerate(dates, 1)]
             xticks = dates
+
+    xticks4table = list(range(1, 13))
 
     data10, data11, data12, data13, data14, data15, data16, data17, data18, data19, data20, data21, data22, data10_name, data11_name, data12_name, data13_name, data14_name, data15_name, data16_name, data17_name, data18_name, data19_name, data20_name, data21_name, data22_name, total_10, total_11, total_12, total_13, total_14, total_15, total_16, total_17, total_18, total_19, total_20, total_21, total_22 = None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
 
     if media == "gn":
-        total = list(df["合計PV_SP"]+df["合計PV_PC"]+df["合計PV_app"])
-        total_1 = sum(total)
+        data1 = list(df["合計PV_SP"]+df["合計PV_PC"]+df["合計PV_app"])
+        data1_name = "合計PV"
+        total_1 = sum(data1)
         data2 = list(df["合計PV_SP"])
         data2_name = "合計PV_スマホ"
         total_2 = sum(data2)
@@ -292,70 +293,91 @@ def chart(request, store: str, media: str):
         data8 = list(df["店舗トップPV_app"])
         data8_name = "店舗トップPV_app"
         total_8 = sum(data8)
-        # data9 = list(df["地図PV_SP"]+df["地図PV_PC"]+df["地図PV_app"])
-        data9 = [round((i / i2)*100, 3) for i, i2 in zip(list(df["地図PV_SP"]+df["地図PV_PC"]+df["地図PV_app"]), data5)]
-        # data9_name = "地図PV_合計"
-        data9_name = "地図PV率"
-        # total_9 = sum(data9)
-        total_9 = str(round(sum(list(df["地図PV_SP"]+df["地図PV_PC"]+df["地図PV_app"])) / total_5 * 100, 1))+"%"
-        data10 = list(df["地図PV_SP"])
-        data10_name = "地図PV_スマホ"
-        total_10 = sum(data10)
-        data11 = list(df["地図PV_PC"])
-        data11_name = "地図PV_PC"
-        total_11 = sum(data11)
-        data12 = list(df["地図PV_app"])
-        data12_name = "地図PV_app"
-        total_12 = sum(data12)
-        # data13 = list(df["クーポンPV_SP"]+df["クーポンPV_PC"]+df["クーポンPV_app"])
-        data13 = [round((i / i2)*100, 3) for i, i2 in zip(list(df["クーポンPV_SP"]+df["クーポンPV_PC"]+df["クーポンPV_app"]), data5)]
-        # data13_name = "クーポンPV_合計"
-        data13_name = "クーポンPV率"
-        # total_13 = sum(data13)
-        total_13 = str(round(sum(list(df["クーポンPV_SP"]+df["クーポンPV_PC"]+df["クーポンPV_app"])) / total_5 * 100, 1))+"%"
-        data14 = list(df["クーポンPV_SP"])
-        data14_name = "クーポンPV_スマホ"
-        total_14 = sum(data14)
-        data15 = list(df["クーポンPV_PC"])
-        data15_name = "クーポンPV_PC"
-        total_15 = sum(data15)
-        data16 = list(df["クーポンPV_app"])
-        data16_name = "クーポンPV_app"
-        total_16 = sum(data16)
-        # data17 = list(df["予約PV_SP"]+df["予約PV_PC"]+df["予約PV_app"])
-        data17 = [round((i / i2)*100, 3) for i, i2 in zip(list(df["予約PV_SP"]+df["予約PV_PC"]+df["予約PV_app"]), data5)]
-        # data17_name = "予約PV_合計"
-        data17_name = "予約PV率_合計"
-        # total_17 = sum(data17)
-        total_17 = str(round(sum(list(df["予約PV_SP"]+df["予約PV_PC"]+df["予約PV_app"])) / total_5 * 100, 1))+"%"
-        # data18 = list(df["予約PV_SP"])
-        data18 = []
-        for i, i2 in zip(list(df["予約PV_SP"]), data6):
-            if i2 == 0:
-                data18.append(0)
-            else:
-                data18.append(round((i / i2)*100, 3))
+        data9 = None
+        data9_name = None
+        total_9 = None
+
+        data17 = [round(u / uu, 2) for u, uu in zip(data1, data5)]
+        data17_name = "回遊性 合計/TOP"
+        total_17 = round(total_1/total_5, 2)
+        data18 = [round(u / uu, 2) for u, uu in zip(data2, data6)]
+        data18_name = "回遊性スマホ 合計/TOP"
+        total_18 = round(total_2/total_6, 2)
+        data19 = [round(u / uu, 2) for u, uu in zip(data3, data7)]
+        data19_name = "回遊性PC 合計/TOP"
+        total_19 = round(total_3/total_7, 2)
+        data20 = [round(u / uu, 2) for u, uu in zip(data4, data8) if u != 0 and uu != 0]
+        data20_name = "回遊性app 合計/TOP"
+        total_20 = round(total_4/total_8, 2)
+
+        # # 封印ーーーーーーーーーー
+        # # data9 = list(df["地図PV_SP"]+df["地図PV_PC"]+df["地図PV_app"])
+        # data9 = [round((i / i2)*100, 3) for i, i2 in zip(list(df["地図PV_SP"]+df["地図PV_PC"]+df["地図PV_app"]), data5)]
+        # # data9_name = "地図PV_合計"
+        # data9_name = "地図PV率"
+        # # total_9 = sum(data9)
+        # total_9 = str(round(sum(list(df["地図PV_SP"]+df["地図PV_PC"]+df["地図PV_app"])) / total_5 * 100, 1))+"%"
+        # data10 = list(df["地図PV_SP"])
+        # data10_name = "地図PV_スマホ"
+        # total_10 = sum(data10)
+        # data11 = list(df["地図PV_PC"])
+        # data11_name = "地図PV_PC"
+        # total_11 = sum(data11)
+        # data12 = list(df["地図PV_app"])
+        # data12_name = "地図PV_app"
+        # total_12 = sum(data12)
+        # # data13 = list(df["クーポンPV_SP"]+df["クーポンPV_PC"]+df["クーポンPV_app"])
+        # data13 = [round((i / i2)*100, 3) for i, i2 in zip(list(df["クーポンPV_SP"]+df["クーポンPV_PC"]+df["クーポンPV_app"]), data5)]
+        # # data13_name = "クーポンPV_合計"
+        # data13_name = "クーポンPV率"
+        # # total_13 = sum(data13)
+        # total_13 = str(round(sum(list(df["クーポンPV_SP"]+df["クーポンPV_PC"]+df["クーポンPV_app"])) / total_5 * 100, 1))+"%"
+        # data14 = list(df["クーポンPV_SP"])
+        # data14_name = "クーポンPV_スマホ"
+        # total_14 = sum(data14)
+        # data15 = list(df["クーポンPV_PC"])
+        # data15_name = "クーポンPV_PC"
+        # total_15 = sum(data15)
+        # data16 = list(df["クーポンPV_app"])
+        # data16_name = "クーポンPV_app"
+        # total_16 = sum(data16)
+        # # data17 = list(df["予約PV_SP"]+df["予約PV_PC"]+df["予約PV_app"])
+        # data17 = [round((i / i2)*100, 3) for i, i2 in zip(list(df["予約PV_SP"]+df["予約PV_PC"]+df["予約PV_app"]), data5)]
+        # # data17_name = "予約PV_合計"
+        # data17_name = "予約PV率_合計"
+        # # total_17 = sum(data17)
+        # total_17 = str(round(sum(list(df["予約PV_SP"]+df["予約PV_PC"]+df["予約PV_app"])) / total_5 * 100, 1))+"%"
+        # # data18 = list(df["予約PV_SP"])
+        # data18 = []
+        # for i, i2 in zip(list(df["予約PV_SP"]), data6):
+        #     try:  # i2が0の場合もある
+        #         data18.append(round((i / i2)*100, 3))
+        #     except ZeroDivisionError as e:
+        #         print(e)
+        #         data18.append(0)
+        # # data18_name = "予約PV率_スマホ"
         # data18_name = "予約PV率_スマホ"
-        data18_name = "予約PV率_スマホ"
-        # total_18 = sum(data18)
-        total_18 = str(round(sum(list(df["予約PV_SP"])) / total_6 * 100, 1))+"%"
-        # data19 = list(df["予約PV_PC"])
-        data19 = [round((i / i2)*100, 3) for i, i2 in zip(list(df["予約PV_PC"]), data7)]
+        # # total_18 = sum(data18)
+        # total_18 = str(round(sum(list(df["予約PV_SP"])) / total_6 * 100, 1))+"%"
+        # # data19 = list(df["予約PV_PC"])
+        # data19 = [round((i / i2)*100, 3) for i, i2 in zip(list(df["予約PV_PC"]), data7)]
+        # # data19_name = "予約PV率_PC"
         # data19_name = "予約PV率_PC"
-        data19_name = "予約PV率_PC"
-        # total_19 = sum(data19)
-        total_19 = str(round(sum(list(df["予約PV_PC"])) / total_7 * 100, 1))+"%"
-        # data20 = list(df["予約PV_app"])
-        data20 = []
-        for i, i2 in zip(list(df["予約PV_app"]), data8):
-            if i2 == 0:
-                data20.append(0)
-            else:
-                data20.append(round((i / i2)*100, 3))
+        # # total_19 = sum(data19)
+        # total_19 = str(round(sum(list(df["予約PV_PC"])) / total_7 * 100, 1))+"%"
+        # # data20 = list(df["予約PV_app"])
+        # data20 = []
+        # for i, i2 in zip(list(df["予約PV_app"]), data8):
+        #     if i2 == 0:
+        #         data20.append(0)
+        #     else:
+        #         data20.append(round((i / i2)*100, 3))
+        # # data20_name = "予約PV率_app"
         # data20_name = "予約PV率_app"
-        data20_name = "予約PV率_app"
-        # total_20 = sum(data20)
-        total_20 = str(round(sum(list(df["予約PV_app"])) / total_8 * 100, 1))+"%"
+        # # total_20 = sum(data20)
+        # total_20 = str(round(sum(list(df["予約PV_app"])) / total_8 * 100, 1))+"%"
+        # # 封印ーーーーーーーーーー
+
         data21 = list(df["予約_合計件数"])
         data21_name = "ネット予約_合計件数"
         total_21 = sum(data21)
@@ -364,8 +386,9 @@ def chart(request, store: str, media: str):
         total_22 = str(round(total_21 / total_5 * 100, 1))+"%"
 
     if media == "hp":
-        total = list(df["店舗総PV_sp"]+df["店舗総PV_pc"])
-        total_1 = sum(total)
+        data1 = list(df["店舗総PV_sp"]+df["店舗総PV_pc"])
+        data1_name = "合計PV"
+        total_1 = sum(data1)
         data2 = list(df["店舗総PV_sp"])
         data2_name = "店舗総PV_スマホ"
         total_2 = sum(data2)
@@ -381,6 +404,8 @@ def chart(request, store: str, media: str):
         data6 = list(df["店舗TOP PV_pc"])
         data6_name = "店舗TOP PV_pc"
         total_6 = sum(data6)
+
+        # 封印ーーーーーーーーーー
         data7 = list(df["クーポンページPV_sp"]+df["クーポンページPV_pc"])
         data7_name = "クーポンページPV合計"
         total_7 = sum(data7)
@@ -390,58 +415,60 @@ def chart(request, store: str, media: str):
         data9 = list(df["クーポンページPV_pc"])
         data9_name = "クーポンページPV_pc"
         total_9 = sum(data9)
+        # 封印ーーーーーーーーーー
+
         data10 = list(df["電話件数_sp"]+df["電話件数_pc"])
         data10_name = "電話_合計"
         total_10 = sum(data10)
-        data11 = list(df["電話件数_sp"])
-        data11_name = "電話_スマホ"
-        total_11 = sum(data11)
-        data12 = list(df["電話件数_pc"])
-        data12_name = "電話_pc"
-        total_12 = sum(data12)
-        data13 = list(df["予約件数_sp"]+df["予約件数_pc"])
-        data13_name = "ネット予約_合計"
-        total_13 = sum(data13)
+        # data11 = list(df["電話件数_sp"])
+        # data11_name = "電話_スマホ"
+        # total_11 = sum(data11)
+        # data12 = list(df["電話件数_pc"])
+        # data12_name = "電話_pc"
+        # total_12 = sum(data12)
+        data21 = list(df["予約件数_sp"]+df["予約件数_pc"])
+        data21_name = "ネット予約_合計"
+        total_21 = sum(data21)
         data14 = list(df["予約件数_sp"])
         data14_name = "ネット予約_スマホ"
         total_14 = sum(data14)
         data15 = list(df["予約件数_pc"])
         data15_name = "ネット予約_pc"
         total_15 = sum(data15)
-        data16 = [round((i / i2)*100, 1) for i, i2 in zip(data13, data4)]
-        data16_name = "CV率 ネット予約/TOP "
-        total_16 = str(round(total_13 / total_4*100, 1))+"%"
+        data22 = [round((i / i2)*100, 1) for i, i2 in zip(data21, data4)]
+        data22_name = "CV率 ネット予約/TOP "
+        total_22 = str(round(total_21 / total_4*100, 1))+"%"
 
-        # total_4 = sum(data4)
-        # data5 = [round((x / y)*100, 1) for x, y in zip(data4, data2)]
-        # data3 = list(df["CVR（SP）"])
-        # data3 = [float(i[:-1]) if i != "-" else 0 for i in list(df["CVR（SP）"])]
-        # data3_name = "CVR（SP）"
+        data17 = [round(u / uu, 2) for u, uu in zip(data1, data4)]
+        data17_name = "回遊性 合計/TOP"
+        total_17 = round(total_1/total_4, 2)
+        data18 = [round(u / uu, 2) for u, uu in zip(data2, data5) if u != 0 and uu != 0]
+        data18_name = "回遊性スマホ 合計/TOP"
+        total_18 = round(total_2/total_5, 2)
+        data19 = [round(u / uu, 2) for u, uu in zip(data3, data6) if u != 0 and uu != 0]
+        data19_name = "回遊性PC 合計/TOP"
+        total_19 = round(total_3/total_6, 2)
 
-        # total_1 = sum( data )
-        # total_2 = sum( data )
-        # total_3 = sum( data )
-        # total_4 = sum(data4)
-        # total_5 = str(round((total_4 / total_2)*100, 1)) + '%'
     if media == "tb":
-        total = list(df["合計PV_sp"]+df["合計PV_pc"])
-        total_1 = sum(total)
-        data2 = list(df["合計PV_sp"])
+        data1 = list(df["合計PV_sp"].astype('int')+df["合計PV_pc"].astype('int'))
+        data1_name = "合計PV"
+        total_1 = sum(data1)
+        data2 = list(df["合計PV_sp"].astype('int'))
         data2_name = "合計PV_スマホ"
         total_2 = sum(data2)
-        data3 = list(df["合計PV_pc"])
+        data3 = list(df["合計PV_pc"].astype('int'))
         data3_name = "合計PV_pc"
         total_3 = sum(data3)
-        data4 = list(df["店舗トップPV_sp"]+df["店舗トップPV_pc"])
+        data4 = list(df["店舗トップPV_sp"].astype('int')+df["店舗トップPV_pc"].astype('int'))
         data4_name = "店舗トップPV合計"
         total_4 = sum(data4)
-        data5 = list(df["店舗トップPV_sp"])
+        data5 = list(df["店舗トップPV_sp"].astype('int'))
         data5_name = "店舗トップPV_スマホ"
         total_5 = sum(data5)
-        data6 = list(df["店舗トップPV_pc"])
+        data6 = list(df["店舗トップPV_pc"].astype('int'))
         data6_name = "店舗トップPV_pc"
         total_6 = sum(data6)
-        data7 = list(df["口コミPV_sp"]+df["口コミPV_pc"])
+        data7 = list(df["口コミPV_sp"].astype('int')+df["口コミPV_pc"].astype('int'))
         data7_name = "口コミPV合計"
         total_7 = sum(data7)
         data8 = list(df["口コミPV_sp"])
@@ -450,6 +477,8 @@ def chart(request, store: str, media: str):
         data9 = list(df["口コミPV_pc"])
         data9_name = "口コミPV_pc"
         total_9 = sum(data9)
+
+        # 封印ーーーーーーーーーー
         data10 = list(df["クーポンPV_sp"]+df["地図_クーポンPV_pc"])
         data10_name = "地図・クーポン合計"
         total_10 = sum(data10)
@@ -459,16 +488,29 @@ def chart(request, store: str, media: str):
         data12 = list(df["地図_クーポンPV_pc"])
         data12_name = "地図_クーポンPV_pc"
         total_12 = sum(data12)
-        data13 = list(df["ネット予約"])
-        data13_name = "ネット予約"
-        total_13 = sum(data13)
-        data14 = [round((i / i2)*100, 1) for i, i2 in zip(data13, data4)]
-        data14_name = "CV率 ネット予約/TOP "
-        total_14 = str(round(total_13 / total_4*100, 1))+"%"
+        # 封印ーーーーーーーーーー
+
+        data21 = list(df["ネット予約"].astype('int'))
+        data21_name = "ネット予約"
+        total_21 = sum(data21)
+        data22 = [round((i / i2)*100, 1) for i, i2 in zip(data21, data4)]
+        data22_name = "CV率 ネット予約/TOP "
+        total_22 = str(round(total_21 / total_4*100, 1))+"%"
+
+        data17 = [round(u / uu, 2) for u, uu in zip(data1, data4)]
+        data17_name = "回遊性 合計/TOP"
+        total_17 = round(total_1/total_4, 2)
+        data18 = [round(u / uu, 2) for u, uu in zip(data2, data5)]
+        data18_name = "回遊性スマホ 合計/TOP"
+        total_18 = round(total_2/total_5, 2)
+        data19 = [round(u / uu, 2) for u, uu in zip(data3, data6)]
+        data19_name = "回遊性PC 合計/TOP"
+        total_19 = round(total_3/total_6, 2)
 
     if media == "gmb":
-        total = list(df["合計表示回数"])
-        total_1 = sum(total)
+        data1 = list(df["合計表示回数"])
+        data1_name = "合計PV"
+        total_1 = sum(data1)
         data2 = list(df["合計検索数"])
         data2_name = "合計検索数"
         total_2 = sum(data2)
@@ -481,17 +523,23 @@ def chart(request, store: str, media: str):
         data5 = list(df["合計反応数"])
         data5_name = "合計反応数"
         total_5 = sum(data5)
-        data6 = None
+        data6 = []
+        for i, i2 in zip(list(df["合計反応数"]), data1):
+            try:
+                data6.append(round((i / i2)*100, 3))
+            except ZeroDivisionError as e:
+                print(e)
+                data6.append(0)
+        data6_name = "反応確率 合計反応数 / 合計PV"
+        total_6 = str(round(sum(list(df["合計反応数"])) / total_1 * 100, 2))+"%"
         data7 = None
         data8 = None
         data9 = None
         data10 = None
-        data6_name = None
         data7_name = None
         data8_name = None
         data9_name = None
         data10_name = None
-        total_6 = None
         total_7 = None
         total_8 = None
         total_9 = None
@@ -502,7 +550,8 @@ def chart(request, store: str, media: str):
         "media": media,
         "df": df,
         "xticks": xticks,
-        "total": total,
+        "xticks4table": xticks4table,
+        "data1": data1,
         "data2": data2,
         "data3": data3,
         "data4": data4,
@@ -524,6 +573,7 @@ def chart(request, store: str, media: str):
         "data20": data20,
         "data21": data21,
         "data22": data22,
+        "data1_name": data1_name,
         "data2_name": data2_name,
         "data3_name": data3_name,
         "data4_name": data4_name,
@@ -570,19 +620,10 @@ def chart(request, store: str, media: str):
     }
     if daily_flg:
         context["date"] = y_m
-        if media == "gn":
-            return render(request, "scr/chart_gn.html", context)
-        elif media == "hp":
-            return render(request, "scr/chart_hp.html", context)
-        elif media == "tb":
-            return render(request, "scr/chart_tb.html", context)
+        return render(request, "scr/chart.html", context)
     else:
         context["date"] = str(to_day)
-        if media == "gn":
-            return render(request, "scr/chart_weekly_gn.html", context)
-        elif media == "hp":
-            return render(request, "scr/chart_weekly_hp.html", context)
-        elif media == "tb":
-            return render(request, "scr/chart_weekly_tb.html", context)
-        elif media == "gmb":
+        if media == "gmb":
             return render(request, "scr/chart_GMB.html", context)
+        else:
+            return render(request, "scr/chart_weekly.html", context)
