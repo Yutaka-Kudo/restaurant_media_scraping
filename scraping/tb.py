@@ -1,5 +1,6 @@
 from scraping.views import index
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
 # from selenium.webdriver.support.ui import WebDriverWait
@@ -21,7 +22,8 @@ from django.shortcuts import render, redirect
 # from .models import Scraping
 
 from scraping import models
-from scraping import pwd
+from dotenv import load_dotenv
+load_dotenv()
 
 from scraping.site_package.driver_settings import options
 
@@ -76,7 +78,8 @@ def tb_sp(request, all: bool = False):
         end_month = start_month
     print(span_list)
 
-    driver = webdriver.Chrome(chrome_options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+
     # driver.set_window_size(1250, 1036)
     driver.implicitly_wait(5)
 
@@ -87,8 +90,8 @@ def tb_sp(request, all: bool = False):
     print('get url!')
     # sleep(1)
 
-    user_name = pwd.tbi
-    pw = pwd.tbp
+    user_name = os.environ["tbi"]
+    pw = os.environ["tbp"]
 
     # フォーム取得
     id_input = driver.find_element_by_id('login_id')
@@ -541,17 +544,17 @@ def tb_sp(request, all: bool = False):
 
 # # 手動用
 # def replace_tax():
-#     user_name = pwd.tbi
-#     pw = pwd.tbp
+#     user_name = os.environ["tbi"]
+#     pw = os.environ["tbp"]
 
-#     driver = webdriver.Chrome(chrome_options=options)
-#     driver.get("https://ssl.tabelog.com/owner_account/login/")
-#     driver.find_element_by_id('login_id').send_keys(user_name)
-#     driver.find_element_by_id('password').send_keys(pw).submit()
-#     driver.find_element_by_id('password').submit()
-#     driver.find_element_by_link_text('店舗ページ編集').click()
-#     driver.find_element_by_link_text('メニューの編集').click()
-#     driver.find_element_by_xpath('/html/body/div[4]/div[6]/div/div/div[1]/article/section[2]/section[1]/div[1]/div[2]/a').click()
+    # driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+    # driver.get("https://ssl.tabelog.com/owner_account/login/")
+    # driver.find_element_by_id('login_id').send_keys(user_name)
+    # driver.find_element_by_id('password').send_keys(pw).submit()
+    # driver.find_element_by_id('password').submit()
+    # driver.find_element_by_link_text('店舗ページ編集').click()
+    # driver.find_element_by_link_text('メニューの編集').click()
+    # driver.find_element_by_xpath('/html/body/div[4]/div[6]/div/div/div[1]/article/section[2]/section[1]/div[1]/div[2]/a').click()
 
 
 #     folist = driver.find_elements_by_xpath("//input[@type='number']")
@@ -591,13 +594,20 @@ def tb_sp(request, all: bool = False):
 
 
     # # ネット予約個別設定
-    # for i in range(2,24):
+    # for i in range(5,25):
     #     folist = driver.find_elements_by_class_name('js-open-setting-modal')
-    #     folist[i].click()
+    #     folist[1].click()
+    #     driver.find_element_by_xpath('//*[@id="js-daily-office-hour-setting-modal"]/div[2]/div/form/table[1]/tbody/tr[1]/td/div/div/div[2]/label').click()
     #     driver.find_element_by_xpath('/html/body/main/div/div/section/div[3]/div/div[2]/div/form/table[1]/tbody/tr[2]/td/div/div/div[2]/label').click()
+    #     # month_select_elem = driver.find_element_by_id('js-lunch_start') # dinner_start
+    #     # month_select_object = Select(month_select_elem)
+    #     # month_select_object.select_by_value("1130")
     #     month_select_elem = driver.find_element_by_id('js-dinner_start') # dinner_start
     #     month_select_object = Select(month_select_elem)
-    #     month_select_object.select_by_value("1300")
+    #     # month_select_object.select_by_value("1300")
+    #     month_select_object.select_by_value("1500")
+    #     # month_select_object.select_by_value("1130")
+    #     # month_select_object.select_by_value("1600")
     #     month_select_elem = driver.find_element_by_id('js-dinner_end') # dinner_end
     #     month_select_object = Select(month_select_elem)
     #     month_select_object.select_by_value("2000")
@@ -606,3 +616,11 @@ def tb_sp(request, all: bool = False):
     #     sleep(0.8)
 
 
+    # # 休業日設定ーーーーーーーーー
+    # for i in range(2,21):
+    #     folist = driver.find_elements_by_class_name('js-open-setting-modal')
+    #     folist[i].click()
+    #     driver.find_element_by_xpath('//*[@id="js-daily-office-hour-setting-modal"]/div[2]/div/form/table[1]/tbody/tr[1]/td/div/div/div[2]/label').click()
+    #     driver.find_element_by_xpath('/html/body/main/div/div/section/div[3]/div/div[2]/div/form/table[2]/tbody/tr[2]/td/div/div/input').click()
+    #     # driver.refresh()
+    #     sleep(0.8)

@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand
 from pprint import pprint as pp
 import glob
 
-files = glob.glob('scraping/site_package/*.csv')
+files = glob.glob('scraping/site_package/gmb_csv_data/*.csv')
 latest_file = sorted(files, key=lambda file: datetime.datetime.strptime(file[-16:-6].lstrip(' -'), '%Y-%m-%d'))[-1]
 
 # csvファイルの名前の文末の謎数字消す前処理、忘れずに

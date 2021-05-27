@@ -20,8 +20,9 @@ from django.shortcuts import render, redirect
 
 from .models import Fes_hp_scrape
 
-
-from . import pwd
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 from scraping.site_package.driver_settings import options
 
@@ -45,8 +46,8 @@ def fes_hp_sp(request):
     # sleep(1)
 
     # In[8]:
-    user_name = pwd.hpi
-    pw = pwd.hpp
+    user_name = os.environ["hpi"]
+    pw = os.environ["hpp"]
 
     # In[10]:
 

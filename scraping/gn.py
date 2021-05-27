@@ -1,5 +1,6 @@
 from numpy import true_divide
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -21,7 +22,9 @@ from django.shortcuts import render, redirect
 
 from scraping.site_package.driver_settings import options
 
-from scraping import models,pwd,hp,tb
+from scraping import models,hp,tb
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def latest_all(request):
@@ -68,13 +71,14 @@ def gn_sp(request, all: bool = False):
                 end_ym += relativedelta(months=1)
     if all is True:
         span_list = [(datetime.now().date()-relativedelta(days=1)).strftime('%Y%m')]
+        # span_list = [(datetime.now().date()-relativedelta(months=1)).strftime('%Y%m')]
         start_year = span_list[0][:4]
         start_month = span_list[0][4:]
         end_year = start_year
         end_month = start_month
     print(span_list)
 
-    driver = webdriver.Chrome(chrome_options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
     # driver.set_window_size(1250, 1036)
     # driver.implicitly_wait(5)
     # wait = WebDriverWait(driver, 10)
@@ -85,24 +89,24 @@ def gn_sp(request, all: bool = False):
     for store_name in store_list:
         # 店舗選択
         if store_name == "fes":
-            user_name = pwd.fgi
-            pw = pwd.fgp
+            user_name = os.environ["fgi"]
+            pw = os.environ["fgp"]
             dbmodel = models.Fes_gn_scrape
         elif store_name == "garage":
-            user_name = pwd.ggi
-            pw = pwd.ggp
+            user_name = os.environ["ggi"]
+            pw = os.environ["ggp"]
             dbmodel = models.Grg_gn_scrape
         elif store_name == "tourou":
-            user_name = pwd.tgi
-            pw = pwd.tgp
+            user_name = os.environ["tgi"]
+            pw = os.environ["tgp"]
             dbmodel = models.Toro_gn_scrape
         elif store_name == "wanaichi":
-            user_name = pwd.wgi
-            pw = pwd.wgp
+            user_name = os.environ["wgi"]
+            pw = os.environ["wgp"]
             dbmodel = models.Wana_gn_scrape
         elif store_name == "wananakame":
-            user_name = pwd.wngi
-            pw = pwd.wngp
+            user_name = os.environ["wngi"]
+            pw = os.environ["wngp"]
             dbmodel = models.Wananakame_gn_scrape
         else:
             user_name, pw = None, None
@@ -470,16 +474,16 @@ def gn_sp(request, all: bool = False):
 
 # # 手動用---------------ーーーーーーーーーーーー
 # def replace_tax():
-#     user_name = pwd.fgi
-#     pw = pwd.fgp
-#     user_name = pwd.ggi
-#     pw = pwd.ggp
-#     user_name = pwd.tgi
-#     pw = pwd.tgp
-#     user_name = pwd.wgi
-#     pw = pwd.wgp
-#     user_name = pwd.wngi
-#     pw = pwd.wngp
+#     user_name = os.environ["fgi"]
+#     pw = os.environ["fgp"]
+#     user_name = os.environ["ggi"]
+#     pw = os.environ["ggp"]
+#     user_name = os.environ["tgi"]
+#     pw = os.environ["tgp"]
+#     user_name = os.environ["wgi"]
+#     pw = os.environ["wgp"]
+#     user_name = os.environ["wng"]i
+#     pw = os.environ["wng"]p
 
 #     driver = webdriver.Chrome(chrome_options=options)
 #     driver.get("https://pro.gnavi.co.jp/")

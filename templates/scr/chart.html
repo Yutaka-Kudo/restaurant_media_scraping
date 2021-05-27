@@ -127,6 +127,7 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+{{ xticks|json_script:"xticks" }}
 <script>
     {% if media == "gn" %}
         const scale_y_1 = 200
@@ -369,15 +370,17 @@
         {% endif %}
     ]
 
-    const list = [];
-    {% for i in xticks %}
-    list.push("{{i}}")
-    {% endfor %}
+    // const xticks_list = [];
+    // {% for i in xticks %}
+    // xticks_list.push("{{i}}")
+    // {% endfor %}
+    const xticks_list = JSON.parse(document.getElementById('xticks').textContent);
+    const xticks_list = JSON.parse(document.getElementById('xticks').textContent);
 
     new Chart(document.getElementById("chart"), {
         type: "bar",
         data: {
-            labels: list,
+            labels: xticks_list,
             datasets: datasets1,
         },
         options: {
@@ -410,7 +413,7 @@
     new Chart(document.getElementById("chart2"), {
         type: "bar",
         data: {
-            labels: list,
+            labels: xticks_list,
             datasets: datasets2,
         },
         options: {
@@ -452,7 +455,7 @@
     new Chart(document.getElementById("chart3"), {
         type: "bar",
         data: {
-            labels: list,
+            labels: xticks_list,
             datasets: datasets3,
                 },
                 options: {
@@ -496,7 +499,7 @@
     new Chart(document.getElementById("chart4"), {
         type: "bar",
         data: {
-            labels: list,
+            labels: xticks_list,
             datasets: datasets4,
                 },
                 options: {
@@ -541,7 +544,7 @@
     new Chart(document.getElementById("chart5"), {
         type: "bar",
         data: {
-            labels: list,
+            labels: xticks_list,
             datasets: datasets5,
                 },
                 options: {

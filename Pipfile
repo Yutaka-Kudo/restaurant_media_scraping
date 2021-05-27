@@ -25,6 +25,8 @@ requests = "*"
 beautifulsoup4 = "*"
 openpyxl = "*"
 livereload = "*"
+webdriver-manager = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"

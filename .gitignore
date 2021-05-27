@@ -6,3 +6,6 @@ local_settings.py
 .vscode
 スクレイプ図.key
 pwd.py
+gmb_csv_data
+media_menu_data
+.env

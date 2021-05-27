@@ -1,4 +1,6 @@
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
@@ -22,7 +24,8 @@ from django.shortcuts import render, redirect
 import os
 
 from scraping import models
-from scraping import pwd
+from dotenv import load_dotenv
+load_dotenv()
 
 from scraping.site_package.driver_settings import options
 
@@ -71,7 +74,8 @@ def hp_sp(request, all: bool = False):
         end_month = start_month
     print(span_list)
 
-    driver = webdriver.Chrome(chrome_options=options)
+
+    driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
     # driver.set_window_size(1250, 1036)
     driver.implicitly_wait(5)
 
@@ -94,8 +98,8 @@ def hp_sp(request, all: bool = False):
 
     try:
         # 入力
-        id_input.send_keys(pwd.hpi)
-        pw_input.send_keys(pwd.hpp)
+        id_input.send_keys(os.environ["hpi"])
+        pw_input.send_keys(os.environ["hpp"])
         print('input OK!')
     except Exception:
         capture(driver)
@@ -293,27 +297,44 @@ def hp_sp(request, all: bool = False):
 
 
 # # ネット予約設定ーーーーーーーーーーーー
-# driver = webdriver.Chrome(chrome_options=options)
-# driver.get('https://connect.airregi.jp/')
+# driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+# driver.get('https://connect.airregi.jp/login?client_id=RBD')
 # driver.find_element_by_name('username').send_keys('FES130')
 # driver.find_element_by_name('password').send_keys('fes///130' + Keys.ENTER)
 
-# st_day = 20
-# till_day = 30
+
+# st_day = 21
+# till_day = 31
 # elems = driver.find_elements_by_class_name('input-time-with-suggest')
 # while st_day <= till_day: # clear1回だと効かない
 #     elems[st_day*4-4].find_element_by_tag_name('input').clear()
 #     elems[st_day*4-4].find_element_by_tag_name('input').clear()
-#     elems[st_day*4-4].find_element_by_tag_name('input').send_keys('13:00')
+#     # elems[st_day*4-4].find_element_by_tag_name('input').send_keys('11:30')
+#     elems[st_day*4-4].find_element_by_tag_name('input').send_keys('15:00')
 #     elems[st_day*4-4].find_element_by_tag_name('input').clear() # 1回目なぜかコケる
-#     elems[st_day*4-4].find_element_by_tag_name('input').send_keys('13:00')
+#     # elems[st_day*4-4].find_element_by_tag_name('input').send_keys('11:30')
+#     elems[st_day*4-4].find_element_by_tag_name('input').send_keys('15:00')
 #     elems[st_day*4-4+1].find_element_by_tag_name('input').clear()
 #     elems[st_day*4-4+1].find_element_by_tag_name('input').clear()
 #     elems[st_day*4-4+1].find_element_by_tag_name('input').send_keys('20:00')
 #     elems[st_day*4-4+2].find_element_by_tag_name('input').clear()
 #     elems[st_day*4-4+2].find_element_by_tag_name('input').clear()
-#     elems[st_day*4-4+2].find_element_by_tag_name('input').send_keys('18:45')
+#     # elems[st_day*4-4+2].find_element_by_tag_name('input').send_keys('18:45')
+#     elems[st_day*4-4+2].find_element_by_tag_name('input').send_keys('19:20')
 #     elems[st_day*4-4+3].find_element_by_tag_name('input').clear()
 #     elems[st_day*4-4+3].find_element_by_tag_name('input').clear()
-#     elems[st_day*4-4+3].find_element_by_tag_name('input').send_keys('18:45')
+#     # elems[st_day*4-4+3].find_element_by_tag_name('input').send_keys('18:45')
+#     elems[st_day*4-4+3].find_element_by_tag_name('input').send_keys('19:00')
+#     st_day += 1
+
+
+# # 休業日設定ーーーーーー
+# st_day = 21
+# till_day = 31
+# container = driver.find_elements_by_class_name('card-container')
+# while st_day <= till_day: # clear1回だと効かない
+#     select_elem = container[st_day-1].find_element_by_tag_name('select')
+#     select_obj = Select(select_elem)
+#     select_obj.select_by_index(0)  #営業日に
+#     # select_obj.select_by_index(1) #休業日に
 #     st_day += 1

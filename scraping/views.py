@@ -306,7 +306,12 @@ def chart(request, store: str, media: str):
         data19 = [round(u / uu, 2) for u, uu in zip(data3, data7)]
         data19_name = "回遊性PC 合計/TOP"
         total_19 = round(total_3/total_7, 2)
-        data20 = [round(u / uu, 2) for u, uu in zip(data4, data8) if u != 0 and uu != 0]
+        data20 = []
+        for u, uu in zip(data4, data8):
+            try:
+                data20.append(round(u / uu, 2))
+            except ZeroDivisionError:
+                data20.append(0)
         data20_name = "回遊性app 合計/TOP"
         total_20 = round(total_4/total_8, 2)
 
@@ -442,10 +447,20 @@ def chart(request, store: str, media: str):
         data17 = [round(u / uu, 2) for u, uu in zip(data1, data4)]
         data17_name = "回遊性 合計/TOP"
         total_17 = round(total_1/total_4, 2)
-        data18 = [round(u / uu, 2) for u, uu in zip(data2, data5) if u != 0 and uu != 0]
+        data18 = []
+        for u, uu in zip(data2, data5):
+            try:
+                data18.append(round(u / uu, 2))
+            except ZeroDivisionError:
+                data18.append(0)
         data18_name = "回遊性スマホ 合計/TOP"
         total_18 = round(total_2/total_5, 2)
-        data19 = [round(u / uu, 2) for u, uu in zip(data3, data6) if u != 0 and uu != 0]
+        data19 = []
+        for u, uu in zip(data3, data6):
+            try:
+                data19.append(round(u / uu, 2))
+            except ZeroDivisionError:
+                data19.append(0)
         data19_name = "回遊性PC 合計/TOP"
         total_19 = round(total_3/total_6, 2)
 
@@ -524,7 +539,7 @@ def chart(request, store: str, media: str):
         data5_name = "合計反応数"
         total_5 = sum(data5)
         data6 = []
-        for i, i2 in zip(list(df["合計反応数"]), data1):
+        for i, i2 in zip(data5, data1):
             try:
                 data6.append(round((i / i2)*100, 3))
             except ZeroDivisionError as e:
@@ -544,6 +559,7 @@ def chart(request, store: str, media: str):
         total_8 = None
         total_9 = None
         total_10 = None
+    print(xticks)
 
     context = {
         "store": store,
